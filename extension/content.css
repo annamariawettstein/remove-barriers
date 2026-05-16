@@ -21,6 +21,11 @@
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
+.expose-card *,
+.expose-sidebar * {
+  box-sizing: border-box;
+}
+
 .expose-card {
   position: absolute;
   display: none;
@@ -47,6 +52,15 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
+}
+
+.expose-card-head > *,
+.expose-sidebar-head > *,
+.expose-metric-row > *,
+.expose-section-item-head > *,
+.expose-relationship-head > *,
+.expose-sidebar-actions > * {
+  min-width: 0;
 }
 
 .expose-card-head {
@@ -99,6 +113,7 @@
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
 }
 
 .expose-card-sub,
@@ -125,6 +140,7 @@
   font-size: 12px;
   line-height: 1.5;
   color: #374151;
+  overflow-wrap: anywhere;
 }
 
 .expose-card-facts,
@@ -147,6 +163,7 @@
   background: #ffffff;
   padding: 10px;
   border-radius: 2px;
+  overflow: hidden;
 }
 
 .expose-metric-label,
@@ -164,10 +181,12 @@
   font-weight: 600;
   color: #111827;
   line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .expose-source-link {
-  display: inline-block;
+  display: block;
+  width: 100%;
   margin-top: 7px;
   color: #0f3d2e;
   font-size: 11px;
@@ -176,6 +195,7 @@
   text-decoration: none;
   text-wrap: pretty;
   overflow-wrap: anywhere;
+  word-break: break-word;
   border-bottom: 1px solid rgba(15, 61, 46, 0.24);
   padding-bottom: 1px;
 }
@@ -236,6 +256,7 @@
   transform: translateX(calc(100% + 24px));
   transition: transform 0.2s ease;
   color: #111827;
+  overflow: hidden;
 }
 
 .expose-sidebar.is-open {
@@ -244,6 +265,7 @@
 
 .expose-sidebar-shell {
   height: 100%;
+  overflow-x: hidden;
   overflow-y: auto;
   padding: 18px 18px 24px;
 }
@@ -256,12 +278,13 @@
   margin: 14px 0 18px;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .expose-action-button {
   background: #0f3d2e;
   color: #f6f7e8;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .expose-action-button:hover {
@@ -274,6 +297,7 @@
   letter-spacing: 0.04em;
   color: #6b7280;
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .expose-sidebar-block + .expose-sidebar-block {
@@ -294,6 +318,7 @@
   font-size: 12px;
   font-weight: 700;
   color: #111827;
+  overflow-wrap: anywhere;
 }
 
 .expose-section-item-label,
@@ -314,6 +339,7 @@
   flex-wrap: wrap;
   gap: 10px 12px;
   margin-top: 8px;
+  min-width: 0;
 }
 
 @media (max-width: 720px) {

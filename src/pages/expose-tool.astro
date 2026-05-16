@@ -8,6 +8,6 @@ const initialName = Astro.url.searchParams.get('name')?.trim() || '';
 const initialData = initialName ? getCaseStudyPreset(initialName) : null;
 ---
 
-<LightLayout title="Expose — 3D investigator">
+<LightLayout title="Exposé — 3D investigator">
   <ExposeResearchApp initialName={initialName} initialData={initialData} client:load />
 </LightLayout>
