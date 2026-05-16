@@ -1,0 +1,250 @@
+---
+export const prerender = true;
+import LightLayout from '../layouts/LightLayout.astro';
+import { ICON_PATHS } from '../data/icons';
+---
+
+<LightLayout title="Expose — Article Context · by Lattice">
+  <main class="relative z-10 max-w-[1100px] mx-auto px-6 lg:px-8 py-12 bg-retro-bg">
+
+    <!-- Breadcrumb -->
+    <div class="mb-8 text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-3">
+      <a href="/" class="hover:text-retro-ink transition">Lattice</a>
+      <span class="text-retro-ink/20">/</span>
+      <span class="text-retro-ink">Expose</span>
+    </div>
+
+    <!-- Doc header -->
+    <div class="border-t border-retro-ink/15 pt-3 flex items-center justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-10">
+      <div class="flex items-center gap-5">
+        <span>EXPOSE · v0.1</span>
+        <span class="hidden md:inline">Browser extension · 45 entities tracked</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-1 h-1 rounded-full bg-retro-green"></span>
+        <span>Public beta</span>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <header class="mb-16">
+      <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-3">A Lattice product</div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-retro-ink tracking-tight leading-[1.05] mb-5">
+        Expose <span class="italic font-light text-retro-green">— the hidden context behind every name.</span>
+      </h1>
+      <p class="text-lg text-retro-slate leading-relaxed max-w-2xl mb-8">
+        Read any news article. Expose underlines the politicians, companies, and newspapers being mentioned and shows you what they don't: who funds them, who owns them, what they've been awarded, and where the money trails point. All from public records, all source-cited.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="#install" class="bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+          Install Expose
+        </a>
+        <a href="https://github.com/annamariawettstein/remove-barriers/tree/annamariawettstein/copy-repo-aesthetic/extension" target="_blank" rel="noopener" class="text-retro-ink border border-retro-ink bg-white px-6 py-3 text-sm font-medium hover:bg-retro-bg transition rounded-sm">
+          View source →
+        </a>
+      </div>
+    </header>
+
+    <!-- Demo: hover-card preview -->
+    <section class="mb-20">
+      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2">
+        <svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.search} />
+        What you see
+      </h2>
+
+      <div class="bg-white border border-retro-border rounded-md p-6 lg:p-10 mb-6">
+        <!-- Mocked article paragraph with underlined entity + hover-card -->
+        <p class="text-base text-retro-ink leading-relaxed max-w-2xl">
+          The bill was sponsored by <span class="expose-demo-entity">Rishi Sunak</span>, whose largest donor of 2024 was also a major shareholder in <span class="expose-demo-entity">Serco</span> — a company holding £2.1bn in active UK government contracts. Coverage was led by <span class="expose-demo-entity">The Guardian</span>.
+        </p>
+      </div>
+
+      <!-- Three card previews side-by-side -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- Politician card preview -->
+        <div class="bg-retro-bg border border-retro-ink rounded-sm p-4 shadow-[4px_4px_0px_rgba(15,61,46,0.95)]">
+          <div class="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.18em] text-retro-slate mb-2">
+            <span class="text-retro-green font-semibold">POLITICIAN</span>
+            <span class="font-bold text-retro-ink">lattice</span>
+          </div>
+          <div class="text-base font-semibold text-retro-ink mb-0.5">Rishi Sunak</div>
+          <div class="font-mono text-[10px] text-retro-slate uppercase tracking-widest mb-3">CON · Richmond &amp; Northallerton</div>
+          <div class="border-t border-retro-border pt-3 space-y-3 text-[12px]">
+            <div>
+              <div class="font-mono text-[9px] text-retro-slate uppercase tracking-widest mb-1">Declared donations (2024)</div>
+              <div class="flex justify-between"><span class="font-semibold">£412,420</span><span class="font-mono text-[9px] text-retro-green bg-retro-green/10 px-1.5 py-0.5 rounded-sm">EC</span></div>
+            </div>
+            <div>
+              <div class="font-mono text-[9px] text-retro-slate uppercase tracking-widest mb-1">Hospitality (2024)</div>
+              <div class="flex justify-between"><span class="font-semibold">£68,300</span><span class="font-mono text-[9px] text-retro-green bg-retro-green/10 px-1.5 py-0.5 rounded-sm">Register</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Company card preview -->
+        <div class="bg-retro-bg border border-retro-ink rounded-sm p-4 shadow-[4px_4px_0px_rgba(15,61,46,0.95)]">
+          <div class="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.18em] text-retro-slate mb-2">
+            <span class="text-retro-green font-semibold">COMPANY</span>
+            <span class="font-bold text-retro-ink">lattice</span>
+          </div>
+          <div class="text-base font-semibold text-retro-ink mb-0.5">Serco</div>
+          <div class="font-mono text-[10px] text-retro-slate uppercase tracking-widest mb-3">Outsourcing · CH 02048608</div>
+          <div class="border-t border-retro-border pt-3 space-y-3 text-[12px]">
+            <div>
+              <div class="font-mono text-[9px] text-retro-slate uppercase tracking-widest mb-1">UK gov contracts (2024)</div>
+              <div class="flex justify-between"><span class="font-semibold">£2.1bn</span><span class="font-mono text-[9px] text-retro-green bg-retro-green/10 px-1.5 py-0.5 rounded-sm">Contracts Finder</span></div>
+            </div>
+            <div>
+              <div class="font-mono text-[9px] text-retro-slate uppercase tracking-widest mb-1">Lobbying (Q1 2026)</div>
+              <div class="flex justify-between"><span class="font-semibold">£68k</span><span class="font-mono text-[9px] text-retro-green bg-retro-green/10 px-1.5 py-0.5 rounded-sm">Lobby Register</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- News media card preview -->
+        <div class="bg-retro-bg border border-retro-ink rounded-sm p-4 shadow-[4px_4px_0px_rgba(15,61,46,0.95)]">
+          <div class="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.18em] text-retro-slate mb-2">
+            <span class="text-retro-green font-semibold">NEWS MEDIA</span>
+            <span class="font-bold text-retro-ink">lattice</span>
+          </div>
+          <div class="text-base font-semibold text-retro-ink mb-0.5">The Guardian</div>
+          <div class="font-mono text-[10px] text-retro-slate uppercase tracking-widest mb-3">Scott Trust Ltd · Reader-funded</div>
+          <div class="border-t border-retro-border pt-3 space-y-3 text-[12px]">
+            <div>
+              <div class="font-mono text-[9px] text-retro-slate uppercase tracking-widest mb-1">Trust endowment</div>
+              <div class="flex justify-between"><span class="font-semibold">~£1.04bn</span><span class="font-mono text-[9px] text-retro-green bg-retro-green/10 px-1.5 py-0.5 rounded-sm">GMG Report</span></div>
+            </div>
+            <div>
+              <div class="font-mono text-[9px] text-retro-slate uppercase tracking-widest mb-1">Funding model</div>
+              <div class="flex justify-between"><span class="font-semibold">Independent</span><span class="font-mono text-[9px] text-retro-green bg-retro-green/10 px-1.5 py-0.5 rounded-sm">Constitution</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="mb-20">
+      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2">
+        <svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.summary} />
+        How it works
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white border border-retro-border rounded-md p-6">
+          <div class="font-mono text-2xl text-retro-green mb-4 border border-retro-green/30 bg-retro-green/5 w-12 h-12 flex items-center justify-center rounded-sm">01</div>
+          <h3 class="text-base font-semibold text-retro-ink mb-2">Read anything, anywhere</h3>
+          <p class="text-sm text-retro-slate leading-relaxed">Expose runs in the background on every page you visit. Guardian, BBC, FT, Politico — no setup per site.</p>
+        </div>
+        <div class="bg-white border border-retro-border rounded-md p-6">
+          <div class="font-mono text-2xl text-retro-green mb-4 border border-retro-green/30 bg-retro-green/5 w-12 h-12 flex items-center justify-center rounded-sm">02</div>
+          <h3 class="text-base font-semibold text-retro-ink mb-2">Names get underlined</h3>
+          <p class="text-sm text-retro-slate leading-relaxed">Politicians, companies, and news outlets in the article text get a subtle dotted-green underline.</p>
+        </div>
+        <div class="bg-white border border-retro-border rounded-md p-6">
+          <div class="font-mono text-2xl text-retro-green mb-4 border border-retro-green/30 bg-retro-green/5 w-12 h-12 flex items-center justify-center rounded-sm">03</div>
+          <h3 class="text-base font-semibold text-retro-ink mb-2">Hover for the context</h3>
+          <p class="text-sm text-retro-slate leading-relaxed">A card surfaces what the article didn't — donations, ownership, contracts, lobbying — each fact source-cited.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Entities tracked -->
+    <section class="mb-20">
+      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2">
+        <svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.people} />
+        Currently tracked
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-retro-border pt-6">
+        <div>
+          <p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">Politicians</p>
+          <p class="text-3xl font-semibold text-retro-ink mb-1">15</p>
+          <p class="text-[11px] font-mono text-retro-slate">CON · LAB · LD · IND · Reform</p>
+        </div>
+        <div>
+          <p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">Companies</p>
+          <p class="text-3xl font-semibold text-retro-ink mb-1">15</p>
+          <p class="text-[11px] font-mono text-retro-slate">Outsourcers, defence, energy, PE, tech</p>
+        </div>
+        <div>
+          <p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">News outlets</p>
+          <p class="text-3xl font-semibold text-retro-ink mb-1">15</p>
+          <p class="text-[11px] font-mono text-retro-slate">Nationals, broadcasters, financial press</p>
+        </div>
+      </div>
+      <p class="mt-6 text-[11px] text-retro-slate italic">Demo dataset for v0.1. Full Lattice graph (1.2M+ entities) lands with the production release.</p>
+    </section>
+
+    <!-- Install -->
+    <section class="mb-20" id="install">
+      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2">
+        <svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.check} />
+        Install
+      </h2>
+      <div class="bg-retro-ink text-white rounded-md p-8 lg:p-10">
+        <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-3">Beta · load as unpacked extension</div>
+        <h3 class="text-2xl font-semibold tracking-tight mb-4">Five steps, Chrome / Edge / Brave</h3>
+        <ol class="space-y-3 text-sm text-white/80 max-w-2xl mb-6">
+          <li class="flex gap-3"><span class="font-mono text-retro-green text-xs mt-1">01</span><span>Clone or download the <code class="text-white/90 bg-white/10 px-1.5 py-0.5 rounded-sm">extension/</code> folder from the Lattice repo</span></li>
+          <li class="flex gap-3"><span class="font-mono text-retro-green text-xs mt-1">02</span><span>Open <code class="text-white/90 bg-white/10 px-1.5 py-0.5 rounded-sm">chrome://extensions</code> in a Chromium-based browser</span></li>
+          <li class="flex gap-3"><span class="font-mono text-retro-green text-xs mt-1">03</span><span>Toggle <strong>Developer mode</strong> in the top-right</span></li>
+          <li class="flex gap-3"><span class="font-mono text-retro-green text-xs mt-1">04</span><span>Click <strong>Load unpacked</strong> and pick the <code class="text-white/90 bg-white/10 px-1.5 py-0.5 rounded-sm">extension/</code> folder</span></li>
+          <li class="flex gap-3"><span class="font-mono text-retro-green text-xs mt-1">05</span><span>Pin Expose to the toolbar. Visit any UK news article and look for dotted underlines</span></li>
+        </ol>
+        <div class="text-[10px] font-mono text-white/40 uppercase tracking-[0.18em]">Chrome Web Store listing · in review</div>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="mb-12">
+      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2">
+        <svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.calendar} />
+        On the roadmap
+      </h2>
+      <ol class="border-l-2 border-retro-green/30 pl-6 space-y-5">
+        <li class="relative">
+          <span class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-retro-green"></span>
+          <p class="text-[10px] font-mono text-retro-green uppercase tracking-widest mb-1">v0.1 · now</p>
+          <p class="text-sm text-retro-ink leading-relaxed">45 hand-curated entities. Hover cards. Toggle in popup. Source-cited facts.</p>
+        </li>
+        <li class="relative">
+          <span class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-retro-green/50"></span>
+          <p class="text-[10px] font-mono text-retro-green uppercase tracking-widest mb-1">v0.2 · next</p>
+          <p class="text-sm text-retro-ink leading-relaxed">Live data from Lattice backend: 1.2M+ entities, real-time donations + lobbying feeds, daily refresh.</p>
+        </li>
+        <li class="relative">
+          <span class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-retro-green/30"></span>
+          <p class="text-[10px] font-mono text-retro-green uppercase tracking-widest mb-1">v0.3</p>
+          <p class="text-sm text-retro-ink leading-relaxed">SPA re-scanning (Twitter, Substack). Fuzzy name matching. Site-level toggles.</p>
+        </li>
+        <li class="relative">
+          <span class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-retro-green/20"></span>
+          <p class="text-[10px] font-mono text-retro-green uppercase tracking-widest mb-1">v1.0</p>
+          <p class="text-sm text-retro-ink leading-relaxed">Chrome Web Store + Firefox + Safari. Per-site allowlist. Saved investigations sync with the Lattice workspace.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Footer strip -->
+    <footer class="mt-16 pt-6 border-t border-retro-ink/15 flex flex-col md:flex-row gap-2 md:items-center md:justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em]">
+      <div class="flex flex-wrap gap-4">
+        <span>Expose · v0.1 public beta</span>
+        <span>A Lattice product</span>
+      </div>
+      <div>Demo data — figures illustrative. Source attribution on every claim.</div>
+    </footer>
+  </main>
+
+  <style>
+    .expose-demo-entity {
+      background-image: linear-gradient(transparent calc(100% - 2px), #0F3D2E calc(100% - 2px));
+      background-size: 4px 100%;
+      background-position: 0 100%;
+      background-repeat: repeat-x;
+      cursor: help;
+      transition: background-color 0.15s ease;
+    }
+    .expose-demo-entity:hover {
+      background-color: rgba(15, 61, 46, 0.08);
+    }
+  </style>
+</LightLayout>
