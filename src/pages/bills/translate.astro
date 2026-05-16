@@ -1,0 +1,246 @@
+---
+export const prerender = true;
+import LightLayout from '../../layouts/LightLayout.astro';
+---
+
+<LightLayout title="Translated bill — Lattice">
+  <main class="relative z-10 max-w-[1100px] mx-auto px-6 lg:px-8 py-12 bg-retro-bg">
+
+    <!-- Breadcrumb -->
+    <div class="mb-8 text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-3">
+      <a href="/" class="hover:text-retro-ink transition">Lattice</a>
+      <span class="text-retro-ink/20">/</span>
+      <a href="/bills" class="hover:text-retro-ink transition">Bills</a>
+      <span class="text-retro-ink/20">/</span>
+      <span class="text-retro-ink" id="bill-breadcrumb">Translated</span>
+    </div>
+
+    <!-- Translation banner -->
+    <div class="mb-8 flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.18em] text-retro-green">
+      <span class="w-1.5 h-1.5 rounded-full bg-retro-green"></span>
+      <span>AI-translated · Claude Sonnet 4.6 · cite legislation.gov.uk for legal use</span>
+    </div>
+
+    <div id="bill-content"></div>
+
+    <div id="bill-missing" class="hidden text-center py-24">
+      <h1 class="text-2xl font-semibold text-retro-ink mb-3">No translated bill found</h1>
+      <p class="text-sm text-retro-slate mb-6">Translation results are stored in your browser session only. Run a new translation from the bills index.</p>
+      <a href="/bills" class="inline-block bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm">← Back to Bills</a>
+    </div>
+  </main>
+
+  <script is:inline>
+    (function () {
+      const container = document.getElementById('bill-content');
+      const missing = document.getElementById('bill-missing');
+      const raw = sessionStorage.getItem('lattice.translatedBill');
+      if (!raw) {
+        missing.classList.remove('hidden');
+        return;
+      }
+      let bill;
+      try { bill = JSON.parse(raw); } catch { missing.classList.remove('hidden'); return; }
+
+      document.getElementById('bill-breadcrumb').textContent = bill.shortTitle || 'Translated';
+      document.title = (bill.shortTitle || 'Translated bill') + ' — Lattice';
+
+      const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+      const magnitudeDots = (n) => '●'.repeat(n) + '○'.repeat(Math.max(0, 5 - n));
+      const effectColor = (e) => ({ enhance:'text-retro-green', restrict:'text-amber-700', mixed:'text-retro-slate' }[e] || 'text-retro-slate');
+      const effectLabel = (e) => ({ enhance:'Strengthens', restrict:'Restricts', mixed:'Mixed effect' }[e] || e);
+      const arr = (x) => Array.isArray(x) ? x : [];
+
+      function section(headerEmoji, title, body, extraClasses = '') {
+        if (!body) return '';
+        return `
+          <section class="mb-14 ${extraClasses}">
+            <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-4">${headerEmoji} ${esc(title)}</h2>
+            ${body}
+          </section>
+        `;
+      }
+
+      const headerBlock = `
+        <div class="border-t border-retro-ink/15 pt-3 flex items-center justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-10">
+          <div class="flex items-center gap-5">
+            <span>BILL · ${esc((bill.slug || '').toUpperCase())}</span>
+            ${bill.territorialExtent && bill.territorialExtent.length ? `<span class="hidden md:inline">${esc(arr(bill.territorialExtent).join(' · '))}</span>` : ''}
+          </div>
+          ${bill.status ? `<div class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-retro-green"></span><span>${esc(bill.status)}</span></div>` : ''}
+        </div>
+        <header class="mb-14">
+          ${bill.emoji ? `<div class="text-5xl mb-4">${esc(bill.emoji)}</div>` : ''}
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-retro-ink tracking-tight leading-[1.05] mb-4">${esc(bill.shortTitle || 'Untitled bill')}</h1>
+          ${bill.fullTitle || bill.sponsoringDept ? `<p class="text-base text-retro-slate font-mono">${esc(bill.fullTitle || '')}${bill.sponsoringDept ? ' · ' + esc(bill.sponsoringDept) : ''}</p>` : ''}
+          ${bill.introducedDate || bill.stageDetail ? `<p class="mt-1 text-base text-retro-slate font-mono">${bill.introducedDate ? 'Introduced ' + esc(bill.introducedDate) : ''}${bill.introducedDate && bill.stageDetail ? ' · ' : ''}${esc(bill.stageDetail || '')}</p>` : ''}
+        </header>
+      `;
+
+      const summary = bill.summary ? section('📋', 'Quick summary', `<p class="text-xl text-retro-ink leading-relaxed">${esc(bill.summary)}</p>`) : '';
+
+      const keyNumbers = arr(bill.keyNumbers).length ? section('📊', 'Key numbers', `
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-retro-border pt-6">
+          ${arr(bill.keyNumbers).map(n => `
+            <div>
+              <p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">${esc(n.label)}</p>
+              <p class="text-2xl font-semibold text-retro-ink tracking-tight">${esc(n.value)}</p>
+            </div>
+          `).join('')}
+        </div>
+      `) : '';
+
+      const whoAffected = arr(bill.whoAffected).length ? section('🎯', 'Who this affects', `
+        <ul class="flex flex-wrap gap-2">
+          ${arr(bill.whoAffected).map(w => `<li class="bg-white border border-retro-border rounded-sm px-3 py-1.5 text-sm text-retro-ink">${esc(w)}</li>`).join('')}
+        </ul>
+      `) : '';
+
+      const parts = arr(bill.parts).length ? section('🔍', "What's in the bill", `
+        <div class="space-y-6">
+          ${arr(bill.parts).map(p => `
+            <div class="bg-white border border-retro-border rounded-md p-6 lg:p-8">
+              <h3 class="text-lg font-semibold text-retro-ink mb-4">${esc(p.name)}</h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div><p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">What it says</p><p class="text-sm text-retro-slate leading-relaxed">${esc(p.says)}</p></div>
+                <div><p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">What it means</p><p class="text-sm text-retro-ink leading-relaxed">${esc(p.means)}</p></div>
+                <div><p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">Who it affects</p><p class="text-sm text-retro-ink leading-relaxed">${esc(p.affects)}</p></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `) : '';
+
+      const stakeholderImpacts = arr(bill.stakeholderImpacts).length ? section('👥', 'Stakeholder impact', `
+        <div class="border border-retro-border rounded-md bg-white overflow-hidden divide-y divide-retro-border">
+          ${arr(bill.stakeholderImpacts).map(s => `
+            <div class="p-6 lg:p-8">
+              <div class="flex items-start justify-between gap-4 mb-3">
+                <h3 class="text-lg font-semibold text-retro-ink">${esc(s.group)}</h3>
+                <span class="font-mono text-retro-green text-sm tracking-widest">${magnitudeDots(s.magnitude || 3)}</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div><p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-1">Now</p><p class="text-retro-slate leading-relaxed">${esc(s.current)}</p></div>
+                <div><p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-1">After this bill</p><p class="text-retro-ink leading-relaxed">${esc(s.changes)}</p></div>
+              </div>
+              ${s.timeline ? `<p class="mt-3 text-[10px] font-mono text-retro-slate uppercase tracking-widest">Timeline · ${esc(s.timeline)}</p>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `) : '';
+
+      const rights = arr(bill.rights).length ? section('⚖️', 'Rights & freedoms', `
+        <div class="space-y-4">
+          ${arr(bill.rights).map(r => `
+            <div class="bg-white border border-retro-border rounded-md p-6">
+              <div class="flex items-center justify-between gap-4 mb-2">
+                <h3 class="font-semibold text-retro-ink">${esc(r.right)}</h3>
+                <span class="text-[10px] font-mono uppercase tracking-widest ${effectColor(r.effect)}">${effectLabel(r.effect)}</span>
+              </div>
+              <p class="text-sm text-retro-slate leading-relaxed">${esc(r.analysis)}</p>
+              ${r.safeguards ? `<p class="mt-3 text-sm text-retro-ink leading-relaxed"><span class="font-mono text-[10px] uppercase tracking-widest text-retro-green mr-2">Safeguards</span>${esc(r.safeguards)}</p>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `) : '';
+
+      const scenarios = arr(bill.scenarios).length ? section('📖', 'Before & after scenarios', `
+        <div class="space-y-6">
+          ${arr(bill.scenarios).map(sc => `
+            <article class="bg-white border border-retro-border rounded-md p-6 lg:p-8">
+              <h3 class="text-xl font-semibold text-retro-ink mb-1">${esc(sc.title)}</h3>
+              <p class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-5">${esc(sc.stakeholder)}</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div><p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">Before</p><p class="text-sm text-retro-slate leading-relaxed">${esc(sc.before)}</p></div>
+                <div><p class="text-[9px] font-mono text-retro-green uppercase tracking-widest mb-2">After</p><p class="text-sm text-retro-ink leading-relaxed">${esc(sc.after)}</p></div>
+              </div>
+              ${arr(sc.keyChanges).length ? `<div><p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">Key changes</p><ul class="space-y-1.5">${arr(sc.keyChanges).map(k => `<li class="text-sm text-retro-ink flex gap-2"><span class="text-retro-green font-mono text-xs mt-1">→</span><span>${esc(k)}</span></li>`).join('')}</ul></div>` : ''}
+              ${arr(sc.numbers).length ? `<div class="mt-4 pt-3 border-t border-retro-border">${arr(sc.numbers).map(n => `<p class="text-[10px] font-mono text-retro-slate">${esc(n)}</p>`).join('')}</div>` : ''}
+            </article>
+          `).join('')}
+        </div>
+      `) : '';
+
+      const timeline = arr(bill.timeline).length ? section('📅', 'Implementation timeline', `
+        <ol class="border-l-2 border-retro-green/30 pl-6 space-y-5">
+          ${arr(bill.timeline).map(t => `
+            <li class="relative">
+              <span class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-retro-green"></span>
+              <p class="text-[10px] font-mono text-retro-green uppercase tracking-widest mb-1">${esc(t.when)}</p>
+              <p class="text-sm text-retro-ink leading-relaxed">${esc(t.what)}</p>
+            </li>
+          `).join('')}
+        </ol>
+      `) : '';
+
+      const actions = arr(bill.actions).length ? section('✅', 'What you need to do', `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          ${arr(bill.actions).map(a => `
+            <div class="bg-white border border-retro-border rounded-md p-6">
+              <h3 class="font-semibold text-retro-ink mb-4">${esc(a.label)}</h3>
+              <ul class="space-y-2">
+                ${arr(a.steps).map((s, i) => `<li class="text-sm text-retro-ink flex gap-3"><span class="font-mono text-retro-green text-xs mt-1">${String(i+1).padStart(2,'0')}</span><span>${esc(s)}</span></li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+      `) : '';
+
+      const moneyTrail = arr(bill.moneyTrail).length ? section('💷', 'Money behind the bill', `
+        <p class="text-sm text-retro-slate mb-6 max-w-2xl">Funding, lobbying, and ministerial meetings around this legislation.</p>
+        <div class="bg-retro-ink text-white rounded-md p-6 lg:p-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
+            ${arr(bill.moneyTrail).map(m => `
+              <div class="border-b border-white/10 pb-3">
+                <p class="text-[9px] font-mono text-white/50 uppercase tracking-widest mb-1">${esc(m.label)}</p>
+                <div class="flex items-baseline justify-between gap-3">
+                  <span class="text-xl font-semibold tracking-tight">${esc(m.value)}</span>
+                  <span class="text-[9px] font-mono text-retro-green uppercase tracking-widest">${esc(m.source)}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `) : '';
+
+      const debate = bill.debate && (arr(bill.debate.supporters).length || arr(bill.debate.critics).length || bill.debate.neutral) ? section('🗣️', 'The debate', `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          ${arr(bill.debate.supporters).length ? `
+            <div class="bg-white border border-retro-border rounded-md p-6 border-t-4 border-t-retro-green">
+              <h3 class="text-sm font-semibold text-retro-green uppercase tracking-widest mb-4">Supporters argue</h3>
+              <ul class="space-y-3">${arr(bill.debate.supporters).map(s => `<li class="text-sm text-retro-ink leading-relaxed flex gap-2"><span class="text-retro-green mt-1">+</span><span>${esc(s)}</span></li>`).join('')}</ul>
+            </div>` : ''}
+          ${arr(bill.debate.critics).length ? `
+            <div class="bg-white border border-retro-border rounded-md p-6 border-t-4 border-t-amber-700">
+              <h3 class="text-sm font-semibold uppercase tracking-widest mb-4" style="color: rgb(180, 83, 9);">Critics argue</h3>
+              <ul class="space-y-3">${arr(bill.debate.critics).map(c => `<li class="text-sm text-retro-ink leading-relaxed flex gap-2"><span class="mt-1" style="color: rgb(180, 83, 9);">−</span><span>${esc(c)}</span></li>`).join('')}</ul>
+            </div>` : ''}
+        </div>
+        ${bill.debate.neutral ? `<div class="bg-retro-bg border border-retro-border rounded-md p-6"><h3 class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2">Neutral analysis</h3><p class="text-sm text-retro-ink leading-relaxed">${esc(bill.debate.neutral)}</p></div>` : ''}
+      `) : '';
+
+      const redFlags = arr(bill.redFlags).length ? `
+        <section class="mb-14">
+          <h2 class="text-[10px] font-mono text-amber-700 uppercase tracking-[0.22em] mb-4">⚠️ Red flags</h2>
+          <ul class="space-y-2">
+            ${arr(bill.redFlags).map(f => `<li class="text-sm text-retro-ink leading-relaxed flex gap-3 bg-amber-50 border border-amber-200 rounded-sm p-3"><span class="text-amber-700 mt-0.5">⚠</span><span>${esc(f)}</span></li>`).join('')}
+          </ul>
+        </section>
+      ` : '';
+
+      const resources = arr(bill.resources).length ? section('📚', 'Further resources', `
+        <ul class="space-y-2">
+          ${arr(bill.resources).map(r => `<li><a href="${esc(r.url)}" target="_blank" rel="noopener" class="text-retro-green hover:text-retro-ledger underline underline-offset-2 text-sm">${esc(r.label)} →</a></li>`).join('')}
+        </ul>
+      `) : '';
+
+      const footer = `
+        <footer class="mt-16 pt-6 border-t border-retro-ink/15 text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em]">
+          AI-translated by Claude · cite legislation.gov.uk for legal use
+        </footer>
+      `;
+
+      container.innerHTML = headerBlock + summary + keyNumbers + whoAffected + parts + stakeholderImpacts + rights + scenarios + timeline + actions + moneyTrail + debate + redFlags + resources + footer;
+    })();
+  </script>
+</LightLayout>

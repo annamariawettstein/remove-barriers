@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import LightLayout from '../../layouts/LightLayout.astro';
 import { BILLS } from '../../data/bills';
 
@@ -28,6 +29,72 @@ const stubs = BILLS.filter(b => b.isStub);
         Every active UK bill, translated. Plain summary, who it affects, what changes, when it takes effect — and the money behind it. Add a profile on any bill page to personalise the impact analysis to your situation.
       </p>
     </header>
+
+    <!-- Paste-URL translator -->
+    <section class="mb-14 bg-white border border-retro-ink rounded-md p-6 lg:p-8 shadow-[6px_6px_0px_rgba(15,61,46,0.95)]">
+      <div class="flex flex-col lg:flex-row gap-6 lg:items-start lg:justify-between mb-5">
+        <div>
+          <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-2">Translate any bill</div>
+          <h2 class="text-2xl font-semibold text-retro-ink tracking-tight mb-1">Paste a UK bill, get plain English in 30 seconds.</h2>
+          <p class="text-sm text-retro-slate max-w-xl">Drop a link to a UK bill or act and Lattice will translate it: plain summary, who it affects, scenarios, timeline, and the money behind it. Powered by Claude.</p>
+        </div>
+      </div>
+
+      <form id="translate-form" class="space-y-4">
+        <div class="flex flex-col md:flex-row gap-3">
+          <input
+            id="translate-url"
+            type="url"
+            placeholder="https://bills.parliament.uk/bills/3764 or https://www.legislation.gov.uk/..."
+            class="flex-1 bg-retro-bg border border-retro-border rounded-sm px-4 py-3 text-sm text-retro-ink focus:outline-none focus:border-retro-green focus:ring-1 focus:ring-retro-green"
+          />
+          <button
+            type="submit"
+            id="translate-submit"
+            class="bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] flex-shrink-0"
+          >
+            Translate →
+          </button>
+        </div>
+
+        <details class="text-[12px]">
+          <summary class="cursor-pointer text-retro-slate hover:text-retro-ink select-none font-mono uppercase tracking-widest text-[10px]">Or paste the bill text directly</summary>
+          <textarea
+            id="translate-text"
+            rows="6"
+            placeholder="Paste the bill text here (min 100 characters)..."
+            class="mt-3 w-full bg-retro-bg border border-retro-border rounded-sm px-4 py-3 text-sm text-retro-ink focus:outline-none focus:border-retro-green font-mono"
+          ></textarea>
+        </details>
+
+        <p class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.18em]">
+          Supports · bills.parliament.uk · legislation.gov.uk · publications.parliament.uk
+        </p>
+      </form>
+
+      <!-- Loading state -->
+      <div id="translate-loading" class="hidden mt-6 border-t border-retro-border pt-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-2 h-2 rounded-full bg-retro-green animate-pulse"></span>
+          <span id="translate-loading-step" class="text-sm font-mono text-retro-ink">Reading bill…</span>
+        </div>
+        <div class="h-1 bg-retro-border rounded-full overflow-hidden">
+          <div id="translate-progress" class="h-full bg-retro-green transition-all duration-700" style="width: 5%"></div>
+        </div>
+        <p class="mt-3 text-[10px] font-mono text-retro-slate uppercase tracking-widest">This usually takes 30–90 seconds for a full bill.</p>
+      </div>
+
+      <!-- Error state -->
+      <div id="translate-error" class="hidden mt-6 border-t border-amber-300 pt-6">
+        <div class="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-sm p-4">
+          <span class="text-amber-700 text-lg leading-none">⚠</span>
+          <div>
+            <p class="text-sm font-semibold text-amber-900 mb-1">Translation failed</p>
+            <p id="translate-error-message" class="text-sm text-amber-800"></p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Full bills -->
     <section class="mb-12">
@@ -93,4 +160,89 @@ const stubs = BILLS.filter(b => b.isStub);
       </div>
     </section>
   </main>
+
+  <script is:inline>
+    (function () {
+      const form = document.getElementById('translate-form');
+      const urlInput = document.getElementById('translate-url');
+      const textInput = document.getElementById('translate-text');
+      const submit = document.getElementById('translate-submit');
+      const loading = document.getElementById('translate-loading');
+      const loadingStep = document.getElementById('translate-loading-step');
+      const progress = document.getElementById('translate-progress');
+      const errorBox = document.getElementById('translate-error');
+      const errorMsg = document.getElementById('translate-error-message');
+      if (!form) return;
+
+      const STEPS = [
+        { label: 'Fetching bill from source…', pct: 12 },
+        { label: 'Parsing legislative structure…', pct: 26 },
+        { label: 'Extracting plain-English meaning…', pct: 44 },
+        { label: 'Mapping stakeholder impact…', pct: 60 },
+        { label: 'Checking rights & freedoms…', pct: 74 },
+        { label: 'Tracing the money behind the bill…', pct: 86 },
+        { label: 'Drafting before/after scenarios…', pct: 94 },
+      ];
+
+      let stepTimer = null;
+
+      function startLoading() {
+        loading.classList.remove('hidden');
+        errorBox.classList.add('hidden');
+        submit.disabled = true;
+        submit.classList.add('opacity-60', 'cursor-not-allowed');
+        let i = 0;
+        loadingStep.textContent = STEPS[0].label;
+        progress.style.width = STEPS[0].pct + '%';
+        stepTimer = setInterval(() => {
+          i = Math.min(i + 1, STEPS.length - 1);
+          loadingStep.textContent = STEPS[i].label;
+          progress.style.width = STEPS[i].pct + '%';
+        }, 9000);
+      }
+
+      function stopLoading() {
+        clearInterval(stepTimer);
+        loading.classList.add('hidden');
+        submit.disabled = false;
+        submit.classList.remove('opacity-60', 'cursor-not-allowed');
+      }
+
+      function showError(msg) {
+        stopLoading();
+        errorBox.classList.remove('hidden');
+        errorMsg.textContent = msg;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorBox.classList.add('hidden');
+        const url = urlInput.value.trim();
+        const text = textInput.value.trim();
+        if (!url && text.length < 100) {
+          showError('Paste a UK bill URL or at least 100 characters of bill text.');
+          return;
+        }
+        startLoading();
+        try {
+          const resp = await fetch('/api/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(url ? { url } : { text }),
+          });
+          const data = await resp.json();
+          if (!resp.ok) {
+            showError(data.error || `Server returned ${resp.status}`);
+            return;
+          }
+          // Stash result for the translate-view page and navigate
+          sessionStorage.setItem('lattice.translatedBill', JSON.stringify(data.bill));
+          sessionStorage.setItem('lattice.translatedAt', String(Date.now()));
+          window.location.href = '/bills/translate';
+        } catch (err) {
+          showError(err.message || 'Network error');
+        }
+      });
+    })();
+  </script>
 </LightLayout>
