@@ -449,155 +449,63 @@ import LightLayout from '../layouts/LightLayout.astro';
                 <p class="text-xl text-retro-slate leading-relaxed">Every node and edge in the graph is backed by a primary filing. Click any tie to see the source document, page number, and date it entered the public record.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                
-                <!-- Left: Recon & Audit -->
-                <div class="flex flex-col gap-6">
-                    <!-- Reconciliation Overview -->
-                    <div class="bg-white border border-retro-border rounded-md shadow-[4px_4px_0px_rgba(230,230,230,1)] p-8 animate-fade-up flex flex-col reveal border-t-4 border-t-retro-green">
-                        <div class="flex justify-between items-center mb-8 border-b border-retro-border pb-4">
-                            <h3 class="font-semibold text-retro-ink text-sm">Coverage overview</h3>
-                            <div class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-retro-green animate-pulse"></span>
-                                <span class="text-[10px] font-mono text-retro-green font-medium">Live</span>
-                            </div>
+            <div class="max-w-5xl mx-auto reveal" style="animation-delay: 0.2s;">
+                <div class="bg-[#0A1A14] border border-[#1A3D2E] rounded-md p-8 shadow-[8px_8px_0px_rgba(26,26,26,0.1)] font-mono flex flex-col min-h-[420px]">
+                    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+                        <div>
+                            <p class="text-[10px] text-retro-green tracking-[0.2em] mb-2 uppercase">What we found</p>
+                            <h3 class="text-2xl text-[#D7F5E7] font-sans font-semibold tracking-tight">A clear paper trail, not a black box.</h3>
                         </div>
+                        <p class="text-[12px] text-[#8CE3B8] max-w-md leading-relaxed">Every line points back to a public record, so you can see who paid, who got the contract, and what still needs checking.</p>
+                    </div>
 
-                        <div class="flex gap-8 mb-10">
-                            <div>
-                                <p class="text-[10px] font-mono text-retro-slate mb-1">Edges cited</p>
-                                <p class="text-4xl font-semibold text-retro-ink mb-1">99.4%</p>
-                                <p class="text-[9px] font-mono text-retro-ledger">+1.6% vs yesterday</p>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-mono text-retro-slate mb-1">Unverified ties</p>
-                                <p class="text-4xl font-semibold text-retro-ink mb-1">2,184</p>
-                                <p class="text-[9px] font-mono text-retro-slate">-12.3% vs yesterday</p>
-                            </div>
+                    <div class="flex justify-between text-[10px] text-[#4F8B6F] mb-4 border-b border-[#1A3D2E] pb-2 uppercase tracking-wider">
+                        <span class="w-20">Date</span>
+                        <span class="w-24">Filed in</span>
+                        <span class="flex-1">What it shows</span>
+                        <span class="w-24 text-right">Amount</span>
+                        <span class="w-20 text-right">Status</span>
+                    </div>
+
+                    <div class="space-y-2 text-[11px] text-[#8CE3B8]">
+                        <div class="flex justify-between hover:bg-[#1A3D2E]/50 px-1 py-0.5 rounded transition">
+                            <span class="w-20 opacity-70">13 May</span>
+                            <span class="w-24 opacity-90">EC</span>
+                            <span class="flex-1">Donation to an MP</span>
+                            <span class="w-24 text-right opacity-90">42,810.23</span>
+                            <span class="w-20 text-right text-retro-green font-bold">Checked</span>
                         </div>
-
-                        <div class="mb-8">
-                            <p class="text-[10px] font-mono text-retro-slate mb-4">Coverage trend</p>
-                            <div class="flex items-end gap-2 h-24 border-b border-retro-border pb-1">
-                                <div class="w-full bg-retro-green opacity-90 w-6 h-[60%] hover:opacity-100 transition"></div>
-                                <div class="w-full bg-retro-green opacity-90 w-6 h-[65%] hover:opacity-100 transition"></div>
-                                <div class="w-full bg-retro-green opacity-90 w-6 h-[60%] hover:opacity-100 transition"></div>
-                                <div class="w-full bg-retro-green opacity-90 w-6 h-[75%] hover:opacity-100 transition"></div>
-                                <div class="w-full bg-retro-green opacity-90 w-6 h-[70%] hover:opacity-100 transition"></div>
-                                <div class="w-full bg-retro-green opacity-90 w-6 h-[85%] hover:opacity-100 transition"></div>
-                                <div class="w-full bg-retro-ink w-6 h-[95%] shadow-sm relative"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-mono text-retro-ink font-bold">TODAY</div></div>
-                            </div>
-                            <div class="flex justify-between mt-1 text-[8px] font-mono text-retro-slate">
-                                <span>M 7</span><span>M 8</span><span>M 9</span><span>M 10</span><span>M 11</span><span>M 12</span><span>M 13</span>
-                            </div>
+                        <div class="flex justify-between hover:bg-[#1A3D2E]/50 px-1 py-0.5 rounded transition">
+                            <span class="w-20 opacity-70">13 May</span>
+                            <span class="w-24 opacity-90">Lobbying</span>
+                            <span class="flex-1">Company hired a lobbying firm</span>
+                            <span class="w-24 text-right opacity-90">1,248,930.08</span>
+                            <span class="w-20 text-right text-retro-green font-bold">Checked</span>
+                        </div>
+                        <div class="flex justify-between bg-[#1A3D2E]/40 px-1 py-0.5 rounded border border-[#4F8B6F]/30">
+                            <span class="w-20 opacity-70">13 May</span>
+                            <span class="w-24 opacity-90">Ownership</span>
+                            <span class="flex-1">Possible company link that still needs a human look</span>
+                            <span class="w-24 text-right opacity-90">127,430.22</span>
+                            <span class="w-20 text-right text-yellow-500 font-bold">Review</span>
+                        </div>
+                        <div class="flex justify-between hover:bg-[#1A3D2E]/50 px-1 py-0.5 rounded transition">
+                            <span class="w-20 opacity-70">13 May</span>
+                            <span class="w-24 opacity-90">Contracts</span>
+                            <span class="flex-1">Government contract awarded to a supplier</span>
+                            <span class="w-24 text-right opacity-90">1,206,119.77</span>
+                            <span class="w-20 text-right text-retro-green font-bold">Checked</span>
                         </div>
                     </div>
 
-                    <!-- Audit Trail -->
-                    <div class="bg-white border border-retro-border rounded-md shadow-sm p-8 animate-fade-up reveal">
-                        <div class="flex justify-between items-center mb-6 border-b border-retro-border pb-4">
-                            <h3 class="font-semibold text-retro-ink text-sm">Ingest trail</h3>
-                            <a href="#" class="text-[10px] font-mono text-retro-slate hover:text-retro-ink">View all</a>
+                    <div class="mt-auto pt-6 border-t border-[#1A3D2E]">
+                        <p class="text-[10px] text-[#4F8B6F] mb-2 uppercase tracking-wider">Today</p>
+                        <div class="text-[10px] text-[#8CE3B8] space-y-1 opacity-80">
+                            <p><span class="text-retro-green mr-2">10:21</span> Donation records added</p>
+                            <p><span class="text-retro-green mr-2">10:18</span> Lobbying records added</p>
+                            <p><span class="text-retro-green mr-2">10:18</span> 312 people and organisations matched</p>
+                            <p><span class="text-yellow-500 mr-2">10:18</span> 7 matches still need a manual check</p>
                         </div>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between text-[10px] font-mono">
-                                <span class="text-retro-ink font-medium w-16">10:21 AM</span>
-                                <span class="text-retro-slate flex-1">EC donation register imported</span>
-                                <span class="text-retro-slate w-16">Ingest</span>
-                                <span class="text-retro-ink w-16 flex items-center gap-2 justify-end">Success <span class="w-1.5 h-1.5 rounded-full bg-retro-green"></span></span>
-                            </div>
-                            <div class="flex items-center justify-between text-[10px] font-mono">
-                                <span class="text-retro-ink font-medium w-16">10:18 AM</span>
-                                <span class="text-retro-slate flex-1">Lobbyist register parsed</span>
-                                <span class="text-retro-slate w-16">Parser</span>
-                                <span class="text-retro-ink w-16 flex items-center gap-2 justify-end">Success <span class="w-1.5 h-1.5 rounded-full bg-retro-green"></span></span>
-                            </div>
-                            <div class="flex items-center justify-between text-[10px] font-mono">
-                                <span class="text-retro-ink font-medium w-16">10:11 AM</span>
-                                <span class="text-retro-slate flex-1">Name collision flagged</span>
-                                <span class="text-retro-slate w-16">Resolver</span>
-                                <span class="text-retro-ink w-16 flex items-center gap-2 justify-end">Review <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span></span>
-                            </div>
-                            <div class="flex items-center justify-between text-[10px] font-mono">
-                                <span class="text-retro-ink font-medium w-16">10:07 AM</span>
-                                <span class="text-retro-slate flex-1">UBO record linked</span>
-                                <span class="text-retro-slate w-16">Graph</span>
-                                <span class="text-retro-ink w-16 flex items-center gap-2 justify-end">Success <span class="w-1.5 h-1.5 rounded-full bg-retro-green"></span></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right: Terminal & Ledgers -->
-                <div class="flex flex-col gap-6 reveal" style="animation-delay: 0.2s;">
-                    
-                    <!-- Terminal Aesthetic -->
-                    <div class="bg-[#0A1A14] border border-[#1A3D2E] rounded-md p-8 shadow-[8px_8px_0px_rgba(26,26,26,0.1)] font-mono flex flex-col h-[400px]">
-                        <p class="text-[10px] text-retro-green tracking-[0.2em] mb-6">SYS_LOG / EDGE_RESOLVER</p>
-                        
-                        <div class="flex justify-between text-[10px] text-[#4F8B6F] mb-4 border-b border-[#1A3D2E] pb-2 uppercase tracking-wider">
-                            <span class="w-20">DATE</span>
-                            <span class="w-24">SOURCE</span>
-                            <span class="flex-1">RELATIONSHIP</span>
-                            <span class="w-24 text-right">AMOUNT</span>
-                            <span class="w-20 text-right">STATUS</span>
-                        </div>
-                        
-                        <div class="space-y-2 text-[11px] text-[#8CE3B8]">
-                            <div class="flex justify-between hover:bg-[#1A3D2E]/50 px-1 py-0.5 rounded transition cursor-crosshair">
-                                <span class="w-20 opacity-70">13 May</span>
-                                <span class="w-24 opacity-90">EC</span>
-                                <span class="flex-1">Donor → MP donation</span>
-                                <span class="w-24 text-right opacity-90">42,810.23</span>
-                                <span class="w-20 text-right text-retro-green font-bold">Cited</span>
-                            </div>
-                            <div class="flex justify-between hover:bg-[#1A3D2E]/50 px-1 py-0.5 rounded transition cursor-crosshair">
-                                <span class="w-20 opacity-70">13 May</span>
-                                <span class="w-24 opacity-90">ORCL</span>
-                                <span class="flex-1">Client → Lobbyist hire</span>
-                                <span class="w-24 text-right opacity-90">1,248,930.08</span>
-                                <span class="w-20 text-right text-retro-green font-bold">Cited</span>
-                            </div>
-                            <div class="flex justify-between bg-[#1A3D2E]/40 px-1 py-0.5 rounded cursor-crosshair border border-[#4F8B6F]/30">
-                                <span class="w-20 opacity-70">13 May</span>
-                                <span class="w-24 opacity-90">UBO Reg.</span>
-                                <span class="flex-1">Likely shell relationship</span>
-                                <span class="w-24 text-right opacity-90">127,430.22</span>
-                                <span class="w-20 text-right text-yellow-500 font-bold">Review</span>
-                            </div>
-                            <div class="flex justify-between hover:bg-[#1A3D2E]/50 px-1 py-0.5 rounded transition cursor-crosshair">
-                                <span class="w-20 opacity-70">13 May</span>
-                                <span class="w-24 opacity-90">Procurement</span>
-                                <span class="flex-1">Gov't → Vendor award</span>
-                                <span class="w-24 text-right opacity-90">1,206,119.77</span>
-                                <span class="w-20 text-right text-retro-green font-bold">Cited</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-auto pt-6 border-t border-[#1A3D2E]">
-                            <p class="text-[10px] text-[#4F8B6F] mb-2">LOG ></p>
-                            <div class="text-[10px] text-[#8CE3B8] space-y-1 opacity-80">
-                                <p><span class="text-retro-green mr-2">10:21:03</span> <span class="text-retro-slate mr-2">INFO</span> Resolver run completed in 12.8s</p>
-                                <p><span class="text-retro-green mr-2">10:18:47</span> <span class="text-retro-slate mr-2">INFO</span> 312 entities linked</p>
-                                <p><span class="text-retro-green mr-2">10:18:45</span> <span class="text-yellow-500 mr-2">WARN</span> 7 ambiguous matches need review</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dot-Matrix Ledger CSS Component -->
-                    <div class="relative overflow-hidden bg-[#ECEBE4] rounded-md shadow-inner flex h-48 border border-[#D0CFC7]" style="background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 100% 24px;">
-                        <div class="w-8 border-r border-black/5" style="background-image: radial-gradient(circle at center, #D0CFC7 3px, transparent 4px); background-size: 100% 24px;"></div>
-                        <div class="flex-1 p-6 font-mono text-[9px] text-[#2C3E33] leading-[24px] opacity-70 overflow-hidden transform -rotate-1 origin-top-left mix-blend-multiply blur-[0.3px]">
-                            <p>89.0   889.3   21.3   00.00   891</p>
-                            <p>12.4   772.1   44.1   12.89   443</p>
-                            <p class="opacity-50">---------------------------------</p>
-                            <p>UBO LNK 043.1   99.1   ACTV   001</p>
-                            <p>RES ERR 001.0   00.0   WARN   102</p>
-                            <p>89.0   889.3   21.3   00.00   891</p>
-                        </div>
-                        <div class="w-8 border-l border-black/5" style="background-image: radial-gradient(circle at center, #D0CFC7 3px, transparent 4px); background-size: 100% 24px;"></div>
-                        <div class="absolute bottom-2 left-10 bg-white/80 px-2 py-1 text-[8px] font-mono text-retro-slate tracking-widest backdrop-blur-sm border border-black/10 rounded-sm">CONTINUOUS_FEED.PRN</div>
                     </div>
                 </div>
             </div>
@@ -642,13 +550,13 @@ import LightLayout from '../layouts/LightLayout.astro';
                             <p class="mt-2 text-[10px] font-mono text-retro-slate uppercase tracking-widest">No card required</p>
                         </div>
                         <ul class="space-y-3 text-sm text-retro-ink mb-8 flex-1">
-                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span><strong>Expose</strong> · browser extension with article-context cards</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span><strong>Expose</strong> · choose browser extension or chatbot</span></li>
                             <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span><strong>Policy Translator</strong> · paste any UK bill, get plain English</span></li>
                             <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Read-only graph search (30 top entities)</span></li>
                             <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Public methodology &amp; source list</span></li>
                         </ul>
                         <a href="/expose" class="block w-full text-center bg-white text-retro-ink border border-retro-ink px-6 py-3 text-sm font-medium hover:bg-retro-ink hover:text-white transition-colors rounded-sm">
-                            Install Expose →
+                            Open Expose →
                         </a>
                     </div>
 
@@ -673,7 +581,7 @@ import LightLayout from '../layouts/LightLayout.astro';
                             </p>
                         </div>
                         <ul class="space-y-3 text-sm text-retro-ink mb-8 flex-1">
-                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span><strong>Expose</strong> · full entity database (1.2M+ entities)</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span><strong>Expose</strong> · full entity database across extension and chatbot</span></li>
                             <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span><strong>Policy Translator</strong> · unlimited bill translations</span></li>
                             <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Graph search, filtering, and CSV export</span></li>
                             <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Email alerts on 5 tracked entities</span></li>

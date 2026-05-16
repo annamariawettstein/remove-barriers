@@ -30,7 +30,7 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
   <main class="relative z-10 max-w-[1100px] mx-auto px-6 lg:px-8 py-12 bg-retro-bg" data-bill-slug={bill.slug}>
 
     <!-- Breadcrumb / back -->
-    <div class="mb-8 text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-3">
+    <div class="mb-8 text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex flex-wrap items-center gap-3">
       <a href="/" class="hover:text-retro-ink transition">Lattice</a>
       <span class="text-retro-ink/20">/</span>
       <a href="/bills" class="hover:text-retro-ink transition">Policy Translator</a>
@@ -39,8 +39,8 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
     </div>
 
     <!-- Doc header strip -->
-    <div class="border-t border-retro-ink/15 pt-3 flex items-center justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-10">
-      <div class="flex items-center gap-5">
+    <div class="border-t border-retro-ink/15 pt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-10">
+      <div class="flex flex-wrap items-center gap-3 sm:gap-5">
         <span>BILL · {bill.slug.toUpperCase()}</span>
         <span class="hidden md:inline">{bill.territorialExtent.join(' · ')}</span>
       </div>
@@ -58,8 +58,8 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-retro-ink tracking-tight leading-[1.05] mb-4">
         {bill.shortTitle}
       </h1>
-      <p class="text-base text-retro-slate font-mono">{bill.fullTitle} · {bill.sponsoringDept}</p>
-      <p class="mt-1 text-base text-retro-slate font-mono">Introduced {bill.introducedDate} · {bill.stageDetail}</p>
+      <p class="text-sm sm:text-base text-retro-slate font-mono leading-relaxed">{bill.fullTitle} · {bill.sponsoringDept}</p>
+      <p class="mt-1 text-sm sm:text-base text-retro-slate font-mono leading-relaxed">Introduced {bill.introducedDate} · {bill.stageDetail}</p>
     </header>
 
     <!-- Personalise CTA -->
@@ -72,11 +72,11 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
             Add a few details about your situation and we'll highlight the scenarios and actions that apply to you. Nothing is sent anywhere — saved only on this device.
           </p>
         </div>
-        <div class="flex gap-3 flex-shrink-0">
-          <button id="personalise-open" class="bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+        <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-shrink-0">
+          <button id="personalise-open" class="w-full sm:w-auto bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
             Personalise
           </button>
-          <button id="personalise-clear" class="hidden text-retro-ink border border-retro-border bg-white px-4 py-3 text-sm font-medium hover:bg-retro-bg transition rounded-sm">
+          <button id="personalise-clear" class="hidden w-full sm:w-auto text-retro-ink border border-retro-border bg-white px-4 py-3 text-sm font-medium hover:bg-retro-bg transition rounded-sm">
             Clear
           </button>
         </div>
@@ -205,13 +205,13 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
       <!-- Before & after scenarios (personalisable) -->
       {bill.scenarios?.length ? (
         <section class="mb-14">
-          <div class="flex items-center justify-between gap-4 mb-6">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
             <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("book")} />Before &amp; after scenarios</h2>
-            <span class="hidden lattice-personalised text-[9px] font-mono uppercase tracking-widest text-retro-green" id="scenarios-personalised-badge">Personalised for you</span>
+            <span class="hidden lattice-personalised self-start sm:self-auto text-[9px] font-mono uppercase tracking-widest text-retro-green" id="scenarios-personalised-badge">Personalised for you</span>
           </div>
           <div class="space-y-6" id="scenarios-list">
             {bill.scenarios.map(sc => (
-              <article class="bg-white border border-retro-border rounded-md p-6 lg:p-8 lattice-scenario"
+              <article class="bg-white border border-retro-border rounded-md p-5 sm:p-6 lg:p-8 lattice-scenario"
                 data-housing={JSON.stringify(sc.profileMatch?.housingTenure || [])}
                 data-employment={JSON.stringify(sc.profileMatch?.employmentStatus || [])}
                 data-family={JSON.stringify(sc.profileMatch?.familyStatus || [])}
@@ -219,8 +219,13 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
                 data-education={JSON.stringify(sc.profileMatch?.educationStatus || [])}
                 data-salary={JSON.stringify(sc.profileMatch?.salaryBand || [])}
                 data-immigration={JSON.stringify(sc.profileMatch?.immigrationStatus || [])}>
-                <h3 class="text-xl font-semibold text-retro-ink mb-1">{sc.title}</h3>
-                <p class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-5">{sc.stakeholder}</p>
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-5">
+                  <div>
+                    <h3 class="text-lg sm:text-xl font-semibold text-retro-ink leading-tight mb-1">{sc.title}</h3>
+                    <p class="text-[10px] font-mono text-retro-slate uppercase tracking-widest leading-relaxed">{sc.stakeholder}</p>
+                  </div>
+                  <span class="hidden lattice-match-pill self-start border border-retro-green/30 bg-retro-green/5 text-retro-green rounded-full px-3 py-1 text-[9px] font-mono uppercase tracking-widest">Best match for you</span>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                   <div>
                     <p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-2">Before</p>
@@ -272,13 +277,13 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
       <!-- What you need to do (personalisable) -->
       {bill.actions?.length ? (
         <section class="mb-14">
-          <div class="flex items-center justify-between gap-4 mb-6">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
             <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("check")} />What you need to do</h2>
-            <span class="hidden lattice-personalised text-[9px] font-mono uppercase tracking-widest text-retro-green" id="actions-personalised-badge">Personalised for you</span>
+            <span class="hidden lattice-personalised self-start sm:self-auto text-[9px] font-mono uppercase tracking-widest text-retro-green" id="actions-personalised-badge">Personalised for you</span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="actions-list">
             {bill.actions.map(a => (
-              <div class="bg-white border border-retro-border rounded-md p-6 lattice-action"
+              <div class="bg-white border border-retro-border rounded-md p-5 sm:p-6 lattice-action"
                 data-housing={JSON.stringify(a.profileMatch?.housingTenure || [])}
                 data-employment={JSON.stringify(a.profileMatch?.employmentStatus || [])}
                 data-family={JSON.stringify(a.profileMatch?.familyStatus || [])}
@@ -286,7 +291,10 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
                 data-education={JSON.stringify(a.profileMatch?.educationStatus || [])}
                 data-salary={JSON.stringify(a.profileMatch?.salaryBand || [])}
                 data-immigration={JSON.stringify(a.profileMatch?.immigrationStatus || [])}>
-                <h3 class="font-semibold text-retro-ink mb-4">{a.label}</h3>
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-4">
+                  <h3 class="font-semibold text-retro-ink leading-tight">{a.label}</h3>
+                  <span class="hidden lattice-match-pill self-start border border-retro-green/30 bg-retro-green/5 text-retro-green rounded-full px-3 py-1 text-[9px] font-mono uppercase tracking-widest">Matches your profile</span>
+                </div>
                 <ul class="space-y-2">
                   {a.steps.map((s, i) => (
                     <li class="text-sm text-retro-ink flex gap-3">
@@ -376,7 +384,7 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
       ) : null}
 
       <!-- Footer strip -->
-      <footer class="mt-16 pt-6 border-t border-retro-ink/15 flex flex-col md:flex-row gap-2 md:items-center md:justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em]">
+      <footer class="mt-16 pt-6 border-t border-retro-ink/15 flex flex-col gap-3 md:flex-row md:items-center md:justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em]">
         <div class="flex flex-wrap gap-4">
           <span>Analysis status · {bill.status}</span>
           {bill.royalAssentExpected ? <span>Royal Assent expected · {bill.royalAssentExpected}</span> : null}
@@ -389,8 +397,8 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
 
   <!-- Personalise Modal -->
   <div id="personalise-modal" class="fixed inset-0 z-[100] hidden bg-retro-ink/40 backdrop-blur-sm items-center justify-center p-4">
-    <div class="bg-retro-bg border border-retro-ink rounded-md max-w-2xl w-full p-8 shadow-[6px_6px_0px_rgba(15,61,46,0.95)] max-h-[90vh] flex flex-col">
-      <div class="flex items-start justify-between mb-6">
+    <div class="bg-retro-bg border border-retro-ink rounded-md max-w-2xl w-full p-5 sm:p-8 shadow-[6px_6px_0px_rgba(15,61,46,0.95)] max-h-[90vh] flex flex-col">
+      <div class="flex items-start justify-between gap-4 mb-6">
         <div>
           <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-1">Personalise</div>
           <h3 class="text-xl font-semibold text-retro-ink">Tell us a little about your situation</h3>
@@ -499,11 +507,11 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
           </div>
         </div>
 
-        <div class="flex gap-3 pt-2 mt-4 border-t border-retro-border">
+        <div class="flex flex-col-reverse sm:flex-row gap-3 pt-2 mt-4 border-t border-retro-border">
           <button type="submit" class="flex-1 bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
             Save &amp; personalise
           </button>
-          <button type="button" id="personalise-cancel" class="text-retro-ink border border-retro-border bg-white px-4 py-3 text-sm font-medium hover:bg-retro-bg transition rounded-sm">
+          <button type="button" id="personalise-cancel" class="w-full sm:w-auto text-retro-ink border border-retro-border bg-white px-4 py-3 text-sm font-medium hover:bg-retro-bg transition rounded-sm">
             Cancel
           </button>
         </div>
@@ -588,14 +596,17 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
             PROFILE_DIMENSIONS.forEach(([dim]) => {
               tags[dim] = JSON.parse(el.dataset[dim] || '[]');
             });
+            const matchPill = el.querySelector('.lattice-match-pill');
             if (!hasProfile) {
               el.classList.remove('lattice-dimmed', 'lattice-match');
+              if (matchPill) matchPill.classList.add('hidden');
               shownCount++;
               return;
             }
             const matches = matchesProfile(tags, profile);
             el.classList.toggle('lattice-match', matches);
             el.classList.toggle('lattice-dimmed', !matches);
+            if (matchPill) matchPill.classList.toggle('hidden', !matches);
             if (matches) shownCount++;
           });
           return shownCount;
@@ -652,7 +663,12 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
   </script>
 
   <style>
-    .lattice-dimmed { opacity: 0.32; filter: saturate(0.6); }
+    .lattice-dimmed { opacity: 0.7; filter: saturate(0.82); }
     .lattice-match { box-shadow: 4px 4px 0 rgba(15, 61, 46, 0.95); border-color: #0F3D2E; }
+
+    @media (max-width: 640px) {
+      .lattice-dimmed { opacity: 0.82; }
+      .lattice-match { box-shadow: 3px 3px 0 rgba(15, 61, 46, 0.95); }
+    }
   </style>
 </LightLayout>

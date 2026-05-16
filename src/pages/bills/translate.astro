@@ -104,6 +104,17 @@ import LightLayout from '../../layouts/LightLayout.astro';
         </header>
       `;
 
+      const plainEnglish = (bill.plainEnglishBottomLine || arr(bill.plainEnglishTakeaways).length) ? section('summary', 'In plain English', `
+        <div class="bg-white border border-retro-border rounded-md p-6 lg:p-8">
+          ${bill.plainEnglishBottomLine ? `<p class="text-xl text-retro-ink leading-relaxed mb-5">${esc(bill.plainEnglishBottomLine)}</p>` : ''}
+          ${arr(bill.plainEnglishTakeaways).length ? `
+            <ul class="space-y-2">
+              ${arr(bill.plainEnglishTakeaways).map(item => `<li class="text-sm text-retro-ink flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">→</span><span>${esc(item)}</span></li>`).join('')}
+            </ul>
+          ` : ''}
+        </div>
+      `) : '';
+
       const summary = bill.summary ? section('summary', 'Quick summary', `<p class="text-xl text-retro-ink leading-relaxed">${esc(bill.summary)}</p>`) : '';
 
       const keyNumbers = arr(bill.keyNumbers).length ? section('stats', 'Key numbers', `
@@ -267,7 +278,7 @@ import LightLayout from '../../layouts/LightLayout.astro';
         </footer>
       `;
 
-      container.innerHTML = headerBlock + summary + keyNumbers + whoAffected + parts + stakeholderImpacts + rights + scenarios + timeline + actions + moneyTrail + debate + redFlags + resources + footer;
+      container.innerHTML = headerBlock + plainEnglish + summary + keyNumbers + whoAffected + parts + stakeholderImpacts + rights + scenarios + timeline + actions + moneyTrail + debate + redFlags + resources + footer;
     })();
   </script>
 </LightLayout>
