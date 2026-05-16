@@ -280,7 +280,7 @@
           <button class="expose-action-button" type="button" data-expose-track="${escapeHtml(entity.id)}">
             ${tracked ? "Following" : "Follow this thread"}
           </button>
-          <div class="expose-methodology-note">No editorialising. Direct links only. Relationship distance is scored and labelled.</div>
+          <div class="expose-methodology-note">Direct source links only. Open them to check the record yourself.</div>
         </div>
 
         <section class="expose-sidebar-block">

@@ -2,6 +2,7 @@
 export const prerender = true;
 import LightLayout from '../layouts/LightLayout.astro';
 import { ICON_PATHS } from '../data/icons';
+import { EXPOSE_CASE_STUDIES } from '../data/exposeCaseStudies';
 ---
 
 <LightLayout title="Expose — Choose Your Tool">
@@ -74,29 +75,29 @@ import { ICON_PATHS } from '../data/icons';
           <div class="flex items-center justify-between gap-4 mb-6">
             <div class="flex items-center gap-3">
               <div class="w-11 h-11 rounded-sm border border-white/15 bg-white/5 flex items-center justify-center">
-                <svg class="w-5 h-5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.speech} />
+                <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.speech} />
               </div>
               <div>
                 <p class="text-[10px] font-mono text-white/50 uppercase tracking-widest">Option 02</p>
-                <h2 class="text-2xl font-semibold tracking-tight">Chatbot</h2>
+                <h2 class="text-2xl font-semibold tracking-tight">3D investigator</h2>
               </div>
             </div>
             <span class="text-[10px] font-mono text-retro-green uppercase tracking-widest">Best for questions</span>
           </div>
 
           <p class="text-sm text-white/80 leading-relaxed mb-6">
-            Ask for a person, company, donor trail, ownership chain, or public-record summary in plain English. Best when you want to investigate a topic directly rather than wait to spot it in an article.
+            Search for a person or company and open the 3D Expose tool from the `Data Weaver 3D` codebase. Best when you want to investigate a topic directly instead of waiting to spot it in an article.
           </p>
 
           <ul class="space-y-3 text-sm text-white/90 mb-8">
-            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Ask direct questions instead of scanning articles manually</span></li>
-            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Good for exploring a thread across several people or organisations</span></li>
-            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Useful when you want a summary first, then the sources</span></li>
+            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Interactive 3D graph view for names, companies, and reported links</span></li>
+            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Plain-English summary under the graph once research loads</span></li>
+            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Source verification and fallback search links for weak citations</span></li>
           </ul>
 
           <div class="flex flex-col sm:flex-row gap-3">
-            <a href="/bills" class="inline-block text-center bg-white text-retro-ink px-6 py-3 text-sm font-medium hover:bg-retro-bg transition-colors rounded-sm">
-              Open chatbot view →
+            <a href="/expose-tool" class="inline-block text-center bg-white text-retro-ink px-6 py-3 text-sm font-medium hover:bg-retro-bg transition-colors rounded-sm">
+              Open 3D tool →
             </a>
             <span class="inline-flex items-center justify-center text-[10px] font-mono text-white/40 uppercase tracking-widest px-3 py-3 border border-white/10 rounded-sm">
               Same data, different interface
@@ -127,6 +128,69 @@ import { ICON_PATHS } from '../data/icons';
           <h3 class="text-base font-semibold text-retro-ink mb-2">Use both when</h3>
           <p class="text-sm text-retro-slate leading-relaxed">You spot a name in an article, then want to go deeper and ask follow-up questions across the wider network.</p>
         </div>
+      </div>
+    </section>
+
+    <section class="mb-20">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
+        <div class="max-w-3xl">
+          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-3 flex items-center gap-2">
+            <svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.graph} />
+            Case studies
+          </h2>
+          <p class="text-lg text-retro-slate leading-relaxed">
+            Start with real UK influence cases that show how hidden networks usually work in practice: social brokers, elite schools, revolving doors, institutional protection, and media-political dependency.
+          </p>
+        </div>
+        <div class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em]">
+          {String(EXPOSE_CASE_STUDIES.length).padStart(2, '0')} network studies
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {EXPOSE_CASE_STUDIES.map((study, index) => (
+          <article class="bg-white border border-retro-border rounded-md p-6 lg:p-8">
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div>
+                <p class="text-[10px] font-mono text-retro-green uppercase tracking-widest mb-2">Case {String(index + 1).padStart(2, '0')}</p>
+                <h3 class="text-2xl font-semibold text-retro-ink tracking-tight">{study.title}</h3>
+                <p class="text-sm text-retro-slate mt-1">{study.subtitle}</p>
+              </div>
+            </div>
+
+            <p class="text-sm text-retro-ink leading-relaxed mb-5">{study.summary}</p>
+
+            <div class="space-y-4 mb-6">
+              <div>
+                <p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-1">Hidden pattern</p>
+                <p class="text-sm text-retro-slate leading-relaxed">{study.hiddenPattern}</p>
+              </div>
+              <div>
+                <p class="text-[9px] font-mono text-retro-slate uppercase tracking-widest mb-1">Why it matters</p>
+                <p class="text-sm text-retro-slate leading-relaxed">{study.whyItMatters}</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mb-5">
+              <a
+                href={`/expose-tool?name=${encodeURIComponent(study.primaryQuery)}`}
+                class="inline-block bg-retro-green text-white px-4 py-2 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
+              >
+                Start with {study.primaryQuery} →
+              </a>
+              {study.supportingQueries.slice(0, 2).map((query) => (
+                <a
+                  href={`/expose-tool?name=${encodeURIComponent(query)}`}
+                  class="inline-block border border-retro-border bg-retro-bg px-4 py-2 text-sm text-retro-ink hover:bg-white transition rounded-sm"
+                >
+                  {query}
+                </a>
+              ))}
+            </div>
+
+            <p class="text-[11px] text-retro-slate italic">Use these as research entry points, then follow the wider network from the graph and the source cards below it.</p>
+          </article>
+        ))}
       </div>
     </section>
 

@@ -22,10 +22,11 @@ import LightLayout from '../../layouts/LightLayout.astro';
     </div>
 
     <div id="bill-content"></div>
+    <div id="bill-history"></div>
 
     <div id="bill-missing" class="hidden text-center py-24">
       <h1 class="text-2xl font-semibold text-retro-ink mb-3">No translated bill found</h1>
-      <p class="text-sm text-retro-slate mb-6">Translation results are stored in your browser session only. Run a new translation from the bills index.</p>
+      <p class="text-sm text-retro-slate mb-6">No saved bill summary was found in this browser yet. Run a new translation from the bills index.</p>
       <a href="/bills" class="inline-block bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm">← Back to Bills</a>
     </div>
   </main>
@@ -33,23 +34,48 @@ import LightLayout from '../../layouts/LightLayout.astro';
   <script is:inline>
     (function () {
       const container = document.getElementById('bill-content');
+      const historyContainer = document.getElementById('bill-history');
       const missing = document.getElementById('bill-missing');
-      const raw = sessionStorage.getItem('lattice.translatedBill');
-      if (!raw) {
-        missing.classList.remove('hidden');
-        return;
-      }
-      let bill;
-      try { bill = JSON.parse(raw); } catch { missing.classList.remove('hidden'); return; }
-
-      document.getElementById('bill-breadcrumb').textContent = bill.shortTitle || 'Translated';
-      document.title = (bill.shortTitle || 'Translated bill') + ' — Lattice';
+      const SESSION_CURRENT_KEY = 'lattice.translatedBill';
+      const BILL_HISTORY_KEY = 'lattice.billHistory.v1';
+      const ACTIVE_BILL_KEY = 'lattice.translatedBill.activeId';
+      const MAX_BILL_HISTORY = 12;
 
       const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
       const magnitudeDots = (n) => '●'.repeat(n) + '○'.repeat(Math.max(0, 5 - n));
       const effectColor = (e) => ({ enhance:'text-retro-green', restrict:'text-amber-700', mixed:'text-retro-slate' }[e] || 'text-retro-slate');
       const effectLabel = (e) => ({ enhance:'Strengthens', restrict:'Restricts', mixed:'Mixed effect' }[e] || e);
       const arr = (x) => Array.isArray(x) ? x : [];
+      const billId = (bill) => {
+        const slug = (bill && bill.slug ? String(bill.slug) : '').trim();
+        if (slug) return `slug:${slug}`;
+        const title = (bill && bill.shortTitle ? String(bill.shortTitle) : 'translated').trim().toLowerCase();
+        return `summary:${title.replace(/[^a-z0-9]+/g, '-')}`;
+      };
+      const loadBillHistory = () => {
+        try { return JSON.parse(localStorage.getItem(BILL_HISTORY_KEY) || '[]'); }
+        catch { return []; }
+      };
+      const saveBillHistory = (bill) => {
+        const history = loadBillHistory().filter(entry => entry.id !== billId(bill));
+        const entry = { id: billId(bill), savedAt: Date.now(), bill };
+        history.unshift(entry);
+        localStorage.setItem(BILL_HISTORY_KEY, JSON.stringify(history.slice(0, MAX_BILL_HISTORY)));
+        localStorage.setItem(ACTIVE_BILL_KEY, entry.id);
+        return entry.id;
+      };
+      const formatSavedAt = (savedAt) => {
+        try {
+          return new Intl.DateTimeFormat('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit'
+          }).format(savedAt);
+        } catch {
+          return '';
+        }
+      };
 
       const ICON_PATHS = {
         summary:    `<rect x="5" y="3" width="14" height="18" rx="0.5"/><path d="M9 3v2h6V3"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>`,
@@ -88,7 +114,45 @@ import LightLayout from '../../layouts/LightLayout.astro';
         `;
       }
 
-      const headerBlock = `
+      function renderHistory(activeId) {
+        const history = loadBillHistory();
+        if (!history.length) {
+          historyContainer.innerHTML = '';
+          return;
+        }
+        historyContainer.innerHTML = `
+          <section class="mt-16 pt-6 border-t border-retro-ink/15">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-6 text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em]">
+              <span>Previous summaries</span>
+              <span>${String(history.length).padStart(2, '0')} saved in this browser</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${history.map(entry => `
+                <button
+                  type="button"
+                  data-bill-history-id="${esc(entry.id)}"
+                  class="text-left bg-white border rounded-md p-5 transition hover:border-retro-green ${entry.id === activeId ? 'border-retro-green shadow-[3px_3px_0px_rgba(15,61,46,0.14)]' : 'border-retro-border'}"
+                >
+                  <div class="flex items-start justify-between gap-4 mb-2">
+                    <div>
+                      <h3 class="text-lg font-semibold text-retro-ink tracking-tight">${esc(entry.bill.shortTitle || 'Translated bill')}</h3>
+                      <p class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mt-1">${esc(entry.bill.status || 'Saved summary')}</p>
+                    </div>
+                    <span class="text-[10px] font-mono text-retro-slate uppercase tracking-widest">${esc(formatSavedAt(entry.savedAt))}</span>
+                  </div>
+                  <p class="text-sm text-retro-slate leading-relaxed">${esc(entry.bill.plainEnglishBottomLine || entry.bill.summary || 'Saved bill summary')}</p>
+                </button>
+              `).join('')}
+            </div>
+          </section>
+        `;
+      }
+
+      function renderBill(bill) {
+        document.getElementById('bill-breadcrumb').textContent = bill.shortTitle || 'Translated';
+        document.title = (bill.shortTitle || 'Translated bill') + ' — Lattice';
+
+        const headerBlock = `
         <div class="border-t border-retro-ink/15 pt-3 flex items-center justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-10">
           <div class="flex items-center gap-5">
             <span>BILL · ${esc((bill.slug || '').toUpperCase())}</span>
@@ -278,7 +342,40 @@ import LightLayout from '../../layouts/LightLayout.astro';
         </footer>
       `;
 
-      container.innerHTML = headerBlock + plainEnglish + summary + keyNumbers + whoAffected + parts + stakeholderImpacts + rights + scenarios + timeline + actions + moneyTrail + debate + redFlags + resources + footer;
+        container.innerHTML = headerBlock + plainEnglish + summary + keyNumbers + whoAffected + parts + stakeholderImpacts + rights + scenarios + timeline + actions + moneyTrail + debate + redFlags + resources + footer;
+        missing.classList.add('hidden');
+        localStorage.setItem(ACTIVE_BILL_KEY, billId(bill));
+        renderHistory(billId(bill));
+      }
+
+      const raw = sessionStorage.getItem(SESSION_CURRENT_KEY);
+      if (raw) {
+        try {
+          saveBillHistory(JSON.parse(raw));
+        } catch {}
+      }
+
+      const history = loadBillHistory();
+      const activeId = localStorage.getItem(ACTIVE_BILL_KEY);
+      const activeEntry = history.find(entry => entry.id === activeId) || history[0];
+
+      if (!activeEntry) {
+        missing.classList.remove('hidden');
+        renderHistory(null);
+        return;
+      }
+
+      renderBill(activeEntry.bill);
+
+      historyContainer.addEventListener('click', (event) => {
+        const target = event.target.closest('[data-bill-history-id]');
+        if (!target) return;
+        const nextId = target.getAttribute('data-bill-history-id');
+        const nextEntry = loadBillHistory().find(entry => entry.id === nextId);
+        if (!nextEntry) return;
+        renderBill(nextEntry.bill);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     })();
   </script>
 </LightLayout>

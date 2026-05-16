@@ -1,62 +1,11 @@
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html, Billboard } from "@react-three/drei";
-import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
+import type { Article, GraphNode, ResearchData } from "./types";
 
-export type Statement = {
-  quote: string;
-  context: string;
-  date: string;
-  source: string;
-  url: string;
-  verified: boolean;
-};
-
-export type CrossRef = {
-  said: string;
-  did: string;
-  source: string;
-  url: string;
-  verified: boolean;
-};
-
-export type Person = {
-  name: string;
-  role: string;
-  country: string;
-  leaning: string;
-  bio: string;
-  stances: string[];
-  imageUrl: string | null;
-  netWorth?: string;
-  residences?: string[];
-  publicStatements?: Statement[];
-  crossReferences?: CrossRef[];
-};
-
-export type Article = {
-  title: string;
-  source: string;
-  summary: string;
-  concern: string;
-  url: string;
-  verified: boolean;
-  stanceIndex: number | null;
-};
-
-export type ResearchData = {
-  person: Person;
-  articles: Article[];
-};
-
-type DataNode = {
-  id: string;
-  label: string;
-  type: string;
+type DataNode = GraphNode & {
   position: [number, number, number];
-  kind: "person" | "article";
-  person?: Person;
-  article?: Article;
 };
 
 // Stable positions arranged on a sphere around the core.
@@ -131,6 +80,17 @@ function deriveGraphArticles(data: ResearchData): Article[] {
 }
 
 function buildNodes(data: ResearchData): { nodes: DataNode[]; edges: [string, string][] } {
+  if (data.graph?.nodes?.length) {
+    const fallbackPositions = distributePositions(data.graph.nodes.length, 4.6);
+    return {
+      nodes: data.graph.nodes.map((node, index) => ({
+        ...node,
+        position: node.position ?? fallbackPositions[index],
+      })),
+      edges: data.graph.edges ?? [],
+    };
+  }
+
   const graphArticles = deriveGraphArticles(data);
   const positions = distributePositions(graphArticles.length, 4.2);
   const nodes: DataNode[] = [
@@ -139,7 +99,8 @@ function buildNodes(data: ResearchData): { nodes: DataNode[]; edges: [string, st
       label: data.person.name,
       type: data.person.role || "Subject",
       position: [0, 0, 0],
-      kind: "person",
+      kind: "subject",
+      summary: data.narrative?.summary || data.person.bio,
       person: data.person,
     },
     ...graphArticles.map((a, i) => ({
@@ -148,6 +109,10 @@ function buildNodes(data: ResearchData): { nodes: DataNode[]; edges: [string, st
       type: a.source,
       position: positions[i],
       kind: "article" as const,
+      summary: a.summary,
+      source: a.source,
+      url: a.url,
+      verified: a.verified,
       article: a,
     })),
   ];
@@ -183,13 +148,13 @@ function NodeCard({
       basePos.current.y + offset,
       basePos.current.z,
     );
-    const base = node.kind === "person" ? 2.2 : 1;
+    const base = node.kind === "subject" ? 2.2 : 1;
     const target = isActive ? base * 1.15 : base;
     const s = THREE.MathUtils.lerp(groupRef.current.scale.x, target, 0.15);
     groupRef.current.scale.setScalar(s);
   });
 
-  const isCore = node.kind === "person";
+  const isCore = node.kind === "subject";
   const accent = "#0f4d33";
   const ink = "#0f2a1f";
   const paper = "#f3f1e7";
@@ -247,7 +212,7 @@ function NodeCard({
 
             {isActive && (
               <div className="w-60 px-3 py-2.5">
-                {isCore && node.person ? (
+                {node.person ? (
                   <>
                     <p className="mb-2 text-[10px] leading-snug text-[#0f2a1f]/80">
                       {truncate(node.person.bio, 140)}
@@ -271,7 +236,23 @@ function NodeCard({
                       </div>
                     </div>
                   </>
-                ) : null}
+                ) : (
+                  <>
+                    <p className="mb-2 text-[10px] leading-snug text-[#0f2a1f]/80">
+                      {truncate(node.summary || "Open for more context.", 160)}
+                    </p>
+                    {node.metadata?.[0] ? (
+                      <div className="mb-2 rounded border border-[#0f2a1f]/15 bg-[#0f4d33]/5 px-2 py-1">
+                        <div className="text-[8px] uppercase tracking-wider text-[#0f2a1f]/50">
+                          {node.metadata[0].label}
+                        </div>
+                        <div className="text-[11px] font-bold text-[#0f2a1f]">
+                          {node.metadata[0].value}
+                        </div>
+                      </div>
+                    ) : null}
+                  </>
+                )}
 
                 <button
                   type="button"
@@ -431,7 +412,7 @@ function DetailPanel({ node, stances, onClose }: { node: DataNode; stances: stri
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  const isPerson = node.kind === "person" && node.person;
+  const isPerson = !!node.person;
   const isArticle = node.kind === "article" && node.article;
 
   const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -641,6 +622,86 @@ function DetailPanel({ node, stances, onClose }: { node: DataNode; stances: stri
             </div>
           )}
 
+          {!isPerson && !isArticle && (
+            <div className="px-6 py-8 md:px-10 md:py-12">
+              <div className="text-[10px] uppercase tracking-[0.25em] text-[#0f2a1f]/55">
+                {node.kind}
+              </div>
+              <h1 className="mt-2 text-3xl font-bold tracking-tight md:text-5xl">
+                {node.label}
+                <span className="text-[#0f4d33]">.</span>
+              </h1>
+              <div className="mt-3 text-xs uppercase tracking-[0.25em] text-[#0f4d33]">
+                {node.type}
+              </div>
+
+              {node.metadata?.length ? (
+                <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+                  {node.metadata.map((item) => (
+                    <Field key={`${item.label}-${item.value}`} label={item.label} value={item.value} />
+                  ))}
+                </div>
+              ) : null}
+
+              <div className="mt-8 max-w-3xl">
+                <div className="mb-2 text-[10px] uppercase tracking-[0.25em] text-[#0f2a1f]/55">
+                  Summary
+                </div>
+                <p className="text-sm leading-relaxed text-[#0f2a1f]/85 md:text-base">
+                  {node.summary || "No summary available."}
+                </p>
+
+                {node.details?.length ? (
+                  <div className="mt-6 rounded-md border border-[#0f2a1f]/15 bg-[#0f4d33]/5 p-4">
+                    <div className="text-[10px] uppercase tracking-[0.25em] text-[#0f4d33]">
+                      Why this node matters
+                    </div>
+                    <ul className="mt-2 space-y-2">
+                      {node.details.map((detail, index) => (
+                        <li key={index} className="flex gap-2 text-sm text-[#0f2a1f]/85">
+                          <span className="text-[#0f4d33]">→</span>
+                          <span>{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {(node.source || node.url) ? (
+                  <div className="mt-6 border-t border-[#0f2a1f]/15 pt-4">
+                    <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#0f2a1f]/55">
+                      <span>Source</span>
+                      {typeof node.verified === "boolean" ? (
+                        <span
+                          className={
+                            node.verified
+                              ? "rounded-sm bg-[#0f4d33]/15 px-1.5 py-0.5 text-[#0f4d33]"
+                              : "rounded-sm bg-[#7a2e1c]/15 px-1.5 py-0.5 text-[#7a2e1c]"
+                          }
+                        >
+                          {node.verified ? "Link verified" : "Reference"}
+                        </span>
+                      ) : null}
+                    </div>
+                    <p className="mt-1 font-serif text-sm italic text-[#0f2a1f]/80">
+                      {node.source || hostFromUrl(node.url || "")}
+                    </p>
+                    {node.url ? (
+                      <a
+                        href={node.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-2 inline-block text-sm text-[#0f4d33] underline-offset-2 hover:underline"
+                      >
+                        Open source ↗
+                      </a>
+                    ) : null}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          )}
+
           {isArticle && node.article && (
             <div className="px-6 py-8 md:px-10 md:py-12">
               <div className="text-[10px] uppercase tracking-[0.25em] text-[#7a2e1c]">
@@ -713,13 +774,99 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
+function StaticNetworkFallback({
+  nodes,
+  edges,
+  faded,
+}: {
+  nodes: DataNode[];
+  edges: [string, string][];
+  faded: boolean;
+}) {
+  const nodeMap = useMemo(() => Object.fromEntries(nodes.map((node) => [node.id, node])), [nodes]);
+
+  function project(position: [number, number, number]) {
+    const [x, y] = position;
+    return {
+      x: 50 + x * 7.2,
+      y: 50 - y * 8.4,
+    };
+  }
+
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 transition-opacity duration-500"
+      style={{ opacity: faded ? 0.14 : 0.9 }}
+    >
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="absolute inset-0 h-full w-full"
+        aria-hidden="true"
+      >
+        {edges.map(([fromId, toId], index) => {
+          const from = nodeMap[fromId];
+          const to = nodeMap[toId];
+          if (!from || !to) return null;
+          const start = project(from.position);
+          const end = project(to.position);
+          return (
+            <line
+              key={`${fromId}-${toId}-${index}`}
+              x1={start.x}
+              y1={start.y}
+              x2={end.x}
+              y2={end.y}
+              stroke={fromId === "core" || toId === "core" ? "#0f4d33" : "#0f2a1f"}
+              strokeOpacity={fromId === "core" || toId === "core" ? 0.35 : 0.14}
+              strokeWidth={fromId === "core" || toId === "core" ? 0.18 : 0.1}
+            />
+          );
+        })}
+      </svg>
+
+      {nodes.map((node) => {
+        const point = project(node.position);
+        const isCore = node.id === "core";
+        return (
+          <div
+            key={node.id}
+            className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border"
+            style={{
+              left: `${point.x}%`,
+              top: `${point.y}%`,
+              width: isCore ? 16 : 11,
+              height: isCore ? 16 : 11,
+              borderColor: isCore ? "rgba(15,77,51,0.55)" : "rgba(15,42,31,0.22)",
+              background: isCore ? "rgba(15,77,51,0.16)" : "rgba(243,241,231,0.82)",
+              boxShadow: isCore ? "0 0 0 6px rgba(15,77,51,0.05)" : "none",
+            }}
+          />
+        );
+      })}
+
+      <div className="absolute bottom-5 left-5 hidden max-w-sm rounded-md border border-[#0f2a1f]/10 bg-[#f3f1e7]/88 px-3 py-2 text-[10px] uppercase tracking-[0.22em] text-[#0f2a1f]/55 backdrop-blur md:block">
+        Network view
+      </div>
+    </div>
+  );
+}
+
 export function SpiderGraph({ data }: { data: ResearchData }) {
   const [selected, setSelected] = useState<DataNode | null>(null);
+  const [canvasReady, setCanvasReady] = useState(false);
   const { nodes, edges } = useMemo(() => buildNodes(data), [data]);
 
   return (
     <div className="relative h-full w-full">
-      <Canvas camera={{ position: [0, 2, 11], fov: 55 }} dpr={[1, 2]} gl={{ alpha: true }} style={{ background: "transparent" }}>
+      <StaticNetworkFallback nodes={nodes} edges={edges} faded={canvasReady} />
+      <Canvas
+        camera={{ position: [0, 2, 11], fov: 55 }}
+        dpr={[1, 2]}
+        gl={{ alpha: true }}
+        style={{ background: "transparent" }}
+        onCreated={() => setCanvasReady(true)}
+      >
         <fog attach="fog" args={["#f3f1e7", 14, 30]} />
         <ambientLight intensity={0.9} />
         <pointLight position={[5, 5, 5]} intensity={0.6} color="#0f4d33" />
