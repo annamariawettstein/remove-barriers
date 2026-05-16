@@ -49,6 +49,18 @@
       label: "Electoral Commission donations and loans guidance",
       url: "https://www.electoralcommission.org.uk/political-registration-and-regulation/financial-reporting/donations-and-loans"
     },
+    ecFarageHarborne: {
+      label: "Electoral Commission register search: Christopher Harborne donations",
+      url: "https://search.electoralcommission.org.uk/api/pdf/Donations?date=&et=perpar&et=pp&et=ppm&et=rd&et=tp&from=&includeOutsideSection75=true&isIrishSourceNo=true&isIrishSourceYes=true&order=desc&postPoll=true&prePoll=false&query=Christopher+harborne&register=gb&register=ni&register=none&rows=30&rptPd=&sort=AcceptedDate&start=0&to="
+    },
+    ecReformQ12025: {
+      label: "Electoral Commission register search: Reform UK accepted donations Q1 2025",
+      url: "https://search.electoralcommission.org.uk/api/pdf/Donations?date=Accepted&et=pp&from=2025-01-01&includeOutsideSection75=true&isIrishSourceNo=true&isIrishSourceYes=true&order=desc&postPoll=false&prePoll=false&query=Reform+UK&register=gb&register=ni&register=none&rows=30&rptPd=&sort=Value&start=0&to=2025-03-31"
+    },
+    ecReformQ42025Search: {
+      label: "Electoral Commission register search: Reform UK reported donations late 2025",
+      url: "https://search.electoralcommission.org.uk/api/pdf/Donations?date=Reported&et=perpar&et=pp&et=ppm&et=rd&et=tp&from=&includeOutsideSection75=true&isIrishSourceNo=true&isIrishSourceYes=true&order=desc&postPoll=true&prePoll=false&query=reform+uk&register=gb&register=ni&register=none&rows=30&rptPd=&sort=AcceptedDate&start=0&to="
+    },
     ifsCharity: {
       label: "Charity Commission: Institute for Fiscal Studies",
       url: "https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/258815"
@@ -361,11 +373,11 @@
       aliases: ["Nigel Farage MP", "Farage"],
       badge: "REFORM · Clacton",
       role: "MP and Reform UK leader",
-      teaser: "Useful on pages about insurgent-party funding, media profile and outside interests.",
+      teaser: "Useful on pages about Reform funding, named donors, media profile and outside interests.",
       summaryMetrics: [
         metric("Current office", "MP for Clacton", "parliamentFarage", "high"),
         metric("Reform donations accepted", "GBP 5.46m in Q4 2025", "ecQ42025", "high"),
-        metric("Reform income", "GBP 10.83m in 2024", "ecAccounts2024", "high")
+        metric("Largest named donor in 2025 returns", "Christopher Harborne: GBP 12m to Reform UK", "ecFarageHarborne", "high")
       ],
       sections: [
         {
@@ -385,6 +397,34 @@
               "Income GBP 10.83m, spending GBP 5.43m in 2024",
               "This gives the extension a concrete annual baseline for stories about Reform's growth.",
               "ecAccounts2024",
+              "high"
+            )
+          ]
+        },
+        {
+          id: "named-donors",
+          title: "Named donors in public returns",
+          tone: "flag",
+          items: [
+            item(
+              "Largest named donor",
+              "Christopher Harborne: GBP 9m on 1 Aug 2025 and GBP 3m on 12 Nov 2025 to Reform UK",
+              "The same Electoral Commission register search also shows two visit donations reported to Nigel Farage personally from Harborne: GBP 27,616.76 accepted on 17 Jan 2025 and GBP 25,000 accepted on 19 Feb 2026.",
+              "ecFarageHarborne",
+              "high"
+            ),
+            item(
+              "Other named donors in Q1 2025",
+              "Oliver Evans GBP 64,431; Nova Venture Holdings Ltd GBP 50,000; Tangerine Holdings Ltd GBP 50,000; John Wilkson GBP 50,000; Nicola Wilkson GBP 50,000",
+              "The same Q1 2025 register page also lists TISUN Investments Limited donations worth GBP 160,000 in aggregate, plus GBP 25,000 donations from Claire Thompson, Mohamed Amersi, Rachel Anne Verghis, Lorenzo Zaccheo and David Franks.",
+              "ecReformQ12025",
+              "high"
+            ),
+            item(
+              "Later 2025 named donors",
+              "Richard Barnett GBP 25,000; Marco Manassero GBP 13,500; Nigel Goodman GBP 3,500 across two donations; Isabel Marcelle Christina Goldsmith also appears in the register",
+              "This gives the extension a quick late-2025 donor layer without pretending it is a complete replacement for the live Electoral Commission register.",
+              "ecReformQ42025Search",
               "high"
             )
           ]
@@ -410,6 +450,13 @@
           detail: "This is tied to the Electoral Commission's public quarterly release and helps explain why pages about Reform often carry funding context.",
           confidence: "high",
           sources: [relSource("ecQ42025"), relSource("parliamentInterests")]
+        },
+        {
+          title: "Largest visible donor link in current public returns",
+          target: "Christopher Harborne -> Reform UK / Nigel Farage",
+          detail: "The Commission register shows GBP 12m to Reform UK in 2025 under Harborne's name, plus two visit donations reported to Farage personally.",
+          confidence: "high",
+          sources: [relSource("ecFarageHarborne"), relSource("ecReformQ12025")]
         }
       ]
     },
