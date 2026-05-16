@@ -43,109 +43,67 @@ const BILL_TOOL = {
   input_schema: {
     type: 'object' as const,
     properties: {
-      slug: { type: 'string', description: 'Kebab-case slug derived from the bill title, e.g. "renters-rights-bill"' },
-      shortTitle: { type: 'string', description: 'Short title of the bill' },
-      fullTitle: { type: 'string', description: 'Full official title including session, e.g. "Renters\' Rights Bill 2024-25"' },
-      icon: { type: 'string', enum: ['house', 'briefcase', 'leaf', 'cabinet', 'shield', 'pound', 'scales', 'people', 'graph', 'summary'], description: 'Pick one thematic icon from the enum that best represents the bill.' },
-      status: { type: 'string', description: 'Current parliamentary stage, e.g. "Lords · Committee stage"' },
-      stageDetail: { type: 'string', description: 'One-sentence detail of the current stage' },
-      sponsoringDept: { type: 'string', description: 'Sponsoring government department' },
-      introducedDate: { type: 'string', description: 'Date the bill was introduced, e.g. "11 September 2024"' },
-      royalAssentExpected: { type: 'string', description: 'When Royal Assent is expected, e.g. "Summer 2025". Empty if unknown.' },
-      territorialExtent: { type: 'array', items: { type: 'string' }, description: 'Where the bill applies: e.g. ["England"] or ["UK-wide"]' },
-      summary: { type: 'string', description: '3-4 sentence plain-English overview' },
-      whoAffected: { type: 'array', items: { type: 'string' }, description: 'Stakeholder labels with approximate scale' },
+      slug: { type: 'string' },
+      shortTitle: { type: 'string' },
+      fullTitle: { type: 'string' },
+      icon: { type: 'string', enum: ['house', 'briefcase', 'leaf', 'cabinet', 'shield', 'pound', 'scales', 'people', 'graph', 'summary'] },
+      status: { type: 'string' },
+      stageDetail: { type: 'string' },
+      sponsoringDept: { type: 'string' },
+      introducedDate: { type: 'string' },
+      royalAssentExpected: { type: 'string' },
+      territorialExtent: { type: 'array', items: { type: 'string' } },
+      summary: { type: 'string' },
+      whoAffected: { type: 'array', items: { type: 'string' } },
       keyNumbers: {
         type: 'array',
-        items: {
-          type: 'object',
-          properties: { label: { type: 'string' }, value: { type: 'string' } },
-          required: ['label', 'value']
-        }
+        items: { type: 'object', properties: { label: { type: 'string' }, value: { type: 'string' } }, required: ['label', 'value'] }
       },
       parts: {
         type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            name: { type: 'string', description: 'e.g. "Part 1 — Tenancy reform"' },
-            says: { type: 'string', description: 'Legal text, paraphrased' },
-            means: { type: 'string', description: 'Plain English' },
-            affects: { type: 'string', description: 'Who it impacts directly' }
-          },
-          required: ['name', 'says', 'means', 'affects']
-        }
+        items: { type: 'object', properties: { name: { type: 'string' }, says: { type: 'string' }, means: { type: 'string' }, affects: { type: 'string' } }, required: ['name', 'means'] }
       },
       stakeholderImpacts: {
         type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            group: { type: 'string' },
-            current: { type: 'string', description: 'Status quo before the bill' },
-            changes: { type: 'string', description: 'What changes under the bill' },
-            magnitude: { type: 'integer', minimum: 1, maximum: 5 },
-            timeline: { type: 'string' }
-          },
-          required: ['group', 'current', 'changes', 'magnitude', 'timeline']
-        }
+        items: { type: 'object', properties: { group: { type: 'string' }, current: { type: 'string' }, changes: { type: 'string' }, magnitude: { type: 'integer', minimum: 1, maximum: 5 }, timeline: { type: 'string' } }, required: ['group', 'changes'] }
       },
       rights: {
         type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            right: { type: 'string', description: 'Named right, e.g. "Right to a fair trial (Article 6 ECHR)"' },
-            effect: { type: 'string', enum: ['enhance', 'restrict', 'mixed'] },
-            analysis: { type: 'string' },
-            safeguards: { type: 'string', description: 'Built-in protections; empty if none' }
-          },
-          required: ['right', 'effect', 'analysis']
-        }
+        items: { type: 'object', properties: { right: { type: 'string' }, effect: { type: 'string', enum: ['enhance', 'restrict', 'mixed'] }, analysis: { type: 'string' }, safeguards: { type: 'string' } }, required: ['right', 'effect'] }
       },
       scenarios: {
         type: 'array',
         items: {
           type: 'object',
           properties: {
-            title: { type: 'string', description: 'Specific named person + situation' },
-            stakeholder: { type: 'string', description: 'Generic stakeholder description' },
-            profileMatch: {
-              type: 'object',
-              properties: {
-                housingTenure: { type: 'array', items: { type: 'string', enum: ['renter', 'owner', 'mortgage', 'landlord', 'family'] } },
-                employmentStatus: { type: 'array', items: { type: 'string', enum: ['employee', 'selfEmployed', 'businessOwner', 'publicSector', 'retired', 'student'] } }
-              }
-            },
+            title: { type: 'string' },
+            stakeholder: { type: 'string' },
+            profileMatch: { type: 'object', properties: {
+              housingTenure: { type: 'array', items: { type: 'string', enum: ['renter', 'owner', 'mortgage', 'landlord', 'family'] } },
+              employmentStatus: { type: 'array', items: { type: 'string', enum: ['employee', 'selfEmployed', 'businessOwner', 'publicSector', 'retired', 'student'] } }
+            } },
             before: { type: 'string' },
             after: { type: 'string' },
             keyChanges: { type: 'array', items: { type: 'string' } },
-            numbers: { type: 'array', items: { type: 'string' }, description: 'Statistical context, source-cited' }
+            numbers: { type: 'array', items: { type: 'string' } }
           },
-          required: ['title', 'stakeholder', 'before', 'after', 'keyChanges']
+          required: ['title', 'before', 'after']
         }
       },
       timeline: {
         type: 'array',
-        items: {
-          type: 'object',
-          properties: { when: { type: 'string' }, what: { type: 'string' } },
-          required: ['when', 'what']
-        }
+        items: { type: 'object', properties: { when: { type: 'string' }, what: { type: 'string' } }, required: ['when', 'what'] }
       },
       actions: {
         type: 'array',
         items: {
           type: 'object',
           properties: {
-            label: { type: 'string', description: 'e.g. "If you\'re a renter"' },
-            profileMatch: {
-              type: 'object',
-              properties: {
-                housingTenure: { type: 'array', items: { type: 'string', enum: ['renter', 'owner', 'mortgage', 'landlord', 'family'] } },
-                employmentStatus: { type: 'array', items: { type: 'string', enum: ['employee', 'selfEmployed', 'businessOwner', 'publicSector', 'retired', 'student'] } }
-              }
-            },
+            label: { type: 'string' },
+            profileMatch: { type: 'object', properties: {
+              housingTenure: { type: 'array', items: { type: 'string', enum: ['renter', 'owner', 'mortgage', 'landlord', 'family'] } },
+              employmentStatus: { type: 'array', items: { type: 'string', enum: ['employee', 'selfEmployed', 'businessOwner', 'publicSector', 'retired', 'student'] } }
+            } },
             steps: { type: 'array', items: { type: 'string' } }
           },
           required: ['label', 'steps']
@@ -153,32 +111,19 @@ const BILL_TOOL = {
       },
       debate: {
         type: 'object',
-        properties: {
-          supporters: { type: 'array', items: { type: 'string' } },
-          critics: { type: 'array', items: { type: 'string' } },
-          neutral: { type: 'string' }
-        },
-        required: ['supporters', 'critics', 'neutral']
+        properties: { supporters: { type: 'array', items: { type: 'string' } }, critics: { type: 'array', items: { type: 'string' } }, neutral: { type: 'string' } }
       },
       moneyTrail: {
         type: 'array',
-        items: {
-          type: 'object',
-          properties: { label: { type: 'string' }, value: { type: 'string' }, source: { type: 'string' } },
-          required: ['label', 'value', 'source']
-        }
+        items: { type: 'object', properties: { label: { type: 'string' }, value: { type: 'string' }, source: { type: 'string' } }, required: ['label', 'value', 'source'] }
       },
       redFlags: { type: 'array', items: { type: 'string' } },
       resources: {
         type: 'array',
-        items: {
-          type: 'object',
-          properties: { label: { type: 'string' }, url: { type: 'string' } },
-          required: ['label', 'url']
-        }
+        items: { type: 'object', properties: { label: { type: 'string' }, url: { type: 'string' } }, required: ['label', 'url'] }
       }
     },
-    required: ['slug', 'shortTitle', 'fullTitle', 'icon', 'status', 'stageDetail', 'sponsoringDept', 'introducedDate', 'territorialExtent', 'summary', 'whoAffected', 'keyNumbers']
+    required: ['slug', 'shortTitle', 'icon', 'territorialExtent', 'summary']
   }
 };
 
@@ -250,9 +195,8 @@ async function fetchBillContent(url: string): Promise<string> {
   }
   const html = await resp.text();
   const text = stripHtml(html);
-  // Cap at ~50k chars (~12k tokens) — keeps the substantive sections, trims the tail.
-  // Roughly 2-3x faster TTFT than the previous 120k cap.
-  return text.length > 50_000 ? text.slice(0, 50_000) + '\n\n[...truncated — analysis based on first 50k chars...]' : text;
+  // Cap at ~120k chars (~30k tokens). Higher caps risk SDK timeouts but preserve full bill context.
+  return text.length > 120_000 ? text.slice(0, 120_000) + '\n\n[...truncated for length...]' : text;
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -278,7 +222,7 @@ export const POST: APIRoute = async ({ request }) => {
       sourceText = await fetchBillContent(body.url);
       sourceLabel = `URL: ${body.url}`;
     } else if (body.text && body.text.trim().length > 100) {
-      sourceText = body.text.slice(0, 50_000);
+      sourceText = body.text.slice(0, 120_000);
       sourceLabel = 'Pasted text';
     } else {
       return new Response(JSON.stringify({ error: 'Provide a `url` to a UK bill or `text` of the bill content (min 100 chars)' }), { status: 400 });

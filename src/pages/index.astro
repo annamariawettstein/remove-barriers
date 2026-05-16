@@ -50,20 +50,22 @@ import LightLayout from '../layouts/LightLayout.astro';
 
     <!-- Navigation -->
     <nav class="relative z-50 px-8 py-6 flex items-center justify-between border-b border-retro-border bg-retro-bg/80 backdrop-blur-md">
-        <div class="text-2xl font-bold tracking-tight text-retro-ink flex items-center gap-3">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-retro-slate">
-                <rect x="2" y="2" width="4" height="4" fill="currentColor"/>
-                <rect x="10" y="2" width="4" height="4" fill="currentColor"/>
-                <rect x="18" y="2" width="4" height="4" fill="currentColor"/>
-                <rect x="2" y="10" width="4" height="4" fill="currentColor"/>
-                <rect x="10" y="10" width="4" height="4" fill="currentColor"/>
-                <rect x="18" y="10" width="4" height="4" fill="currentColor"/>
-                <rect x="2" y="18" width="4" height="4" fill="currentColor"/>
-                <rect x="10" y="18" width="4" height="4" fill="currentColor"/>
-                <rect x="18" y="18" width="4" height="4" fill="currentColor"/>
+        <a href="/" class="flex items-center gap-3 text-retro-ink">
+            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="miter" aria-hidden="true">
+                <g transform="rotate(45 50 50)">
+                    <rect x="20" y="20" width="60" height="60"/>
+                    <line x1="32" y1="20" x2="32" y2="80"/>
+                    <line x1="44" y1="20" x2="44" y2="80"/>
+                    <line x1="56" y1="20" x2="56" y2="80"/>
+                    <line x1="68" y1="20" x2="68" y2="80"/>
+                    <line x1="20" y1="32" x2="80" y2="32"/>
+                    <line x1="20" y1="44" x2="80" y2="44"/>
+                    <line x1="20" y1="56" x2="80" y2="56"/>
+                    <line x1="20" y1="68" x2="80" y2="68"/>
+                </g>
             </svg>
-            lattice
-        </div>
+            <span class="font-serif text-2xl tracking-tight">Lattice</span>
+        </a>
         <div class="hidden md:flex items-center gap-10 font-medium text-sm text-retro-slate">
             <a href="/bills" class="hover:text-retro-ink transition-colors">Policy Translator</a>
             <a href="#pricing-section" class="hover:text-retro-ink transition-colors">Pricing</a>
