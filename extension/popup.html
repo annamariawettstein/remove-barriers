@@ -2,21 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
   <header>
     <div class="brand">expose</div>
-    <div class="tag">by Lattice · v0.1</div>
+    <div class="tag">core utility · v0.2</div>
   </header>
 
   <div class="toggle-row">
     <div class="toggle-copy">
-      <div class="toggle-title">Highlight politicians &amp; companies</div>
-      <div class="toggle-sub">On every page you visit</div>
+      <div class="toggle-title">Contextual highlights</div>
+      <div class="toggle-sub">Entity detection while you browse</div>
     </div>
     <label class="switch">
       <input type="checkbox" id="enabled" />
@@ -24,15 +21,28 @@
     </label>
   </div>
 
+  <div class="toggle-row">
+    <div class="toggle-copy">
+      <div class="toggle-title">Open sidebar on click</div>
+      <div class="toggle-sub">Pin richer dossiers inline</div>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="openSidebarOnClick" />
+      <span class="slider"></span>
+    </label>
+  </div>
+
   <div class="note">
-    <p><strong>Demo data.</strong> The MVP recognises 45 hand-picked UK entities (politicians, companies, news outlets) with illustrative figures from the Electoral Commission, Companies House, Lobby Register, and Contracts Finder.</p>
-    <p>Reload any open tab after toggling.</p>
+    <p><strong>Demo architecture.</strong> This build now supports hover cards, a pin-able sidebar dossier, source links, confidence badges, follow-state, and dynamic-page rescanning.</p>
+    <p id="trackingStatus">Tracking 0 entities.</p>
   </div>
 
   <footer>
-    <a href="https://example.com" target="_blank">Methodology</a>
+    <span>Facts only</span>
     <span>·</span>
-    <a href="https://example.com" target="_blank">Source data</a>
+    <span>Sources linked</span>
+    <span>·</span>
+    <span>Confidence scored</span>
   </footer>
 
   <script src="popup.js"></script>

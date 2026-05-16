@@ -1,20 +1,26 @@
 * { box-sizing: border-box; }
 
 body {
-  width: 320px;
+  width: 328px;
   margin: 0;
   padding: 16px 18px 14px;
-  background: #F6F7E8;
-  color: #1A1A1A;
+  background: #f6f7e8;
+  color: #1a1a1a;
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   font-size: 13px;
   line-height: 1.45;
 }
 
-header {
+header,
+.toggle-row,
+footer {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
+}
+
+header {
+  align-items: baseline;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(26, 26, 26, 0.12);
   margin-bottom: 14px;
@@ -26,18 +32,23 @@ header {
   letter-spacing: -0.01em;
 }
 
-.tag {
+.tag,
+.toggle-sub,
+footer,
+#trackingStatus {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.tag,
+.toggle-sub,
+footer {
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #6B7280;
+  color: #6b7280;
 }
 
 .toggle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   gap: 12px;
   padding: 12px 0;
 }
@@ -49,11 +60,7 @@ header {
 }
 
 .toggle-sub {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 9px;
   letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #6B7280;
 }
 
 .switch {
@@ -74,8 +81,8 @@ header {
   position: absolute;
   cursor: pointer;
   inset: 0;
-  background: #E5E7EB;
-  border: 1px solid #1A1A1A;
+  background: #e5e7eb;
+  border: 1px solid #1a1a1a;
   border-radius: 2px;
   transition: background 0.2s;
 }
@@ -87,27 +94,27 @@ header {
   height: 14px;
   left: 2px;
   top: 2px;
-  background: #FFFFFF;
-  border: 1px solid #1A1A1A;
+  background: #ffffff;
+  border: 1px solid #1a1a1a;
   border-radius: 1px;
   transition: transform 0.2s;
 }
 
 .switch input:checked + .slider {
-  background: #0F3D2E;
+  background: #0f3d2e;
 }
 
 .switch input:checked + .slider::before {
   transform: translateX(18px);
-  background: #F6F7E8;
+  background: #f6f7e8;
 }
 
 .note {
   margin-top: 8px;
   padding: 10px 12px;
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-left: 3px solid #0F3D2E;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-left: 3px solid #0f3d2e;
   border-radius: 2px;
   font-size: 12px;
 }
@@ -117,31 +124,24 @@ header {
 }
 
 .note p + p {
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .note strong {
-  color: #0F3D2E;
+  color: #0f3d2e;
+}
+
+#trackingStatus {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #0f3d2e;
 }
 
 footer {
   margin-top: 14px;
   padding-top: 10px;
   border-top: 1px solid rgba(26, 26, 26, 0.12);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: #6B7280;
-  display: flex;
   gap: 6px;
-}
-
-footer a {
-  color: #0F3D2E;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
+  flex-wrap: wrap;
 }

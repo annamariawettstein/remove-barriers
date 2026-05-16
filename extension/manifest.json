@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Expose — Article Context · by Lattice",
-  "version": "0.1.0",
-  "description": "Expose surfaces context on politicians, companies, and newspapers mentioned in articles, using UK public records (Electoral Commission, Companies House, Lobby Register, Contracts Finder). Part of the Lattice platform.",
+  "name": "Expose — Context Utility · by Lattice",
+  "version": "0.2.0",
+  "description": "Expose surfaces source-linked context on politicians, companies, media outlets, and think tanks while you browse, with inline highlights, confidence scoring, and a pinned sidebar dossier.",
   "permissions": ["storage"],
   "action": {
     "default_popup": "popup.html",

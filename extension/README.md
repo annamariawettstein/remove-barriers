@@ -1,44 +1,38 @@
-# Expose — Article Context (browser extension MVP, part of the Lattice platform)
+# Expose — Context Utility MVP
 
-Underlines mentions of UK politicians, companies, and newspapers on any web page, and shows a hover card with public-record context (donations, lobbying spend, government contracts, Companies House data, media ownership).
+Browser extension scaffold for the "works while you browse" experience: highlight a public figure, company, media outlet, or think tank in page text, then surface source-linked context inline and in a pinned sidebar dossier.
 
-## What's in v0.1
+## What changed from the Hong Kong MVP
 
-- **45 entities** hand-picked: 15 MPs, 15 companies, 15 UK news outlets — each with mock figures.
-- Three entity types, each with a tailored hover card:
-  - **Politician** — party, constituency, donations, register of interests, hospitality
-  - **Company** — Companies House number, lobbying spend, government contracts
-  - **News media** — ultimate owner, funding model, parent group, editorial endorsement
-- Detection by name + common aliases ("Rt Hon ...", "...plc", "Sunday X"), case-insensitive, word-boundary matched.
-- One-shot scan at `document_idle` — no MutationObserver yet, so SPA route changes won't re-scan until you reload.
-- Global on/off toggle in the popup, persisted via `chrome.storage.sync`.
+- Kept the no-friction content-script architecture from `../hong-kong/extension`.
+- Upgraded the data model from flat facts to structured `summaryMetrics`, `sections`, and `relationships`.
+- Added **confidence scoring** and **source transparency** to every surfaced claim.
+- Added a **sidebar dossier** on click, so the extension can carry richer relationship and contradiction context without forcing new tabs.
+- Added **dynamic rescanning** via `MutationObserver`, which is the minimum needed for social feeds, SPAs, and transcript-heavy pages.
+- Added local **follow-state** (`trackedEntityIds`) so users can save entities they want to keep an eye on.
 
-## Install (Chrome / Edge / Brave)
+## Current demo scope
 
-1. Open `chrome://extensions`.
-2. Toggle **Developer mode** (top right).
-3. Click **Load unpacked** and pick this `extension/` folder.
-4. Pin the extension to your toolbar.
-5. Visit any news site (Guardian, BBC, FT, Politico) and look for dotted-green underlines.
+- Demo entities only: 5 rich examples across politicians, a company, a media outlet, and a think tank.
+- Facts are illustrative, but the UI and storage model are designed around real source-linked evidence.
+- No backend yet. There is no live ingestion from Electoral Commission, TheyWorkForYou, Companies House, lobbying registers, or transcript pipelines.
 
-To turn it off: click the toolbar icon and flip the switch. Reload open tabs to apply.
+## Files
 
-## File layout
-
-```
+```text
 extension/
-├── manifest.json     Manifest V3 declaration
-├── entities.js       Mock dataset (window.LATTICE_ENTITIES)
-├── content.js        Page scanner + hover card logic
-├── content.css       Underline + card styling
-├── popup.html/.css/.js   Toggle UI
-└── icons/            (empty — Chrome uses default icon)
+├── manifest.json
+├── entities.js
+├── content.js
+├── content.css
+├── popup.html
+├── popup.css
+└── popup.js
 ```
 
-## Limitations to fix before this is real
+## Next build slices
 
-- **Mock data only.** Figures are illustrative. Swap `entities.js` for live API responses (Electoral Commission, Companies House, Lobby Register, Contracts Finder) — likely via a Lattice backend that handles auth + caching + CORS.
-- **No fuzzy matching.** "Sir Keir" alone won't match — needs to be a known alias. Entity resolution is the hard problem and lives server-side.
-- **No SPA support.** Pages that update via client-side routing (e.g. Twitter, modern SPAs) won't re-scan. Add a `MutationObserver` when the data is real.
-- **No per-site allowlist.** Currently global on/off. Consider per-domain toggles + an "exclude on this site" action.
-- **No icons.** Chrome shows the default puzzle-piece. Drop PNGs in `icons/` and reference them from `manifest.json` when ready.
+1. Replace `entities.js` with a fetch layer and cache keyed by canonical entity ID.
+2. Add per-jurisdiction entity resolvers instead of relying on exact alias matching.
+3. Move relationship scoring into a backend service so "direct donor" and "two degrees away" are computed consistently.
+4. Add export, alerts, and comparison mode once the evidence model is live.
