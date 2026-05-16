@@ -14,6 +14,12 @@ For every analysis you produce, follow this structure exactly via the submit_bil
 1. PARSE the bill. Identify Parts, Sections, schedules, commencement, amendments, definitions, territorial extent (England / Scotland / Wales / Northern Ireland / UK-wide).
 
 2. PLAIN ENGLISH. Replace "notwithstanding", "aforementioned", "shall be required to" with everyday language. Active voice. Concrete examples. Visual hierarchy. Maintain nuance — accessible is not the same as oversimplified.
+For every bill, lead with the simplest truthful explanation first:
+- plainEnglishBottomLine: 1 to 2 short sentences in everyday language starting with what the bill does in practice.
+- plainEnglishTakeaways: 3 to 5 short bullets. Each bullet should say one concrete change in plain English.
+- Assume the reader is smart but not legally trained.
+- Avoid legal jargon unless you immediately translate it into everyday words.
+- Prefer "you can", "you cannot", "the government can", "landlords must", "workers get" over abstract legal phrasing.
 
 3. STAKEHOLDER IMPACT. For each main group (individuals by demographic, businesses by sector/size, public sector, third sector, professionals), state: current situation, what changes, magnitude (1=minor to 5=transformative), timeline, new obligations, new rights, new restrictions.
 
@@ -55,6 +61,8 @@ const BILL_TOOL = {
       introducedDate: { type: 'string' },
       royalAssentExpected: { type: 'string' },
       territorialExtent: { type: 'array', items: { type: 'string' } },
+      plainEnglishBottomLine: { type: 'string' },
+      plainEnglishTakeaways: { type: 'array', items: { type: 'string' } },
       summary: { type: 'string' },
       whoAffected: { type: 'array', items: { type: 'string' } },
       keyNumbers: {

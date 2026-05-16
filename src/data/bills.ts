@@ -70,6 +70,8 @@ export type Bill = {
   territorialExtent: string[];
   isStub?: boolean;
 
+  plainEnglishBottomLine?: string;
+  plainEnglishTakeaways?: string[];
   summary: string;
   whoAffected: string[];
   keyNumbers: { label: string; value: string }[];
