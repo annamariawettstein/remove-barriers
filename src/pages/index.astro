@@ -11,7 +11,7 @@ import LightLayout from '../layouts/LightLayout.astro';
         <canvas id="bg-globe-canvas" class="absolute right-[-20%] top-[-10%] w-[1200px] h-[1200px] opacity-40"></canvas>
         
         <!-- Global Data Network Overlay (from image) -->
-        <div class="absolute inset-0 max-w-[1600px] mx-auto px-8 py-16 hidden lg:block opacity-60">
+        <div class="absolute inset-0 max-w-[1920px] mx-auto px-8 2xl:px-12 py-16 hidden lg:block opacity-60">
             <!-- Header -->
             <div class="absolute top-12 left-1/2 -translate-x-1/2 flex gap-32 text-[9px] font-mono text-retro-slate tracking-widest uppercase">
                 <div>
@@ -78,12 +78,12 @@ import LightLayout from '../layouts/LightLayout.astro';
     </nav>
 
 
-    <main class="relative z-10 max-w-[1600px] mx-auto">
+    <main class="relative z-10 max-w-[1920px] mx-auto">
         
         <!-- SECTION 1: HERO -->
         <section class="min-h-[90vh] flex flex-col justify-center px-8 py-20 relative overflow-hidden">
-            <div class="max-w-7xl mx-auto w-full relative z-10">
-                <div class="lg:w-3/4 xl:w-2/3 animate-fade-up">
+            <div class="max-w-[1840px] mx-auto w-full relative z-10">
+                <div class="lg:w-[84%] xl:w-[78%] 2xl:w-[72%] animate-fade-up">
                     <h1 class="text-5xl md:text-6xl lg:text-[5.5rem] leading-[1.02] font-semibold text-retro-ink tracking-tight mb-12">
                         We uncover the hidden networks in the elite <span class="text-retro-green italic font-light">and make policy accessible.</span>
                     </h1>
@@ -129,7 +129,7 @@ import LightLayout from '../layouts/LightLayout.astro';
             <div class="absolute inset-0 pointer-events-none opacity-[0.05]" style="background-image: linear-gradient(to right, #1A1A1A 1px, transparent 1px), linear-gradient(to bottom, #1A1A1A 1px, transparent 1px); background-size: 64px 64px;"></div>
 
             <!-- Two-column layout: lens on the left, headline + copy on the right -->
-            <div class="max-w-7xl mx-auto relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="max-w-[1840px] mx-auto relative grid grid-cols-1 lg:grid-cols-12 gap-12 2xl:gap-16 items-center">
 
                 <!-- Left: lens animation stage -->
                 <div class="lg:col-span-7">
@@ -349,7 +349,7 @@ import LightLayout from '../layouts/LightLayout.astro';
         <!-- SECTION 3.5: INTERACTIVE DATA SCHEMA -->
         <section class="py-24 px-8 bg-retro-bg overflow-hidden relative" id="schema-section">
             <div class="absolute inset-0 pointer-events-none opacity-[0.05]" style="background-image: linear-gradient(to right, #1A1A1A 1px, transparent 1px), linear-gradient(to bottom, #1A1A1A 1px, transparent 1px); background-size: 56px 56px;"></div>
-            <div class="max-w-7xl mx-auto relative">
+            <div class="max-w-[1840px] mx-auto relative">
                 <div class="flex flex-col lg:flex-row gap-16 items-center">
                     <!-- Left: Copy -->
                     <div class="lg:w-2/5 reveal">
@@ -438,13 +438,13 @@ import LightLayout from '../layouts/LightLayout.astro';
         <!-- SECTION 4: AUDITABILITY (Bento Cards + Retro Ledgers) -->
 
         <section class="py-32 px-8 bg-retro-bg">
-            <div class="mb-24 max-w-3xl reveal">
+            <div class="mb-24 max-w-4xl reveal">
                 <span class="inline-block px-3 py-1 border border-retro-border bg-white rounded-sm text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-6">Provenance</span>
                 <h2 class="text-5xl md:text-6xl font-semibold mb-6 text-retro-ink tracking-tight">Claims you can publish.</h2>
                 <p class="text-xl text-retro-slate leading-relaxed">Every node and edge in the graph is backed by a primary filing. Click any tie to see the source document, page number, and date it entered the public record.</p>
             </div>
 
-            <div class="max-w-5xl mx-auto reveal" style="animation-delay: 0.2s;">
+            <div class="max-w-[1600px] mx-auto reveal" style="animation-delay: 0.2s;">
                 <div class="bg-[#0A1A14] border border-[#1A3D2E] rounded-md p-8 shadow-[8px_8px_0px_rgba(26,26,26,0.1)] font-mono flex flex-col min-h-[420px]">
                     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
                         <div>
@@ -508,7 +508,7 @@ import LightLayout from '../layouts/LightLayout.astro';
 
         <!-- SECTION 4.5: PRICING -->
         <section class="py-32 px-8 bg-white border-t border-retro-border" id="pricing-section">
-            <div class="max-w-7xl mx-auto">
+            <div class="max-w-[1840px] mx-auto">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-16">
                     <div class="lg:col-span-7 reveal">
                         <span class="inline-block px-3 py-1 border border-retro-border bg-retro-bg rounded-sm text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-6">Pricing</span>
@@ -638,7 +638,7 @@ import LightLayout from '../layouts/LightLayout.astro';
             <!-- Faint architectural grid backdrop -->
             <div class="absolute inset-0 pointer-events-none opacity-[0.05]" style="background-image: linear-gradient(to right, #1A1A1A 1px, transparent 1px), linear-gradient(to bottom, #1A1A1A 1px, transparent 1px); background-size: 72px 72px;"></div>
 
-            <div class="max-w-7xl mx-auto relative">
+            <div class="max-w-[1840px] mx-auto relative">
                 <!-- Section header with technical document framing -->
                 <div class="mb-20">
                     <!-- Top frame line: doc revision -->
