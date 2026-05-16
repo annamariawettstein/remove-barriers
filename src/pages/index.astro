@@ -1,0 +1,2311 @@
+---
+import LightLayout from '../layouts/LightLayout.astro';
+---
+
+<LightLayout title="Lattice — Mapping Power, Money, and Influence">
+    
+    <!-- Background Elements -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-retro-bg retro-grid">
+        <!-- Interactive 3D Wireframe Globe -->
+        <canvas id="bg-globe-canvas" class="absolute right-[-20%] top-[-10%] w-[1200px] h-[1200px] opacity-40"></canvas>
+        
+        <!-- Global Data Network Overlay (from image) -->
+        <div class="absolute inset-0 max-w-[1600px] mx-auto px-8 py-16 hidden lg:block opacity-60">
+            <!-- Header -->
+            <div class="absolute top-12 left-1/2 -translate-x-1/2 flex gap-32 text-[9px] font-mono text-retro-slate tracking-widest uppercase">
+                <div>
+                    <p class="text-retro-ink font-semibold">INFLUENCE NETWORK</p>
+                    <p>ENTITY MAP 004.23</p>
+                </div>
+                <div class="flex gap-8">
+                    <div class="flex flex-col items-center"><span class="text-retro-ink">ENTITIES</span><span>1.2M</span></div>
+                    <div class="flex flex-col items-center"><span class="text-retro-ink">TIES</span><span>4.7M</span></div>
+                    <div class="flex flex-col items-center"><span class="text-retro-ink">SOURCES</span><span>312</span></div>
+                </div>
+            </div>
+
+
+
+            <div class="absolute bottom-12 left-8 text-[8px] font-mono text-retro-slate tracking-widest space-y-2 uppercase">
+                <div class="flex items-center gap-2">
+                    <div class="w-1.5 h-1.5 bg-retro-green rounded-sm"></div>
+                    <span>ENTITY</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 border-t border-dashed border-retro-green/50"></div>
+                    <span>RELATIONSHIP</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute inset-0 opacity-10 mix-blend-multiply pointer-events-none">
+            <video src="/retro/Névtelen (1280 x 1280 képpont).mp4" autoplay muted loop playsinline class="w-full h-full object-cover grayscale"></video>
+        </div>
+        <div class="absolute inset-0 opacity-20 mix-blend-multiply pointer-events-none">
+            <img src="/retro/ChatGPT Image May 14, 2026, 09_38_00 PM (3).png" class="w-full h-full object-cover grayscale" alt="Blueprint Background" />
+        </div>
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at center, transparent 0%, var(--color-retro-bg) 95%);"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="relative z-50 px-8 py-6 flex items-center justify-between border-b border-retro-border bg-retro-bg/80 backdrop-blur-md">
+        <div class="text-2xl font-bold tracking-tight text-retro-ink flex items-center gap-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-retro-slate">
+                <rect x="2" y="2" width="4" height="4" fill="currentColor"/>
+                <rect x="10" y="2" width="4" height="4" fill="currentColor"/>
+                <rect x="18" y="2" width="4" height="4" fill="currentColor"/>
+                <rect x="2" y="10" width="4" height="4" fill="currentColor"/>
+                <rect x="10" y="10" width="4" height="4" fill="currentColor"/>
+                <rect x="18" y="10" width="4" height="4" fill="currentColor"/>
+                <rect x="2" y="18" width="4" height="4" fill="currentColor"/>
+                <rect x="10" y="18" width="4" height="4" fill="currentColor"/>
+                <rect x="18" y="18" width="4" height="4" fill="currentColor"/>
+            </svg>
+            lattice
+        </div>
+        <div class="hidden md:flex items-center gap-10 font-medium text-sm text-retro-slate">
+            <a href="#" class="hover:text-retro-ink transition-colors">Investigations</a>
+            <a href="#" class="hover:text-retro-ink transition-colors">Data</a>
+            <a href="#" class="hover:text-retro-ink transition-colors">About</a>
+        </div>
+        <button class="bg-retro-green text-white px-6 py-2.5 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+            Request Access
+        </button>
+    </nav>
+
+
+    <main class="relative z-10 max-w-[1600px] mx-auto">
+        
+        <!-- SECTION 1: HERO -->
+        <section class="min-h-[90vh] flex flex-col justify-center px-8 py-20 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto w-full relative z-10">
+                <div class="lg:w-3/4 xl:w-2/3 animate-fade-up">
+                    <div class="hidden lg:block text-[10px] font-mono text-retro-slate uppercase tracking-widest leading-relaxed mb-16">
+                        LATTICE / INFLUENCE GRAPH<br/>PUBLIC ACCOUNTABILITY LAYER
+                    </div>
+
+                    <h1 class="text-5xl md:text-6xl lg:text-[5.5rem] leading-[1.02] font-semibold text-retro-ink tracking-tight mb-10">
+                        The public's most important questions <span class="text-retro-green italic font-light text-[0.9em]">cannot rely on scattered records</span>.
+                    </h1>
+                    
+                    <p class="text-xl md:text-2xl text-retro-ink/80 max-w-2xl mb-12 leading-relaxed">
+                        Lattice ingests filings, donations, lobbying disclosures, and corporate registries, then maps the relationships between politicians, companies, and money — so journalists, researchers, and citizens can follow them.
+                    </p>
+
+                    <div class="flex gap-4 mb-24">
+                        <button class="bg-retro-green text-white px-10 py-4 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[4px_4px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]">
+                            Explore the Graph
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 pt-12 border-t border-retro-border">
+                        <div>
+                            <p class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2">ENTITIES TRACKED</p>
+                            <p class="text-3xl font-medium text-retro-ink mb-1">1.2M+</p>
+                            <p class="text-[11px] font-mono text-retro-slate">Politicians, firms, donors</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2">DISCLOSURES PARSED</p>
+                            <p class="text-3xl font-medium text-retro-ink mb-1">4.7M+</p>
+                            <p class="text-[11px] font-mono text-retro-slate">Filings & records</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2">SOURCE COVERAGE</p>
+                            <p class="text-3xl font-medium text-retro-ink mb-1">312</p>
+                            <p class="text-[11px] font-mono text-retro-slate">Public registries</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2">UPDATE LATENCY</p>
+                            <p class="text-3xl font-medium text-retro-ink mb-1">&lt; 24 hrs</p>
+                            <p class="text-[11px] font-mono text-retro-slate">From filing to graph</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1.5: ALTERNATIVE HERO — INGEST LENS -->
+        <section class="relative bg-retro-bg py-24 px-8 overflow-hidden border-t border-retro-border" id="ingest-hero">
+            <!-- Architectural grid backdrop -->
+            <div class="absolute inset-0 pointer-events-none opacity-[0.05]" style="background-image: linear-gradient(to right, #1A1A1A 1px, transparent 1px), linear-gradient(to bottom, #1A1A1A 1px, transparent 1px); background-size: 64px 64px;"></div>
+
+            <!-- Two-column layout: lens on the left, headline + copy on the right -->
+            <div class="max-w-7xl mx-auto relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                <!-- Left: lens animation stage -->
+                <div class="lg:col-span-7">
+                    <div id="lens-stage" class="relative h-[640px] rounded-sm overflow-hidden border border-retro-ink/15 cursor-none" style="background: linear-gradient(180deg, #FBFCEE 0%, #F4F5DC 100%);">
+                        <canvas id="lens-canvas" class="absolute inset-0 w-full h-full"></canvas>
+                        <div class="absolute top-3 left-3 text-[9px] font-mono text-retro-ink/40 pointer-events-none flex items-center gap-2">
+                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-retro-green animate-pulse"></span>
+                            <span>LIVE FEEDS · 50 SOURCES</span>
+                        </div>
+                        <div class="absolute top-3 right-3 text-[9px] font-mono text-retro-ink/40 pointer-events-none">
+                            <p id="lens-stats">— TIES SURFACED</p>
+                        </div>
+                        <div class="absolute bottom-3 left-3 text-[9px] font-mono text-retro-ink/40 pointer-events-none">
+                            <p>MOVE THE LENS · RECORDS → CONNECTIONS</p>
+                        </div>
+                        <div class="absolute bottom-3 right-3 text-[9px] font-mono text-retro-ink/40 pointer-events-none">
+                            <p>EVERY EDGE CITED</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: headline + copy -->
+                <div class="lg:col-span-5">
+                    <span class="inline-block px-3 py-1 border border-retro-ink/15 bg-white rounded-sm text-[10px] font-mono text-retro-green uppercase tracking-widest mb-6">v2 · Source-backed graph</span>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-retro-ink tracking-tight leading-[1.05] mb-6">
+                        Power leaves a paper trail. <span class="italic font-light text-retro-green">Most of it is just hard to read.</span>
+                    </h2>
+                    <p class="text-base text-retro-slate leading-relaxed max-w-md">Fifty live feeds flow across the screen — campaign filings, lobbying reports, corporate registries, court records. Move the lens through them: wherever it lands, raw records resolve into the relationships behind a decision.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: THE PROBLEM -->
+        <section class="py-32 px-8 border-y border-retro-border bg-white relative overflow-hidden">
+            <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(0,0,0,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 relative z-10">
+                <div class="reveal">
+                    <span class="inline-block px-3 py-1 border border-retro-border bg-retro-bg rounded-sm text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-8">The problem</span>
+                    <h2 class="text-4xl md:text-5xl lg:text-[4rem] font-semibold leading-tight mb-8 text-retro-ink tracking-tight">
+                        Basic accountability questions take months to answer.
+                    </h2>
+                    <p class="text-xl text-retro-slate leading-relaxed font-light">
+                        The blocker isn't curiosity — it's the work of pulling filings from dozens of registries, reconciling spellings, and linking entities across jurisdictions. Reporters and researchers already know what to ask.
+                    </p>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <ul class="space-y-0 divide-y divide-retro-border border-t border-b border-retro-border">
+                        <li class="gsap-problem-item py-8 text-2xl md:text-3xl font-light cursor-default flex gap-6 px-4 -mx-4 hover:bg-retro-bg transition-colors">
+                            <span class="text-retro-green font-mono text-lg mt-1 opacity-70">01</span>
+                            <span class="text-retro-ink">Who funded this politician — and what do they own?</span>
+                        </li>
+                        <li class="gsap-problem-item py-8 text-2xl md:text-3xl font-light cursor-default flex gap-6 px-4 -mx-4 hover:bg-retro-bg transition-colors">
+                            <span class="text-retro-green font-mono text-lg mt-1 opacity-70">02</span>
+                            <span class="text-retro-ink">Which firms are lobbying on this bill, and who hired them?</span>
+                        </li>
+                        <li class="gsap-problem-item py-8 text-2xl md:text-3xl font-light cursor-default flex gap-6 px-4 -mx-4 hover:bg-retro-bg transition-colors">
+                            <span class="text-retro-green font-mono text-lg mt-1 opacity-70">03</span>
+                            <span class="text-retro-ink">Who actually benefits from this contract award?</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: HOW IT WORKS (PINNED SCROLL GALLERY) -->
+        <section id="how-it-works-section" class="relative bg-retro-bg">
+            <div class="px-8 py-24 border-b border-retro-border relative z-20 bg-retro-bg">
+                <span class="inline-block px-3 py-1 border border-retro-border bg-white rounded-sm text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-6">How it works</span>
+                <h2 class="text-5xl md:text-6xl font-semibold mb-6 text-retro-ink tracking-tight">A research desk that never sleeps.</h2>
+            </div>
+
+            <!-- The Pinned Container -->
+            <div id="pin-container" class="flex flex-col lg:flex-row h-screen border-b border-retro-border overflow-hidden">
+                
+                <!-- Left: Text Steps -->
+                <div class="w-full lg:w-1/2 p-12 lg:p-24 flex flex-col justify-center relative bg-white border-r border-retro-border">
+                    <div id="step-1" class="absolute inset-0 p-12 lg:p-24 flex flex-col justify-center opacity-100 bg-white z-30">
+                        <div class="text-retro-green font-mono text-2xl mb-6 border border-retro-green/30 bg-retro-green/5 w-12 h-12 flex items-center justify-center rounded-sm">01</div>
+                        <h3 class="text-3xl font-semibold mb-6 text-retro-ink">Ingest filings from every public source.</h3>
+                        <p class="text-xl text-retro-slate leading-relaxed">Campaign finance, lobbying disclosures, corporate registries, court dockets, and procurement records become one queryable layer.</p>
+                    </div>
+
+                    <div id="step-2" class="absolute inset-0 p-12 lg:p-24 flex flex-col justify-center opacity-0 bg-white z-20 translate-y-12">
+                        <div class="text-retro-green font-mono text-2xl mb-6 border border-retro-green/30 bg-retro-green/5 w-12 h-12 flex items-center justify-center rounded-sm">02</div>
+                        <h3 class="text-3xl font-semibold mb-6 text-retro-ink">Resolve entities across jurisdictions.</h3>
+                        <p class="text-xl text-retro-slate leading-relaxed mb-12">"John A. Smith" the donor, "J. Smith" on the board, and "Smith Holdings LLC" the contractor collapse into one identity — with the source filings cited.</p>
+                    </div>
+
+                    <div id="step-3" class="absolute inset-0 p-12 lg:p-24 flex flex-col justify-center opacity-0 bg-white z-10 translate-y-12">
+                        <div class="text-retro-green font-mono text-2xl mb-6 border border-retro-green/30 bg-retro-green/5 w-12 h-12 flex items-center justify-center rounded-sm">03</div>
+                        <h3 class="text-3xl font-semibold mb-6 text-retro-ink">Trace the relationships behind a decision.</h3>
+                        <p class="text-xl text-retro-slate leading-relaxed mb-12">Follow donations, ownership, board seats, and lobbying ties across politicians, firms, and intermediaries — every edge backed by a primary source.</p>
+                    </div>
+                </div>
+
+                <!-- Right: Animated Agent UI (Primary Focus) -->
+                <div class="w-full lg:w-1/2 relative bg-retro-bg overflow-hidden h-[50vh] lg:h-full flex items-center justify-center">
+
+                    <!-- Single shared background video — plays continuously across all three steps -->
+                    <div class="absolute inset-0 opacity-25 mix-blend-luminosity grayscale pointer-events-none scale-110 z-0">
+                        <video src="/retro/Névtelen terv (5).mp4" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
+                    </div>
+
+                    <!-- UI 1: Contract Parsing -->
+                    <div id="ui-1" class="absolute inset-0 p-8 lg:p-16 flex items-center justify-center opacity-100 z-10">
+                        <div class="w-full max-w-md bg-white border border-retro-border rounded-md shadow-lg p-8 relative z-20" id="contract-parsing-card">
+                            <h4 class="font-semibold text-retro-ink text-sm mb-8 border-b border-retro-border pb-4 flex justify-between items-center">
+                                <span>Filing parser</span>
+                                <span class="gsap-parsing-status text-[9px] font-mono bg-retro-bg border border-retro-border px-2 py-0.5 rounded-sm text-retro-slate">AWAITING_DOC</span>
+                            </h4>
+                            <div class="flex gap-8">
+                                <div class="w-32 bg-retro-bg border border-retro-border rounded flex flex-col p-3 h-40 relative overflow-hidden shadow-inner">
+                                    <div class="gsap-scan-laser absolute top-0 left-0 right-0 h-[3px] bg-retro-green shadow-[0_0_12px_rgba(34,197,94,0.8)] z-10" style="top:-3px;"></div>
+                                    <div class="text-[9px] font-mono text-retro-slate mb-4">Consultant Lobbyist<br/>Register Q1.pdf</div>
+                                    <div class="space-y-2">
+                                        <div class="w-full h-1 bg-retro-slate/20 rounded"></div>
+                                        <div class="w-3/4 h-1 bg-retro-slate/20 rounded"></div>
+                                        <div class="gsap-doc-line-1 w-5/6 h-1 bg-retro-slate/20 rounded relative overflow-hidden">
+                                            <div class="gsap-doc-highlight-1 absolute inset-0 bg-retro-green -translate-x-full"></div>
+                                        </div>
+                                        <div class="w-full h-1 bg-retro-slate/20 rounded mt-2"></div>
+                                        <div class="gsap-doc-line-2 w-4/5 h-1 bg-retro-slate/20 rounded relative overflow-hidden">
+                                            <div class="gsap-doc-highlight-2 absolute inset-0 bg-retro-green -translate-x-full"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-1 space-y-4">
+                                    <p class="text-[10px] font-mono text-retro-slate border-b border-retro-border pb-2">Extracted ties</p>
+                                    <div class="gsap-extracted-term-1 opacity-0 flex justify-between text-sm">
+                                        <span class="text-retro-ink font-medium">Client</span>
+                                        <span class="font-mono text-retro-green bg-retro-green/10 px-1.5 py-0.5 rounded">Acme Corp</span>
+                                    </div>
+                                    <div class="gsap-extracted-term-2 opacity-0 flex justify-between text-sm">
+                                        <span class="text-retro-ink font-medium">Spend Q3</span>
+                                        <span class="font-mono text-retro-green bg-retro-green/10 px-1.5 py-0.5 rounded">£1.1M</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs mt-6 pt-3 border-t border-retro-border">
+                                        <span class="text-retro-slate font-mono">Confidence</span>
+                                        <span class="gsap-confidence-score text-retro-slate font-mono font-bold">--%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- UI 2: Data Lineage Map -->
+                    <div id="ui-2" class="absolute inset-0 p-8 lg:p-16 flex items-center justify-center opacity-0 translate-y-12">
+                        <div class="w-full max-w-lg bg-white border border-retro-border rounded-md shadow-lg p-8 relative z-20">
+                            <h4 class="font-semibold text-retro-ink text-sm mb-8 border-b border-retro-border pb-4">Entity resolution map</h4>
+                            <div class="flex justify-between items-center relative py-8">
+                                <div class="absolute left-[120px] right-[120px] top-1/2 -translate-y-1/2 h-[1px] border-t border-dashed border-retro-slate/40 z-0"></div>
+                                <div class="flex flex-col gap-4 z-10 w-[140px]">
+                                    <div class="bg-white border border-retro-border p-3 rounded shadow-sm">
+                                        <p class="text-xs font-semibold text-retro-ink">Electoral Commission</p>
+                                        <p class="text-[8px] font-mono text-retro-slate mt-1">3.1M records</p>
+                                    </div>
+                                    <div class="bg-white border border-retro-border p-3 rounded shadow-sm">
+                                        <p class="text-xs font-semibold text-retro-ink">OpenCorporates</p>
+                                        <p class="text-[8px] font-mono text-retro-slate mt-1">Live sync</p>
+                                    </div>
+                                </div>
+                                <div class="z-10 bg-white border-2 border-retro-green rounded-md p-6 shadow-xl w-[180px] text-center transform scale-110">
+                                    <span class="font-bold tracking-tight text-retro-ink text-sm mb-3 block">lattice engine</span>
+                                    <div class="space-y-2 text-left">
+                                        <p class="text-[9px] font-mono text-retro-ink flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full border border-retro-green"></span> Entity resolution</p>
+                                        <p class="text-[9px] font-mono text-retro-ink flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-retro-green"></span> Edge inference</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-4 z-10 w-[140px]">
+                                    <div class="bg-white border border-retro-border p-3 rounded shadow-sm">
+                                        <p class="text-xs font-semibold text-retro-ink">Influence graph</p>
+                                        <p class="text-[8px] font-mono text-retro-ledger mt-1">4.7M edges resolved</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UI 3: Answer Metrics -->
+                    <div id="ui-3" class="absolute inset-0 p-8 lg:p-16 flex items-center justify-center opacity-0 translate-y-12">
+                        <div class="w-full max-w-lg bg-white border border-retro-border rounded-md shadow-lg p-8 relative z-20">
+                            <h4 class="font-semibold text-retro-ink text-sm mb-8 border-b border-retro-border pb-4">Investigation output: Influence brief</h4>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="border border-retro-border rounded-sm p-6 hover:border-retro-green transition-all bg-retro-bg group">
+                                    <p class="text-xs font-mono text-retro-slate uppercase tracking-widest mb-3">Donor exposure</p>
+                                    <p class="text-4xl font-semibold text-retro-ink mb-1">£3.4M</p>
+                                    <p class="text-[10px] font-mono text-retro-ledger">to bill sponsors</p>
+                                </div>
+                                <div class="border border-retro-border rounded-sm p-6 hover:border-retro-green transition-all bg-retro-bg group">
+                                    <p class="text-xs font-mono text-retro-slate uppercase tracking-widest mb-3">Hidden ties</p>
+                                    <p class="text-4xl font-semibold text-retro-ink mb-1">17</p>
+                                    <p class="text-[10px] font-mono text-retro-green">undisclosed in filings</p>
+                                </div>
+                                <div class="col-span-2 border border-retro-border rounded-sm p-6 bg-retro-ink text-white">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <p class="text-xs font-mono tracking-widest text-retro-green">LEAD WORTH REPORTING</p>
+                                        <span class="text-[10px] font-mono opacity-50">#442-RE</span>
+                                    </div>
+                                    <p class="text-sm font-light leading-relaxed">"Three MPs sponsoring the Economic Crime Bill received £880k from donors linked to the same parent group that hired their largest registered lobbyist last quarter."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+            <!-- Scroll space for the pinned section -->
+            <div id="scroll-space" class="h-[200vh]"></div>
+        </section>
+
+
+
+        <!-- SECTION 3.5: INTERACTIVE DATA SCHEMA -->
+        <section class="py-24 px-8 bg-retro-bg overflow-hidden relative" id="schema-section">
+            <div class="absolute inset-0 pointer-events-none opacity-[0.05]" style="background-image: linear-gradient(to right, #1A1A1A 1px, transparent 1px), linear-gradient(to bottom, #1A1A1A 1px, transparent 1px); background-size: 56px 56px;"></div>
+            <div class="max-w-7xl mx-auto relative">
+                <div class="flex flex-col lg:flex-row gap-16 items-center">
+                    <!-- Left: Copy -->
+                    <div class="lg:w-2/5 reveal">
+                        <span class="inline-block px-3 py-1 border border-retro-ink/15 bg-white rounded-sm text-[10px] font-mono text-retro-green uppercase tracking-widest mb-6">The Graph</span>
+                        <h2 class="text-4xl md:text-5xl font-semibold mb-6 text-retro-ink tracking-tight leading-tight">Every public record, <span class="italic font-light text-retro-green">finally connected.</span></h2>
+                        <p class="text-lg text-retro-slate leading-relaxed mb-8">Lattice fuses filings, ownership data, and disclosures into one graph of people, companies, and money. Drag to rotate — hover any entity to inspect its ties and source documents.</p>
+                        <div class="space-y-4 text-sm font-mono">
+                            <div class="schema-legend-item flex items-center gap-3 text-retro-slate">
+                                <span class="w-3 h-3 rounded-sm bg-retro-green flex-shrink-0"></span>
+                                <span>Politicians & public officials</span>
+                            </div>
+                            <div class="schema-legend-item flex items-center gap-3 text-retro-slate">
+                                <span class="w-3 h-3 rounded-sm bg-retro-ledger flex-shrink-0"></span>
+                                <span>Money flows (donations, lobbying, contracts)</span>
+                            </div>
+                            <div class="schema-legend-item flex items-center gap-3 text-retro-slate">
+                                <span class="w-3 h-3 rounded-sm bg-[#8B5E3C] flex-shrink-0"></span>
+                                <span>Companies & ownership records</span>
+                            </div>
+                            <div class="schema-legend-item flex items-center gap-3 text-retro-slate">
+                                <span class="w-3 h-3 rounded-sm bg-[#4F46E5] flex-shrink-0"></span>
+                                <span>Resolved influence graph</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right: 3D Canvas -->
+                    <div class="lg:w-3/5 relative">
+                        <div id="schema-stage" class="relative h-[560px] rounded-sm overflow-hidden border border-retro-ink/15 shadow-[4px_4px_0px_rgba(26,26,26,0.08)]" style="background: linear-gradient(180deg, #FBFCEE 0%, #F4F5DC 100%);">
+                            <canvas id="schema-canvas" class="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+                            <div id="schema-labels" class="absolute inset-0 pointer-events-none"></div>
+                            <!-- Tooltip — richer detail panel shown on hover / click-pin -->
+                            <div id="schema-tooltip" class="absolute pointer-events-none opacity-0 z-30 transition-opacity duration-200" style="top:0;left:0;">
+                                <div class="bg-white border border-retro-ink/40 rounded-sm px-3.5 py-2.5 shadow-[0_8px_24px_-6px_rgba(15,61,46,0.22)] min-w-[210px] max-w-[260px]">
+                                    <div class="flex items-center justify-between gap-3 mb-2">
+                                        <p id="tt-title" class="text-[10px] font-mono text-retro-green uppercase tracking-widest">TABLE_NAME</p>
+                                        <p id="tt-pin" class="text-[8px] font-mono text-retro-slate uppercase tracking-widest opacity-0">PINNED</p>
+                                    </div>
+                                    <div id="tt-cols" class="space-y-0.5"></div>
+                                    <div class="mt-2.5 pt-2 border-t border-retro-ink/10 grid grid-cols-2 gap-x-3 gap-y-1">
+                                        <p class="text-[8px] font-mono text-retro-slate uppercase tracking-widest">Rows</p>
+                                        <p id="tt-rows" class="text-[8.5px] font-mono text-retro-ink text-right">—</p>
+                                        <p class="text-[8px] font-mono text-retro-slate uppercase tracking-widest">Last sync</p>
+                                        <p id="tt-sync" class="text-[8.5px] font-mono text-retro-ink text-right">—</p>
+                                        <p class="text-[8px] font-mono text-retro-slate uppercase tracking-widest">Freshness</p>
+                                        <p id="tt-fresh" class="text-[8.5px] font-mono text-retro-ink text-right">—</p>
+                                    </div>
+                                    <div id="tt-lineage" class="mt-2 pt-2 border-t border-retro-ink/10 space-y-0.5">
+                                        <p id="tt-feeds" class="text-[8.5px] font-mono text-retro-green leading-snug">—</p>
+                                        <p id="tt-from"  class="text-[8.5px] font-mono text-retro-ledger leading-snug">—</p>
+                                    </div>
+                                    <p class="mt-2 pt-2 border-t border-retro-ink/10 text-[8px] font-mono text-retro-slate/70 uppercase tracking-widest">Click to pin · click again to release</p>
+                                </div>
+                            </div>
+                            <!-- Agent Insight Panel (overlays the canvas, top-left) -->
+                            <div id="agent-panel" class="absolute top-4 left-4 z-20 w-[420px] max-w-[calc(100%-2rem)] pointer-events-none opacity-0 transition-all duration-500" data-phase="idle">
+                                <div class="bg-white border border-retro-ink/40 rounded-sm shadow-[0_10px_28px_-10px_rgba(15,61,46,0.25)]">
+                                    <div class="flex items-center gap-3 px-5 py-3.5 border-b border-retro-ink/15">
+                                        <span class="agent-dot relative w-2.5 h-2.5 rounded-full bg-retro-green flex-shrink-0"></span>
+                                        <span class="text-[11px] font-mono text-retro-ink uppercase tracking-[0.18em] font-semibold">Lattice Agent</span>
+                                        <span id="agent-status" class="ml-auto text-[9px] font-mono text-retro-slate uppercase tracking-widest">idle</span>
+                                    </div>
+                                    <div class="px-5 py-4 min-h-[120px]">
+                                        <p id="agent-loading" class="text-[12px] font-mono text-retro-slate leading-relaxed">
+                                            <span class="agent-loader inline-flex gap-1.5 mr-2 align-middle"><span></span><span></span><span></span></span>
+                                            <span id="agent-loading-text">initializing…</span>
+                                        </p>
+                                        <div id="agent-insight" class="hidden">
+                                            <p class="text-[10px] font-mono uppercase tracking-[0.18em] mb-2" id="agent-insight-tag">Insight</p>
+                                            <p class="text-[18px] text-retro-ink leading-snug font-semibold mb-2" id="agent-insight-text">—</p>
+                                            <p class="text-[11px] font-mono text-retro-slate leading-relaxed" id="agent-insight-detail">—</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Instructions -->
+                            <div class="absolute bottom-4 right-4 text-[9px] font-mono text-retro-ink/40 text-right">
+                                <p>DRAG TO ROTATE · SCROLL TO ZOOM</p>
+                                <p>HOVER ENTITIES TO INSPECT</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: AUDITABILITY (Bento Cards + Retro Ledgers) -->
+
+        <section class="py-32 px-8 bg-retro-bg">
+            <div class="mb-24 max-w-3xl reveal">
+                <span class="inline-block px-3 py-1 border border-retro-border bg-white rounded-sm text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-6">Provenance</span>
+                <h2 class="text-5xl md:text-6xl font-semibold mb-6 text-retro-ink tracking-tight">Claims you can publish.</h2>
+                <p class="text-xl text-retro-slate leading-relaxed">Every node and edge in the graph is backed by a primary filing. Click any tie to see the source document, page number, and date it entered the public record.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Left: Recon & Audit -->
+                <div class="flex flex-col gap-6">
+                    <!-- Reconciliation Overview -->
+                    <div class="bg-white border border-retro-border rounded-md shadow-[4px_4px_0px_rgba(230,230,230,1)] p-8 animate-fade-up flex flex-col reveal border-t-4 border-t-retro-green">
+                        <div class="flex justify-between items-center mb-8 border-b border-retro-border pb-4">
+                            <h3 class="font-semibold text-retro-ink text-sm">Coverage overview</h3>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-retro-green animate-pulse"></span>
+                                <span class="text-[10px] font-mono text-retro-green font-medium">Live</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-8 mb-10">
+                            <div>
+                                <p class="text-[10px] font-mono text-retro-slate mb-1">Edges cited</p>
+                                <p class="text-4xl font-semibold text-retro-ink mb-1">99.4%</p>
+                                <p class="text-[9px] font-mono text-retro-ledger">+1.6% vs yesterday</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-mono text-retro-slate mb-1">Unverified ties</p>
+                                <p class="text-4xl font-semibold text-retro-ink mb-1">2,184</p>
+                                <p class="text-[9px] font-mono text-retro-slate">-12.3% vs yesterday</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <p class="text-[10px] font-mono text-retro-slate mb-4">Coverage trend</p>
+                            <div class="flex items-end gap-2 h-24 border-b border-retro-border pb-1">
+                                <div class="w-full bg-retro-green opacity-90 w-6 h-[60%] hover:opacity-100 transition"></div>
+                                <div class="w-full bg-retro-green opacity-90 w-6 h-[65%] hover:opacity-100 transition"></div>
+                                <div class="w-full bg-retro-green opacity-90 w-6 h-[60%] hover:opacity-100 transition"></div>
+                                <div class="w-full bg-retro-green opacity-90 w-6 h-[75%] hover:opacity-100 transition"></div>
+                                <div class="w-full bg-retro-green opacity-90 w-6 h-[70%] hover:opacity-100 transition"></div>
+                                <div class="w-full bg-retro-green opacity-90 w-6 h-[85%] hover:opacity-100 transition"></div>
+                                <div class="w-full bg-retro-ink w-6 h-[95%] shadow-sm relative"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[9px] font-mono text-retro-ink font-bold">TODAY</div></div>
+                            </div>
+                            <div class="flex justify-between mt-1 text-[8px] font-mono text-retro-slate">
+                                <span>M 7</span><span>M 8</span><span>M 9</span><span>M 10</span><span>M 11</span><span>M 12</span><span>M 13</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Audit Trail -->
+                    <div class="bg-white border border-retro-border rounded-md shadow-sm p-8 animate-fade-up reveal">
+                        <div class="flex justify-between items-center mb-6 border-b border-retro-border pb-4">
+                            <h3 class="font-semibold text-retro-ink text-sm">Ingest trail</h3>
+                            <a href="#" class="text-[10px] font-mono text-retro-slate hover:text-retro-ink">View all</a>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between text-[10px] font-mono">
+                                <span class="text-retro-ink font-medium w-16">10:21 AM</span>
+                                <span class="text-retro-slate flex-1">EC donation register imported</span>
+                                <span class="text-retro-slate w-16">Ingest</span>
+                                <span class="text-retro-ink w-16 flex items-center gap-2 justify-end">Success <span class="w-1.5 h-1.5 rounded-full bg-retro-green"></span></span>
+                            </div>
+                            <div class="flex items-center justify-between text-[10px] font-mono">
+                                <span class="text-retro-ink font-medium w-16">10:18 AM</span>
+                                <span class="text-retro-slate flex-1">Lobbyist register parsed</span>
+                                <span class="text-retro-slate w-16">Parser</span>
+                                <span class="text-retro-ink w-16 flex items-center gap-2 justify-end">Success <span class="w-1.5 h-1.5 rounded-full bg-retro-green"></span></span>
+                            </div>
+                            <div class="flex items-center justify-between text-[10px] font-mono">
+                                <span class="text-retro-ink font-medium w-16">10:11 AM</span>
+                                <span class="text-retro-slate flex-1">Name collision flagged</span>
+                                <span class="text-retro-slate w-16">Resolver</span>
+                                <span class="text-retro-ink w-16 flex items-center gap-2 justify-end">Review <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span></span>
+                            </div>
+                            <div class="flex items-center justify-between text-[10px] font-mono">
+                                <span class="text-retro-ink font-medium w-16">10:07 AM</span>
+                                <span class="text-retro-slate flex-1">UBO record linked</span>
+                                <span class="text-retro-slate w-16">Graph</span>
+                                <span class="text-retro-ink w-16 flex items-center gap-2 justify-end">Success <span class="w-1.5 h-1.5 rounded-full bg-retro-green"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Terminal & Ledgers -->
+                <div class="flex flex-col gap-6 reveal" style="animation-delay: 0.2s;">
+                    
+                    <!-- Terminal Aesthetic -->
+                    <div class="bg-[#0A1A14] border border-[#1A3D2E] rounded-md p-8 shadow-[8px_8px_0px_rgba(26,26,26,0.1)] font-mono flex flex-col h-[400px]">
+                        <p class="text-[10px] text-retro-green tracking-[0.2em] mb-6">SYS_LOG / EDGE_RESOLVER</p>
+                        
+                        <div class="flex justify-between text-[10px] text-[#4F8B6F] mb-4 border-b border-[#1A3D2E] pb-2 uppercase tracking-wider">
+                            <span class="w-20">DATE</span>
+                            <span class="w-24">SOURCE</span>
+                            <span class="flex-1">RELATIONSHIP</span>
+                            <span class="w-24 text-right">AMOUNT</span>
+                            <span class="w-20 text-right">STATUS</span>
+                        </div>
+                        
+                        <div class="space-y-2 text-[11px] text-[#8CE3B8]">
+                            <div class="flex justify-between hover:bg-[#1A3D2E]/50 px-1 py-0.5 rounded transition cursor-crosshair">
+                                <span class="w-20 opacity-70">13 May</span>
+                                <span class="w-24 opacity-90">EC</span>
+                                <span class="flex-1">Donor → MP donation</span>
+                                <span class="w-24 text-right opacity-90">42,810.23</span>
+                                <span class="w-20 text-right text-retro-green font-bold">Cited</span>
+                            </div>
+                            <div class="flex justify-between hover:bg-[#1A3D2E]/50 px-1 py-0.5 rounded transition cursor-crosshair">
+                                <span class="w-20 opacity-70">13 May</span>
+                                <span class="w-24 opacity-90">ORCL</span>
+                                <span class="flex-1">Client → Lobbyist hire</span>
+                                <span class="w-24 text-right opacity-90">1,248,930.08</span>
+                                <span class="w-20 text-right text-retro-green font-bold">Cited</span>
+                            </div>
+                            <div class="flex justify-between bg-[#1A3D2E]/40 px-1 py-0.5 rounded cursor-crosshair border border-[#4F8B6F]/30">
+                                <span class="w-20 opacity-70">13 May</span>
+                                <span class="w-24 opacity-90">UBO Reg.</span>
+                                <span class="flex-1">Likely shell relationship</span>
+                                <span class="w-24 text-right opacity-90">127,430.22</span>
+                                <span class="w-20 text-right text-yellow-500 font-bold">Review</span>
+                            </div>
+                            <div class="flex justify-between hover:bg-[#1A3D2E]/50 px-1 py-0.5 rounded transition cursor-crosshair">
+                                <span class="w-20 opacity-70">13 May</span>
+                                <span class="w-24 opacity-90">Procurement</span>
+                                <span class="flex-1">Gov't → Vendor award</span>
+                                <span class="w-24 text-right opacity-90">1,206,119.77</span>
+                                <span class="w-20 text-right text-retro-green font-bold">Cited</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-6 border-t border-[#1A3D2E]">
+                            <p class="text-[10px] text-[#4F8B6F] mb-2">LOG ></p>
+                            <div class="text-[10px] text-[#8CE3B8] space-y-1 opacity-80">
+                                <p><span class="text-retro-green mr-2">10:21:03</span> <span class="text-retro-slate mr-2">INFO</span> Resolver run completed in 12.8s</p>
+                                <p><span class="text-retro-green mr-2">10:18:47</span> <span class="text-retro-slate mr-2">INFO</span> 312 entities linked</p>
+                                <p><span class="text-retro-green mr-2">10:18:45</span> <span class="text-yellow-500 mr-2">WARN</span> 7 ambiguous matches need review</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dot-Matrix Ledger CSS Component -->
+                    <div class="relative overflow-hidden bg-[#ECEBE4] rounded-md shadow-inner flex h-48 border border-[#D0CFC7]" style="background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 100% 24px;">
+                        <div class="w-8 border-r border-black/5" style="background-image: radial-gradient(circle at center, #D0CFC7 3px, transparent 4px); background-size: 100% 24px;"></div>
+                        <div class="flex-1 p-6 font-mono text-[9px] text-[#2C3E33] leading-[24px] opacity-70 overflow-hidden transform -rotate-1 origin-top-left mix-blend-multiply blur-[0.3px]">
+                            <p>89.0   889.3   21.3   00.00   891</p>
+                            <p>12.4   772.1   44.1   12.89   443</p>
+                            <p class="opacity-50">---------------------------------</p>
+                            <p>UBO LNK 043.1   99.1   ACTV   001</p>
+                            <p>RES ERR 001.0   00.0   WARN   102</p>
+                            <p>89.0   889.3   21.3   00.00   891</p>
+                        </div>
+                        <div class="w-8 border-l border-black/5" style="background-image: radial-gradient(circle at center, #D0CFC7 3px, transparent 4px); background-size: 100% 24px;"></div>
+                        <div class="absolute bottom-2 left-10 bg-white/80 px-2 py-1 text-[8px] font-mono text-retro-slate tracking-widest backdrop-blur-sm border border-black/10 rounded-sm">CONTINUOUS_FEED.PRN</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4.5: PRICING -->
+        <section class="py-32 px-8 bg-white border-t border-retro-border" id="pricing-section">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-16">
+                    <div class="lg:col-span-7 reveal">
+                        <span class="inline-block px-3 py-1 border border-retro-border bg-retro-bg rounded-sm text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-6">Pricing</span>
+                        <h2 class="text-5xl md:text-6xl font-semibold text-retro-ink tracking-tight leading-[1.05]">
+                            Plans for citizens, <span class="italic font-light text-retro-green">newsrooms, and oversight bodies.</span>
+                        </h2>
+                    </div>
+                    <div class="lg:col-span-5 reveal flex flex-col items-start lg:items-end gap-6">
+                        <p class="text-base text-retro-slate leading-relaxed max-w-md">Free for the public. Paid tiers fund the data pipeline and stay independent of the politicians and companies in the graph.</p>
+                        <!-- Monthly / Annual toggle -->
+                        <div class="inline-flex items-center gap-3 border border-retro-border bg-retro-bg rounded-sm p-1" id="pricing-toggle" data-period="monthly">
+                            <button type="button" data-period-btn="monthly" class="px-4 py-1.5 text-[11px] font-mono uppercase tracking-widest rounded-sm transition-colors bg-retro-ink text-retro-bg">Monthly</button>
+                            <button type="button" data-period-btn="annual" class="px-4 py-1.5 text-[11px] font-mono uppercase tracking-widest rounded-sm transition-colors text-retro-slate hover:text-retro-ink">Annual <span class="text-retro-green">· save 17%</span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3-tier card grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="pricing-cards">
+
+                    <!-- Tier: Public -->
+                    <div class="bg-retro-bg border border-retro-border rounded-md p-8 flex flex-col reveal">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em]">01 · Public</span>
+                            <span class="text-[9px] font-mono text-retro-green uppercase tracking-widest">Free forever</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-retro-ink mb-1 tracking-tight">Citizen</h3>
+                        <p class="text-[13px] text-retro-slate mb-6">For anyone curious about who funds what.</p>
+                        <div class="mb-8 pb-8 border-b border-retro-border">
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-5xl font-semibold text-retro-ink tracking-tight">£0</span>
+                                <span class="text-sm text-retro-slate">forever</span>
+                            </div>
+                            <p class="mt-2 text-[10px] font-mono text-retro-slate uppercase tracking-widest">No card required</p>
+                        </div>
+                        <ul class="space-y-3 text-sm text-retro-ink mb-8 flex-1">
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Browser extension with article context cards</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Read-only graph search (30 top entities)</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Bill explainers in plain English</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Public methodology &amp; source list</span></li>
+                        </ul>
+                        <button class="w-full bg-white text-retro-ink border border-retro-ink px-6 py-3 text-sm font-medium hover:bg-retro-ink hover:text-white transition-colors rounded-sm">
+                            Install the extension
+                        </button>
+                    </div>
+
+                    <!-- Tier: Reporter (featured) -->
+                    <div class="bg-white border border-retro-ink rounded-md p-8 flex flex-col reveal border-t-4 border-t-retro-green shadow-[6px_6px_0px_rgba(15,61,46,0.95)] relative">
+                        <span class="absolute -top-3 left-8 bg-retro-green text-white text-[9px] font-mono px-2 py-1 rounded-sm uppercase tracking-widest">Most popular</span>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em]">02 · Individual</span>
+                            <span class="text-[9px] font-mono text-retro-green uppercase tracking-widest">7-day trial</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-retro-ink mb-1 tracking-tight">Reporter</h3>
+                        <p class="text-[13px] text-retro-slate mb-6">For freelance journalists and researchers.</p>
+                        <div class="mb-8 pb-8 border-b border-retro-border">
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-5xl font-semibold text-retro-ink tracking-tight">
+                                    <span class="price-monthly">£29</span><span class="price-annual hidden">£24</span>
+                                </span>
+                                <span class="text-sm text-retro-slate">/ month</span>
+                            </div>
+                            <p class="mt-2 text-[10px] font-mono text-retro-slate uppercase tracking-widest">
+                                <span class="price-monthly">Billed monthly</span><span class="price-annual hidden">Billed £290 annually · save £58</span>
+                            </p>
+                        </div>
+                        <ul class="space-y-3 text-sm text-retro-ink mb-8 flex-1">
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span><strong>Full</strong> entity database (1.2M+ entities)</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Graph search, filtering, and CSV export</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Email alerts on 5 tracked entities</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Personalised bill impact briefings</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Source-cited PDF investigation packs</span></li>
+                        </ul>
+                        <button class="w-full bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+                            Start 7-day trial
+                        </button>
+                    </div>
+
+                    <!-- Tier: Newsroom -->
+                    <div class="bg-retro-bg border border-retro-border rounded-md p-8 flex flex-col reveal">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em]">03 · Team</span>
+                            <span class="text-[9px] font-mono text-retro-green uppercase tracking-widest">Per seat</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-retro-ink mb-1 tracking-tight">Newsroom</h3>
+                        <p class="text-[13px] text-retro-slate mb-6">For newsrooms, NGOs, and oversight bodies.</p>
+                        <div class="mb-8 pb-8 border-b border-retro-border">
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-5xl font-semibold text-retro-ink tracking-tight">
+                                    <span class="price-monthly">£149</span><span class="price-annual hidden">£124</span>
+                                </span>
+                                <span class="text-sm text-retro-slate">/ seat / month</span>
+                            </div>
+                            <p class="mt-2 text-[10px] font-mono text-retro-slate uppercase tracking-widest">
+                                <span class="price-monthly">Billed monthly · 3+ seats</span><span class="price-annual hidden">Billed £1,490 / seat / yr · save £298</span>
+                            </p>
+                        </div>
+                        <ul class="space-y-3 text-sm text-retro-ink mb-8 flex-1">
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Everything in Reporter</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Shared workspaces with audit logs</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Unlimited entity watches &amp; saved queries</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Slack &amp; email alerts on new filings</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>API access (10k requests / mo)</span></li>
+                            <li class="flex gap-3"><span class="text-retro-green font-mono text-xs mt-1">✓</span><span>Priority data refresh (&lt;1 hour)</span></li>
+                        </ul>
+                        <button class="w-full bg-white text-retro-ink border border-retro-ink px-6 py-3 text-sm font-medium hover:bg-retro-ink hover:text-white transition-colors rounded-sm">
+                            Book a newsroom demo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Enterprise / Institution band -->
+                <div class="mt-8 bg-retro-ink text-white rounded-md p-8 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center reveal">
+                    <div class="lg:col-span-7">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-[10px] font-mono uppercase tracking-[0.22em] text-retro-green">04 · Institution</span>
+                            <span class="text-[9px] font-mono uppercase tracking-widest text-white/40">Custom</span>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-semibold tracking-tight mb-3">Regulators, parliamentary committees, large research institutions.</h3>
+                        <p class="text-sm text-white/70 leading-relaxed max-w-2xl">Full API + bulk exports, dedicated SLA, custom data integrations (bring your own sources), on-prem deployment available. Procurement-ready (SOC 2 Type II · UK GDPR).</p>
+                    </div>
+                    <div class="lg:col-span-5 flex flex-col gap-3">
+                        <ul class="space-y-2 text-xs text-white/80">
+                            <li class="flex gap-2"><span class="text-retro-green">→</span> Unlimited seats &amp; API quota</li>
+                            <li class="flex gap-2"><span class="text-retro-green">→</span> Dedicated solutions engineer</li>
+                            <li class="flex gap-2"><span class="text-retro-green">→</span> Custom data licensing &amp; redistribution</li>
+                            <li class="flex gap-2"><span class="text-retro-green">→</span> 99.9% uptime SLA</li>
+                        </ul>
+                        <button class="mt-2 w-full bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm">
+                            Talk to sales
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Discount strip -->
+                <div class="mt-8 flex flex-col md:flex-row gap-2 md:gap-6 md:items-center md:justify-center text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em]">
+                    <span><span class="text-retro-ink">50% off</span> for verified academic researchers</span>
+                    <span class="hidden md:inline text-retro-ink/20">/</span>
+                    <span><span class="text-retro-ink">Free</span> for student journalists &amp; civic-tech</span>
+                    <span class="hidden md:inline text-retro-ink/20">/</span>
+                    <span><span class="text-retro-ink">Open data</span> under CC-BY for non-commercial use</span>
+                </div>
+            </div>
+        </section>
+
+        <script is:inline>
+            (function () {
+                const root = document.getElementById('pricing-toggle');
+                if (!root) return;
+                const buttons = root.querySelectorAll('[data-period-btn]');
+                const cards = document.getElementById('pricing-cards');
+                if (!cards) return;
+                function setPeriod(period) {
+                    root.dataset.period = period;
+                    buttons.forEach(b => {
+                        const active = b.dataset.periodBtn === period;
+                        b.classList.toggle('bg-retro-ink', active);
+                        b.classList.toggle('text-retro-bg', active);
+                        b.classList.toggle('text-retro-slate', !active);
+                    });
+                    cards.querySelectorAll('.price-monthly').forEach(el => el.classList.toggle('hidden', period !== 'monthly'));
+                    cards.querySelectorAll('.price-annual').forEach(el => el.classList.toggle('hidden', period !== 'annual'));
+                }
+                buttons.forEach(b => b.addEventListener('click', () => setPeriod(b.dataset.periodBtn)));
+            })();
+        </script>
+
+        <!-- SECTION 5: ENTERPRISE SECURITY -->
+        <section class="relative bg-retro-bg text-retro-ink py-28 px-8 overflow-hidden border-t border-retro-border" id="security-section">
+            <!-- Faint architectural grid backdrop -->
+            <div class="absolute inset-0 pointer-events-none opacity-[0.05]" style="background-image: linear-gradient(to right, #1A1A1A 1px, transparent 1px), linear-gradient(to bottom, #1A1A1A 1px, transparent 1px); background-size: 72px 72px;"></div>
+
+            <div class="max-w-7xl mx-auto relative">
+                <!-- Section header with technical document framing -->
+                <div class="mb-20">
+                    <!-- Top frame line: doc revision -->
+                    <div class="flex items-center justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-10 border-t border-retro-ink/15 pt-3">
+                        <div class="flex items-center gap-6">
+                            <span>DOC · MET-2026-04</span>
+                            <span class="hidden md:inline">REV · 03</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-1 h-1 rounded-full bg-retro-green"></span>
+                            <span>OPEN METHODOLOGY</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+                        <div class="lg:col-span-7">
+                            <span class="inline-block px-3 py-1 border border-retro-ink/15 bg-white rounded-sm text-[10px] font-mono text-retro-green uppercase tracking-widest mb-6">Methodology</span>
+                            <h2 class="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-retro-ink">
+                                Built to be cited in <span class="italic font-light text-retro-green">the public record.</span>
+                            </h2>
+                        </div>
+                        <div class="lg:col-span-4 lg:col-start-9">
+                            <p class="text-base text-retro-slate leading-relaxed">Primary sources, transparent inference rules, and a correction log every newsroom and oversight body can audit before publishing.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls grid + Trust badge -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+                    <!-- Left: 6 control tiles, hairline grid -->
+                    <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-retro-ink/15">
+
+                        <!-- Tile: Encryption -->
+                        <div class="security-tile relative bg-white/40 px-7 py-8 border-r border-b border-retro-ink/15 transition-colors hover:bg-white">
+                            <div class="text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">01 · CITATIONS</div>
+                            <svg class="w-6 h-6 text-retro-green mb-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="5" y="11" width="14" height="9" rx="0.5" />
+                                <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                            </svg>
+                            <h3 class="text-[15px] font-semibold text-retro-ink mb-2 tracking-tight">Every edge cited</h3>
+                            <p class="text-[11px] text-retro-slate leading-relaxed">Each tie links back to the filing, page, and date it appeared in the public record.</p>
+                            <div class="mt-5 pt-3 border-t border-retro-ink/10 flex items-center justify-between text-[9px] font-mono text-retro-green uppercase tracking-widest">
+                                <span>COVERAGE</span>
+                                <span>99.4%</span>
+                            </div>
+                        </div>
+
+                        <!-- Tile: Access Controls -->
+                        <div class="security-tile relative bg-white/40 px-7 py-8 border-r border-b border-retro-ink/15 transition-colors hover:bg-white">
+                            <div class="text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">02 · INDEPENDENCE</div>
+                            <svg class="w-6 h-6 text-retro-green mb-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="3" />
+                                <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+                            </svg>
+                            <h3 class="text-[15px] font-semibold text-retro-ink mb-2 tracking-tight">No subject funding</h3>
+                            <p class="text-[11px] text-retro-slate leading-relaxed">We don't accept money from politicians, PACs, or companies that appear in the graph.</p>
+                            <div class="mt-5 pt-3 border-t border-retro-ink/10 flex items-center justify-between text-[9px] font-mono text-retro-green uppercase tracking-widest">
+                                <span>STATUS</span>
+                                <span>VERIFIED</span>
+                            </div>
+                        </div>
+
+                        <!-- Tile: Audit Logging -->
+                        <div class="security-tile relative bg-white/40 px-7 py-8 border-r border-b border-retro-ink/15 transition-colors hover:bg-white">
+                            <div class="text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">03 · CORRECTIONS</div>
+                            <svg class="w-6 h-6 text-retro-green mb-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 6h16M4 12h16M4 18h10" />
+                            </svg>
+                            <h3 class="text-[15px] font-semibold text-retro-ink mb-2 tracking-tight">Public revision log</h3>
+                            <p class="text-[11px] text-retro-slate leading-relaxed">Every node, edge, and inference rule has a versioned, public change history.</p>
+                            <div class="mt-5 pt-3 border-t border-retro-ink/10 flex items-center justify-between text-[9px] font-mono text-retro-green uppercase tracking-widest">
+                                <span>STATUS</span>
+                                <span>VERSIONED</span>
+                            </div>
+                        </div>
+
+                        <!-- Tile: Team Management -->
+                        <div class="security-tile relative bg-white/40 px-7 py-8 border-r border-b border-retro-ink/15 transition-colors hover:bg-white">
+                            <div class="text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">04 · COLLABORATION</div>
+                            <svg class="w-6 h-6 text-retro-green mb-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="9" r="3" />
+                                <circle cx="17" cy="10.5" r="2.3" />
+                                <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+                                <path d="M14.5 20c0-2.4 1.9-4.3 4.3-4.3" />
+                            </svg>
+                            <h3 class="text-[15px] font-semibold text-retro-ink mb-2 tracking-tight">Newsroom workspaces</h3>
+                            <p class="text-[11px] text-retro-slate leading-relaxed">Encrypted collaboration with role-based access for reporters and editors.</p>
+                            <div class="mt-5 pt-3 border-t border-retro-ink/10 flex items-center justify-between text-[9px] font-mono text-retro-green uppercase tracking-widest">
+                                <span>STATUS</span>
+                                <span>SSO / RBAC</span>
+                            </div>
+                        </div>
+
+                        <!-- Tile: Network Security -->
+                        <div class="security-tile relative bg-white/40 px-7 py-8 border-r border-b border-retro-ink/15 transition-colors hover:bg-white">
+                            <div class="text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">05 · OPEN DATA</div>
+                            <svg class="w-6 h-6 text-retro-green mb-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="8.5" />
+                                <path d="M3.5 12h17M12 3.5c2.4 2.4 3.8 5.5 3.8 8.5s-1.4 6.1-3.8 8.5M12 3.5c-2.4 2.4-3.8 5.5-3.8 8.5s1.4 6.1 3.8 8.5" />
+                            </svg>
+                            <h3 class="text-[15px] font-semibold text-retro-ink mb-2 tracking-tight">Free for the public</h3>
+                            <p class="text-[11px] text-retro-slate leading-relaxed">Bulk exports under CC-BY for academics, journalists, and civic-tech projects.</p>
+                            <div class="mt-5 pt-3 border-t border-retro-ink/10 flex items-center justify-between text-[9px] font-mono text-retro-green uppercase tracking-widest">
+                                <span>LICENSE</span>
+                                <span>CC-BY 4.0</span>
+                            </div>
+                        </div>
+
+                        <!-- Tile: Monitoring -->
+                        <div class="security-tile relative bg-white/40 px-7 py-8 border-r border-b border-retro-ink/15 transition-colors hover:bg-white">
+                            <div class="text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">06 · REVIEW</div>
+                            <svg class="w-6 h-6 text-retro-green mb-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 13h3l2-5 4 10 2-6 2 3h5" />
+                            </svg>
+                            <h3 class="text-[15px] font-semibold text-retro-ink mb-2 tracking-tight">Human-in-the-loop</h3>
+                            <p class="text-[11px] text-retro-slate leading-relaxed">Ambiguous entity matches and inferred ties are reviewed by domain researchers before publication.</p>
+                            <div class="mt-5 pt-3 border-t border-retro-ink/10 flex items-center justify-between text-[9px] font-mono text-retro-green uppercase tracking-widest">
+                                <span>STATUS</span>
+                                <span>ACTIVE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: SOC 2 Trust certificate (blueprint stamp style) -->
+                    <div class="lg:col-span-4 relative bg-white border border-retro-ink/15 rounded-sm flex flex-col">
+                        <!-- Top doc strip -->
+                        <div class="flex items-center justify-between px-6 py-3 border-b border-retro-ink/15 text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em]">
+                            <span>CERT · METHOD-001</span>
+                            <span>2026-04</span>
+                        </div>
+
+                        <div class="flex-1 flex flex-col items-center text-center px-8 py-10">
+                            <!-- Sketchy concentric SOC 2 seal — blueprint stamp -->
+                            <div class="relative w-48 h-48 mb-7">
+                                <svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full text-retro-green" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Outer ring -->
+                                    <circle cx="50" cy="50" r="48" stroke-width="0.6" />
+                                    <!-- Hatched outer band tick marks -->
+                                    <g stroke-width="0.5" opacity="0.55">
+                                        <line x1="50" y1="2"  x2="50" y2="5" />
+                                        <line x1="50" y1="95" x2="50" y2="98" />
+                                        <line x1="2"  y1="50" x2="5"  y2="50" />
+                                        <line x1="95" y1="50" x2="98" y2="50" />
+                                        <line x1="14" y1="14" x2="16" y2="16" />
+                                        <line x1="84" y1="84" x2="86" y2="86" />
+                                        <line x1="14" y1="86" x2="16" y2="84" />
+                                        <line x1="84" y1="16" x2="86" y2="14" />
+                                    </g>
+                                    <!-- Inner dashed circle -->
+                                    <circle cx="50" cy="50" r="42" stroke-width="0.45" stroke-dasharray="1.4 1.6" opacity="0.7" />
+                                    <!-- Solid inner ring -->
+                                    <circle cx="50" cy="50" r="34" stroke-width="0.6" />
+                                    <!-- Cross-hair through the center -->
+                                    <g stroke-width="0.35" opacity="0.45">
+                                        <line x1="50" y1="20" x2="50" y2="32" />
+                                        <line x1="50" y1="68" x2="50" y2="80" />
+                                        <line x1="20" y1="50" x2="32" y2="50" />
+                                        <line x1="68" y1="50" x2="80" y2="50" />
+                                    </g>
+                                    <!-- Tiny diamond center -->
+                                    <path d="M50 47 L53 50 L50 53 L47 50 Z" stroke-width="0.5" />
+                                </svg>
+                                <!-- Center text -->
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-[8px] font-mono text-retro-green uppercase tracking-[0.3em]">Method</span>
+                                    <span class="mt-1 text-3xl font-semibold text-retro-ink leading-none tracking-tight">v3.0</span>
+                                    <span class="mt-2 text-[7.5px] font-mono text-retro-slate uppercase tracking-[0.22em]">Peer reviewed</span>
+                                </div>
+                            </div>
+
+                            <h3 class="text-base font-semibold text-retro-ink mb-2 tracking-tight">Open Methodology v3</h3>
+                            <p class="text-[11px] text-retro-slate leading-relaxed max-w-[30ch]">Inference rules, source list, and review process — all published and citable.</p>
+                        </div>
+
+                        <a href="#" class="group flex items-center justify-between px-6 py-3 border-t border-retro-ink/15 hover:bg-retro-bg transition-colors">
+                            <span class="text-[10px] font-mono text-retro-ink uppercase tracking-[0.22em]">Read the methodology</span>
+                            <span class="text-retro-green font-mono text-sm transition-transform group-hover:translate-x-1">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Document footer micro-row -->
+                <div class="mt-14 flex flex-col md:flex-row gap-4 md:items-center md:justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] border-t border-retro-ink/15 pt-4">
+                    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+                        <span>SOC 2 TYPE II</span>
+                        <span class="text-retro-ink/20">/</span>
+                        <span>GDPR READY</span>
+                        <span class="text-retro-ink/20">/</span>
+                        <span>CC-BY OPEN DATA</span>
+                        <span class="text-retro-ink/20">/</span>
+                        <span>TBIJ PARTNER</span>
+                    </div>
+                    <div>Last methodology review · 2026-04-22</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+  <script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    import * as THREE from 'three';
+    import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
+    import { prepareWithSegments, measureNaturalWidth } from '@chenglou/pretext';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- Observer API (Basic Revealer) ---
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+
+    // --- Problem Section Text Reveal ---
+    gsap.utils.toArray('.gsap-problem-item').forEach((item: any, i) => {
+        gsap.from(item, {
+            scrollTrigger: {
+                trigger: item,
+                start: "top 85%",
+            },
+            opacity: 0,
+            x: -20,
+            duration: 0.6,
+            ease: "power2.out",
+            delay: i * 0.1
+        });
+    });
+
+    // --- How It Works Pinned Scroll Animation ---
+    const pinContainer = document.querySelector('#pin-container');
+    const scrollSpace = document.querySelector('#scroll-space');
+    
+    if (pinContainer && scrollSpace) {
+        // Pin the container
+        ScrollTrigger.create({
+            trigger: pinContainer,
+            start: "top top",
+            endTrigger: scrollSpace,
+            end: "bottom bottom",
+            pin: true,
+            pinSpacing: false
+        });
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: pinContainer,
+                start: "top top",
+                endTrigger: scrollSpace,
+                end: "bottom bottom",
+                scrub: 1,
+            }
+        });
+
+        // Step 1 -> Step 2
+        tl.to("#step-1", { opacity: 0, y: -50, duration: 1 })
+          .to("#step-2", { opacity: 1, y: 0, duration: 1 }, "-=0.5")
+          .to("#ui-1", { opacity: 0, y: -50, duration: 1 }, "-=1")
+          .to("#ui-2", { opacity: 1, y: 0, duration: 1 }, "-=0.5");
+
+        // Step 2 -> Step 3
+        tl.to("#step-2", { opacity: 0, y: -50, duration: 1 }, "+=1") // Wait a bit
+          .to("#step-3", { opacity: 1, y: 0, duration: 1 }, "-=0.5")
+          .to("#ui-2", { opacity: 0, y: -50, duration: 1 }, "-=1")
+          .to("#ui-3", { opacity: 1, y: 0, duration: 1 }, "-=0.5");
+          
+        tl.to({}, {duration: 1}); // padding at end
+    }
+
+    // --- Contract Parsing Agent Animation ---
+    const parseTl = gsap.timeline({
+        scrollTrigger: { trigger: "#contract-parsing-card", start: "top 80%" },
+        repeat: -1,
+        repeatDelay: 2
+    });
+
+    parseTl.set(".gsap-parsing-status", { innerText: "ANALYZING...", color: "#0F3D2E", borderColor: "#0F3D2E", backgroundColor: "rgba(15,61,46,0.05)" })
+           .fromTo(".gsap-scan-laser", { top: "-3px" }, { top: "100%", duration: 2.5, ease: "linear" });
+
+    parseTl.addLabel("hit-term-1", 0.8)
+           .to(".gsap-doc-highlight-1", { x: "0%", duration: 0.2, ease: "power2.out" }, "hit-term-1")
+           .fromTo(".gsap-extracted-term-1", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, "hit-term-1+=0.2");
+
+    parseTl.addLabel("hit-term-2", 1.8)
+           .to(".gsap-doc-highlight-2", { x: "0%", duration: 0.2, ease: "power2.out" }, "hit-term-2")
+           .fromTo(".gsap-extracted-term-2", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, "hit-term-2+=0.2");
+
+    parseTl.to(".gsap-parsing-status", { innerText: "COMPLETE", color: "#1A5B43", borderColor: "rgba(26,91,67,0.3)", backgroundColor: "rgba(26,91,67,0.1)" }, 2.5)
+           .fromTo(".gsap-confidence-score",
+               { textContent: "0" },
+               {
+                   textContent: "98",
+                   duration: 0.5,
+                   snap: { textContent: 1 },
+                   ease: "power1.out",
+                   onUpdate: function() {
+                       const el = document.querySelector('.gsap-confidence-score');
+                       if (el) { el.innerHTML = this.targets()[0].textContent + '%'; el.classList.add('text-retro-green'); el.classList.remove('text-retro-slate'); }
+                   }
+               }, 2.5);
+
+    parseTl.to(".gsap-parsing-status", { innerText: "AWAITING_DOC", color: "#6B7280", borderColor: "#E5E7EB", backgroundColor: "#F6F7E8", delay: 1.5 })
+           .set([".gsap-extracted-term-1", ".gsap-extracted-term-2"], { opacity: 0 })
+           .set([".gsap-doc-highlight-1", ".gsap-doc-highlight-2"], { x: "-100%" })
+           .set(".gsap-confidence-score", { textContent: "--%", className: "gsap-confidence-score text-retro-slate font-mono font-bold" });
+
+
+    // --- Three.js Wireframe Globe ---
+    const container = document.getElementById('bg-globe-canvas') as HTMLCanvasElement;
+    if (container) {
+        const scene = new THREE.Scene();
+        scene.background = null;
+
+        const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 25;
+
+        const renderer = new THREE.WebGLRenderer({ canvas: container, antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const geometry = new THREE.SphereGeometry(8, 64, 64);
+        const material = new THREE.LineBasicMaterial({ color: 0x0A2E1F, transparent: true, opacity: 0.15 });
+        const edges = new THREE.EdgesGeometry(geometry);
+        const globe = new THREE.LineSegments(edges, material);
+        scene.add(globe);
+
+        const dotGeo = new THREE.BufferGeometry();
+        const dotCount = 50;
+        const positions = new Float32Array(dotCount * 3);
+        
+        for(let i=0; i<dotCount; i++) {
+            const u = Math.random();
+            const v = Math.random();
+            const theta = u * 2.0 * Math.PI;
+            const phi = Math.acos(2.0 * v - 1.0);
+            const r = 8.02;
+            
+            positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+            positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+            positions[i*3+2] = r * Math.cos(phi);
+        }
+        
+        dotGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const dotMat = new THREE.PointsMaterial({ color: 0x0A2E1F, size: 0.05, transparent: true, opacity: 0.6 });
+        const dots = new THREE.Points(dotGeo, dotMat);
+        scene.add(dots);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            globe.rotation.y -= 0.0005;
+            globe.rotation.x += 0.0002;
+            dots.rotation.y -= 0.0005;
+            dots.rotation.x += 0.0002;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            if(container) {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
+        });
+    }
+    // --- Interactive 3D Data Warehouse Schema (Three.js, Blueprint Style) ---
+    const schemaStage = document.getElementById('schema-stage') as HTMLElement | null;
+    const schemaCanvas = document.getElementById('schema-canvas') as HTMLCanvasElement | null;
+    const labelLayer  = document.getElementById('schema-labels') as HTMLElement | null;
+    if (schemaStage && schemaCanvas && labelLayer) {
+        const tooltip = document.getElementById('schema-tooltip')!;
+        const ttTitle  = document.getElementById('tt-title')!;
+        const ttCols   = document.getElementById('tt-cols')!;
+        const ttRows   = document.getElementById('tt-rows')!;
+        const ttSync   = document.getElementById('tt-sync')!;
+        const ttFresh  = document.getElementById('tt-fresh')!;
+        const ttFeeds  = document.getElementById('tt-feeds')!;
+        const ttFrom   = document.getElementById('tt-from')!;
+        const ttPin    = document.getElementById('tt-pin')!;
+
+        type Col = { name: string; type: string; pk?: boolean; fk?: boolean };
+        type Group = 'core' | 'payment' | 'contract' | 'output';
+        type Tier  = 'focal' | 'middle' | 'outer';
+        type NodeMeta = { lastSync: string; freshness: string };
+        type Node = { id: string; label: string; group: Group; tier: Tier; x: number; y: number; z: number; cols: Col[]; rows: string; meta: NodeMeta };
+
+        const groupColor: Record<Group, number> = {
+            core:     0x0F3D2E,
+            payment:  0x1A5B43,
+            contract: 0x8B5E3C,
+            output:   0x4F46E5,
+        };
+        const groupHex: Record<Group, string> = {
+            core:     '#0F3D2E',
+            payment:  '#1A5B43',
+            contract: '#8B5E3C',
+            output:   '#4F46E5',
+        };
+
+        // Hub-and-spoke arrangement: influence_graph is the focal node (lower-center, forward).
+        // Middle tier: officials, donations, lobbying (transform / logic).
+        // Outer tier: mandates, companies, politicians, procurement (raw inputs, set further back).
+        const nodes: Node[] = [
+            { id:'influence_graph', label:'influence_graph', group:'output',   tier:'focal',  x: 0.1, y:-0.8, z: 0.6,
+              cols:[{name:'graph_id',type:'BIGINT',pk:true},{name:'politician_id',type:'INT',fk:true},{name:'company_id',type:'INT',fk:true},{name:'tie_type',type:'VARCHAR'},{name:'strength',type:'DECIMAL'},{name:'period',type:'DATE'},{name:'updated_at',type:'TIMESTAMP'}],
+              rows:'Live view',          meta:{ lastSync:'streaming',  freshness:'real-time' } },
+
+            { id:'officials',    label:'officials',    group:'core',     tier:'middle', x: 0.0, y: 1.2, z:-0.1,
+              cols:[{name:'official_id',type:'BIGINT',pk:true},{name:'name',type:'VARCHAR'},{name:'office',type:'VARCHAR'},{name:'constituency',type:'VARCHAR'},{name:'party',type:'CHAR(3)'},{name:'term_start',type:'DATE'}],
+              rows:'543K rows',          meta:{ lastSync:'4 min ago',  freshness:'99.8%' } },
+            { id:'donations',      label:'donations',      group:'payment',  tier:'middle', x:-1.6, y: 0.3, z: 0.1,
+              cols:[{name:'donation_id',type:'BIGINT',pk:true},{name:'politician_id',type:'INT',fk:true},{name:'donor_id',type:'INT',fk:true},{name:'amount',type:'DECIMAL'},{name:'filing_date',type:'DATE'},{name:'source',type:'VARCHAR'}],
+              rows:'18.2M rows',         meta:{ lastSync:'2 min ago',  freshness:'99.4%' } },
+            { id:'lobbying',   label:'lobbying',   group:'payment',  tier:'middle', x: 1.7, y: 0.3, z: 0.1,
+              cols:[{name:'filing_id',type:'VARCHAR',pk:true},{name:'client_id',type:'INT',fk:true},{name:'firm_id',type:'INT',fk:true},{name:'amount',type:'DECIMAL'},{name:'issue',type:'VARCHAR'},{name:'quarter',type:'CHAR(6)'}],
+              rows:'4.2M rows',          meta:{ lastSync:'live · 12s', freshness:'99.9%' } },
+
+            { id:'mandates',     label:'mandates',     group:'contract', tier:'outer',  x:-2.9, y: 1.5, z:-0.9,
+              cols:[{name:'mandate_id',type:'INT',pk:true},{name:'client_id',type:'INT',fk:true},{name:'firm_id',type:'INT',fk:true},{name:'amount',type:'DECIMAL'},{name:'issues',type:'VARCHAR'},{name:'start_date',type:'DATE'},{name:'end_date',type:'DATE'}],
+              rows:'12.4K rows',         meta:{ lastSync:'14 min ago', freshness:'97.2%' } },
+            { id:'companies',       label:'companies',       group:'contract', tier:'outer',  x:-3.1, y:-0.5, z:-0.7,
+              cols:[{name:'company_id',type:'INT',pk:true},{name:'name',type:'VARCHAR'},{name:'jurisdiction',type:'CHAR(2)'},{name:'sic_code',type:'VARCHAR'},{name:'parent_id',type:'INT',fk:true}],
+              rows:'1.4M rows',          meta:{ lastSync:'1 h ago',    freshness:'98.6%' } },
+            { id:'procurement',     label:'procurement',     group:'payment',  tier:'outer',  x: 3.0, y: 1.5, z:-0.9,
+              cols:[{name:'contract_id',type:'INT',pk:true},{name:'agency',type:'VARCHAR'},{name:'company_id',type:'INT',fk:true},{name:'amount',type:'DECIMAL'},{name:'award_date',type:'DATE'}],
+              rows:'340K rows',          meta:{ lastSync:'24 min ago', freshness:'95.1%' } },
+            { id:'politicians',     label:'politicians',     group:'core',     tier:'outer',  x: 3.1, y:-0.5, z:-0.7,
+              cols:[{name:'politician_id',type:'INT',pk:true},{name:'name',type:'VARCHAR'},{name:'party',type:'CHAR(3)'},{name:'constituency',type:'VARCHAR'},{name:'chamber',type:'VARCHAR'},{name:'official_id',type:'INT',fk:true}],
+              rows:'12.6K rows',         meta:{ lastSync:'6 min ago',  freshness:'99.1%' } },
+        ];
+
+        const edges: [string,string][] = [
+            ['donations','companies'],['donations','mandates'],['companies','mandates'],
+            ['donations','officials'],['procurement','officials'],
+            ['lobbying','politicians'],['politicians','influence_graph'],
+            ['officials','influence_graph'],['donations','influence_graph'],
+            ['lobbying','influence_graph'],['mandates','influence_graph'],
+        ];
+
+        const SPACING = 1.7;
+        const BOX_D = 0.5;
+        // Tier-based widths — focal larger, outer smaller. Boxes never resize on hover/click.
+        const TIER_BOX_W: Record<Tier, number> = { focal: 1.95, middle: 1.55, outer: 1.30 };
+        const boxWidthFor = (n: Node) => TIER_BOX_W[n.tier];
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(36, schemaStage.clientWidth / schemaStage.clientHeight, 0.1, 100);
+        const renderer = new THREE.WebGLRenderer({ canvas: schemaCanvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+
+        // CSS3DRenderer for HTML cards that rotate in real 3D space with the scene
+        const css3d = new CSS3DRenderer();
+        css3d.setSize(schemaStage.clientWidth, schemaStage.clientHeight);
+        css3d.domElement.style.position = 'absolute';
+        css3d.domElement.style.top = '0';
+        css3d.domElement.style.left = '0';
+        css3d.domElement.style.width = '100%';
+        css3d.domElement.style.height = '100%';
+        css3d.domElement.style.pointerEvents = 'none';
+        labelLayer.appendChild(css3d.domElement);
+
+        const root = new THREE.Group();
+        scene.add(root);
+
+        // Architectural floor grid (kept faint — atmospheric depth, not competing structure)
+        const floor = new THREE.GridHelper(22, 22, 0x1A1A1A, 0x1A1A1A);
+        (floor.material as THREE.LineBasicMaterial).transparent = true;
+        (floor.material as THREE.LineBasicMaterial).opacity = 0.06;
+        floor.position.y = -2.6;
+        root.add(floor);
+
+        // Back wall grid — even quieter
+        const back = new THREE.GridHelper(16, 16, 0x1A1A1A, 0x1A1A1A);
+        (back.material as THREE.LineBasicMaterial).transparent = true;
+        (back.material as THREE.LineBasicMaterial).opacity = 0.035;
+        back.rotation.x = Math.PI / 2;
+        back.position.z = -5;
+        root.add(back);
+
+
+        // Table wireframe boxes (the architectural cages) + CSS3D HTML cards
+        type BoxEntry = {
+            node: Node;
+            outerMat: THREE.LineBasicMaterial;
+            innerMat: THREE.LineBasicMaterial;
+            fillMat: THREE.MeshBasicMaterial;
+            hitMesh: THREE.Mesh;
+            group: THREE.Group;
+            labelEl: HTMLDivElement;
+            worldPos: THREE.Vector3;
+            boxW: number;
+            boxH: number;
+            colWorldH: number; // world-space height of each column row
+            cardOffsetTop: number; // world units from top of card to first column row
+        };
+        const boxes: BoxEntry[] = [];
+
+        // Hidden measurement host so we can read the natural pixel height of each card
+        const measureHost = document.createElement('div');
+        measureHost.style.cssText = 'position:absolute; visibility:hidden; pointer-events:none; left:-9999px; top:0;';
+        document.body.appendChild(measureHost);
+
+        for (const n of nodes) {
+            const g = new THREE.Group();
+
+            // HTML card markup — cap visible columns to 4 by default; reveal the rest on hover
+            const DEFAULT_VISIBLE = 4;
+            const visibleCols = n.cols.slice(0, DEFAULT_VISIBLE);
+            const extraCols   = n.cols.slice(DEFAULT_VISIBLE);
+            const tierClass   = `is-${n.tier}`;
+
+            const el = document.createElement('div');
+            el.className = `schema-label ${tierClass}`;
+            el.dataset.table = n.id;
+            el.innerHTML = `
+                <div class="schema-card" style="--accent:${groupHex[n.group]}">
+                    <div class="schema-card-header">
+                        <span>${n.label}</span>
+                        <span class="schema-card-rows">${n.rows}</span>
+                    </div>
+                    <div class="schema-card-body">
+                        ${visibleCols.map(c => `
+                            <div class="schema-col ${c.pk?'is-pk':c.fk?'is-fk':''}" data-col="${c.name}">
+                                <span class="schema-col-tag">${c.pk?'PK':c.fk?'FK':''}</span>
+                                <span class="schema-col-name">${c.name}</span>
+                                <span class="schema-col-type">${c.type}</span>
+                            </div>`).join('')}
+                        ${extraCols.length ? `<div class="schema-col-more">+ ${extraCols.length} more</div>` : ''}
+                        ${extraCols.map(c => `
+                            <div class="schema-col is-extra ${c.pk?'is-pk':c.fk?'is-fk':''}" data-col="${c.name}">
+                                <span class="schema-col-tag">${c.pk?'PK':c.fk?'FK':''}</span>
+                                <span class="schema-col-name">${c.name}</span>
+                                <span class="schema-col-type">${c.type}</span>
+                            </div>`).join('')}
+                    </div>
+                </div>`;
+
+            // Measure pixel dimensions in normal flow
+            measureHost.appendChild(el);
+            const cardPxW = el.offsetWidth || 178;
+            const cardPxH = el.offsetHeight || 120;
+            const headerEl = el.querySelector('.schema-card-header') as HTMLElement;
+            const firstColEl = el.querySelector('.schema-col') as HTMLElement;
+            const headerPxH = headerEl?.offsetHeight ?? 22;
+            const colPxH = firstColEl?.offsetHeight ?? 15;
+            measureHost.removeChild(el);
+
+            const boxW = boxWidthFor(n);
+            const scale = boxW / cardPxW;
+            const boxH = cardPxH * scale;
+            const colWorldH = colPxH * scale;
+            const cardOffsetTop = headerPxH * scale;
+
+            // Translucent paper-colored fill — defines the box volume without obscuring the structure
+            const fillMat = new THREE.MeshBasicMaterial({
+                color: 0xFBFCEE,
+                transparent: true,
+                opacity: 0.32,
+                side: THREE.DoubleSide,
+                depthWrite: false,
+            });
+            const fillMesh = new THREE.Mesh(new THREE.BoxGeometry(boxW * 0.995, boxH * 0.995, BOX_D * 0.995), fillMat);
+            fillMesh.renderOrder = -1; // draw underneath the cage lines
+            g.add(fillMesh);
+
+            // Outer pencil-stroke cage
+            const outerGeo = new THREE.BoxGeometry(boxW, boxH, BOX_D);
+            const outerEdges = new THREE.EdgesGeometry(outerGeo);
+            const outerMat = new THREE.LineBasicMaterial({ color: 0x1A1A1A, transparent: true, opacity: 0.55 });
+            g.add(new THREE.LineSegments(outerEdges, outerMat));
+
+            // Inner colored cage — group accent
+            const innerGeo = new THREE.BoxGeometry(boxW - 0.08, boxH - 0.06, BOX_D - 0.10);
+            const innerEdges = new THREE.EdgesGeometry(innerGeo);
+            const innerMat = new THREE.LineBasicMaterial({ color: groupColor[n.group], transparent: true, opacity: 0.30 });
+            g.add(new THREE.LineSegments(innerEdges, innerMat));
+
+            // Invisible hit mesh for raycasting
+            const hitGeo = new THREE.BoxGeometry(boxW, boxH, BOX_D);
+            const hitMat = new THREE.MeshBasicMaterial({ visible: false });
+            const hitMesh = new THREE.Mesh(hitGeo, hitMat);
+            g.add(hitMesh);
+
+            // CSS3D card lives on the front face of the cage and rotates with it
+            const cardObj = new CSS3DObject(el);
+            cardObj.position.set(0, 0, BOX_D / 2 + 0.001);
+            cardObj.scale.set(scale, scale, scale);
+            g.add(cardObj);
+
+            // Mirror card on the back face so the table is readable from both sides
+            const elBack = el.cloneNode(true) as HTMLDivElement;
+            elBack.classList.add('schema-label-back');
+            const cardObjBack = new CSS3DObject(elBack);
+            cardObjBack.position.set(0, 0, -(BOX_D / 2 + 0.001));
+            cardObjBack.rotation.y = Math.PI;
+            cardObjBack.scale.set(scale, scale, scale);
+            g.add(cardObjBack);
+
+            g.position.set(n.x * SPACING, n.y * SPACING, n.z * SPACING);
+            root.add(g);
+
+            boxes.push({ node: n, outerMat, innerMat, fillMat, hitMesh, group: g, labelEl: el, worldPos: new THREE.Vector3(), boxW, boxH, colWorldH, cardOffsetTop });
+        }
+
+        document.body.removeChild(measureHost);
+
+        // Edges as quadratic-bezier sketch lines
+        type EdgeEntry = { aId: string; bId: string; mat: THREE.LineBasicMaterial };
+        const edges3D: EdgeEntry[] = [];
+        for (const [aid, bid] of edges) {
+            const a = nodes.find(x=>x.id===aid)!;
+            const b = nodes.find(x=>x.id===bid)!;
+            const start = new THREE.Vector3(a.x*SPACING, a.y*SPACING, a.z*SPACING);
+            const end   = new THREE.Vector3(b.x*SPACING, b.y*SPACING, b.z*SPACING);
+            const geo = new THREE.BufferGeometry().setFromPoints([start, end]);
+            const mat = new THREE.LineBasicMaterial({ color: 0x1A1A1A, transparent: true, opacity: 0.07 });
+            root.add(new THREE.Line(geo, mat));
+            edges3D.push({ aId: aid, bId: bid, mat });
+        }
+
+        // Interaction state
+        const raycaster = new THREE.Raycaster();
+        const mouseNDC = new THREE.Vector2(-2, -2);
+        let mouseScreenX = 0, mouseScreenY = 0;
+        let hoveredId: string | null = null;
+
+        let isDragging = false, lastX = 0, lastY = 0;
+        let targetRotY = 0.55, targetRotX = 0.22, rotY = 0.55, rotX = 0.22;
+        let targetZoom = 1.0, zoom = 1.0;
+
+        // Insight-cycle state (driven outside the tick loop)
+        const activeTables = new Set<string>();
+        const activeEdgeKeys = new Set<string>();
+
+        // Click-to-pin state for the detail tooltip
+        let pinnedId: string | null = null;
+        let downX = 0, downY = 0, downTime = 0;
+
+        // --- Agent reasoning traces (animated straight lines between specific columns) ---
+        type Trace = {
+            start: THREE.Vector3;
+            end: THREE.Vector3;
+            startTime: number;
+            duration: number;
+            line: THREE.Line;
+            mat: THREE.LineBasicMaterial;
+            geo: THREE.BufferGeometry;
+        };
+        const traceLines: Trace[] = [];
+
+        // Position of a specific column row on a table, in root's local frame
+        // (each box group is a direct child of root with translation only, so we
+        // can add the local offset to the group's position without using matrices).
+        function colLocalPos(table: string, col: string, side: 'in' | 'out'): THREE.Vector3 {
+            const b = boxes.find(x => x.node.id === table)!;
+            const idx = Math.max(0, b.node.cols.findIndex(c => c.name === col));
+            const numCols = b.node.cols.length;
+            const colsArea = b.boxH - b.cardOffsetTop;
+            const yLocal = (b.boxH / 2) - b.cardOffsetTop - (idx + 0.5) * (colsArea / numCols);
+            const xLocal = (side === 'out' ? 1 : -1) * (b.boxW / 2 + 0.04);
+            return new THREE.Vector3(
+                b.group.position.x + xLocal,
+                b.group.position.y + yLocal,
+                b.group.position.z + BOX_D / 2,
+            );
+        }
+
+        function addTrace(fromTable: string, fromCol: string, toTable: string, toCol: string) {
+            const fromCenter = boxes.find(x => x.node.id === fromTable)!.node.x;
+            const toCenter   = boxes.find(x => x.node.id === toTable)!.node.x;
+            const fromSide: 'in' | 'out' = toCenter >= fromCenter ? 'out' : 'in';
+            const toSide:   'in' | 'out' = toCenter >= fromCenter ? 'in'  : 'out';
+            const start = colLocalPos(fromTable, fromCol, fromSide);
+            const end   = colLocalPos(toTable,   toCol,   toSide);
+
+            const mat = new THREE.LineBasicMaterial({ color: 0x0F3D2E, transparent: true, opacity: 0.92 });
+            // Two-vertex buffer: we animate the second vertex from start → end to "draw" the line
+            const geo = new THREE.BufferGeometry();
+            const positions = new Float32Array(6);
+            positions[0] = start.x; positions[1] = start.y; positions[2] = start.z;
+            positions[3] = start.x; positions[4] = start.y; positions[5] = start.z;
+            geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const line = new THREE.Line(geo, mat);
+            root.add(line);
+
+            traceLines.push({ start, end, startTime: performance.now(), duration: 650, line, mat, geo });
+        }
+
+        function updateTrace(tr: Trace) {
+            const t = Math.min(1, (performance.now() - tr.startTime) / tr.duration);
+            const eased = t < 1 ? 1 - Math.pow(1 - t, 3) : 1;
+            const arr = (tr.geo.attributes.position as THREE.BufferAttribute).array as Float32Array;
+            // Animate the end vertex along the straight segment from start → end
+            arr[3] = tr.start.x + (tr.end.x - tr.start.x) * eased;
+            arr[4] = tr.start.y + (tr.end.y - tr.start.y) * eased;
+            arr[5] = tr.start.z + (tr.end.z - tr.start.z) * eased;
+            (tr.geo.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+            // Steady opacity once drawn — no pulsing
+            if (t >= 1) tr.mat.opacity = 0.85;
+        }
+
+        function clearTraces() {
+            for (const tr of traceLines) {
+                root.remove(tr.line);
+                tr.geo.dispose();
+                tr.mat.dispose();
+            }
+            traceLines.length = 0;
+        }
+
+        schemaCanvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            lastX = e.clientX; lastY = e.clientY;
+            downX = e.clientX; downY = e.clientY;
+            downTime = performance.now();
+        });
+        window.addEventListener('mouseup', (e) => {
+            if (isDragging) {
+                const dx = e.clientX - downX, dy = e.clientY - downY;
+                const moved = Math.sqrt(dx * dx + dy * dy);
+                const dt    = performance.now() - downTime;
+                // Treat short, low-movement releases as clicks → toggle pinned card
+                if (moved < 6 && dt < 400) {
+                    pinnedId = (hoveredId && pinnedId === hoveredId) ? null : hoveredId;
+                }
+            }
+            isDragging = false;
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            targetRotY += (e.clientX - lastX) * 0.006;
+            targetRotX = Math.max(-0.7, Math.min(0.7, targetRotX + (e.clientY - lastY) * 0.005));
+            lastX = e.clientX; lastY = e.clientY;
+        });
+        schemaCanvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            targetZoom = Math.max(0.5, Math.min(2.4, targetZoom - e.deltaY * 0.001));
+        }, { passive: false });
+
+        schemaCanvas.addEventListener('mousemove', (e) => {
+            const r = schemaCanvas.getBoundingClientRect();
+            mouseScreenX = e.clientX - r.left;
+            mouseScreenY = e.clientY - r.top;
+            mouseNDC.x =  (mouseScreenX / r.width)  * 2 - 1;
+            mouseNDC.y = -(mouseScreenY / r.height) * 2 + 1;
+        });
+        schemaCanvas.addEventListener('mouseleave', () => {
+            mouseNDC.set(-2, -2);
+            hoveredId = null;
+            tooltip.style.opacity = '0';
+        });
+
+        function resize() {
+            const w = schemaStage!.clientWidth, h = schemaStage!.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h, false);
+            css3d.setSize(w, h);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function tick() {
+            try {
+            rotY  += (targetRotY  - rotY)  * 0.08;
+            rotX  += (targetRotX  - rotX)  * 0.08;
+            zoom  += (targetZoom  - zoom)  * 0.08;
+            // No auto-sway — the scene only moves when the user drags / scrolls.
+
+            root.rotation.y = rotY;
+            root.rotation.x = rotX;
+            camera.position.set(0, 0, 11 / zoom);
+            camera.lookAt(0, 0, 0);
+
+            // Hover detection (against invisible hit meshes inside each cage)
+            raycaster.setFromCamera(mouseNDC, camera);
+            const hits = raycaster.intersectObjects(boxes.map(b => b.hitMesh), false);
+            const hitMesh = hits[0]?.object;
+            const hit = hitMesh ? boxes.find(b => b.hitMesh === hitMesh) || null : null;
+            hoveredId = hit ? hit.node.id : null;
+
+            const stageW = schemaStage!.clientWidth, stageH = schemaStage!.clientHeight;
+
+            // Visual hierarchy baselines by tier — every table stays readable; tier just nudges weight.
+            const baseByTier: Record<Tier, { outer: number; inner: number }> = {
+                focal:  { outer: 0.90, inner: 0.55 },
+                middle: { outer: 0.78, inner: 0.45 },
+                outer:  { outer: 0.62, inner: 0.32 },
+            };
+            const hasActiveInsight = activeTables.size > 0;
+
+            for (const b of boxes) {
+                b.group.getWorldPosition(b.worldPos);
+
+                const isHov    = hoveredId === b.node.id;
+                const isPinned = pinnedId  === b.node.id;
+                const isActive = activeTables.has(b.node.id) || isPinned;
+                const isDimmed = hasActiveInsight && !isActive && !isHov;
+
+                // Atmospheric fade — distant nodes recede
+                const dist = camera.position.distanceTo(b.worldPos);
+                const fade = THREE.MathUtils.clamp((14.5 - dist) / 6, 0.55, 1);
+
+                // Compute cage + fill opacities
+                // Non-involved tables during an insight stay readable (just slightly muted)
+                // so the active ones can glow brighter rather than dimming the rest into the floor.
+                let outerOp: number, innerOp: number, fillOp: number;
+                const base = baseByTier[b.node.tier];
+                if (isHov)         { outerOp = 0.98;          innerOp = 0.88;          fillOp = 0.45; }
+                else if (isActive) { outerOp = 0.95;          innerOp = 0.82;          fillOp = 0.48; }
+                else if (isDimmed) { outerOp = base.outer * 0.78; innerOp = base.inner * 0.78; fillOp = 0.28; }
+                else               { outerOp = base.outer;   innerOp = base.inner;   fillOp = 0.34; }
+                b.outerMat.opacity = outerOp * fade;
+                b.innerMat.opacity = innerOp * fade;
+                b.fillMat.opacity  = fillOp * (0.78 + 0.22 * fade);
+
+                // Card opacity — keep cards readable even when dimmed; active cards pop via cage brightness instead
+                const cardOp = isDimmed ? 0.65 : (0.78 + 0.22 * fade);
+
+                // Toggle classes + opacity on every copy of this table's card (front + back)
+                labelLayer!.querySelectorAll<HTMLElement>(`.schema-label[data-table="${b.node.id}"]`).forEach(el => {
+                    el.classList.toggle('is-hovered', isHov);
+                    el.classList.toggle('is-active', isActive && !isHov);
+                    el.classList.toggle('is-pinned', isPinned && !isHov);
+                    el.classList.toggle('is-dimmed', isDimmed);
+                    el.style.opacity = String(cardOp);
+                });
+            }
+
+            // Edge emphasis — quieter inactive, stronger active
+            for (const e of edges3D) {
+                const lit = hoveredId === e.aId || hoveredId === e.bId;
+                const insightLit = activeEdgeKeys.has(`${e.aId}|${e.bId}`) || activeEdgeKeys.has(`${e.bId}|${e.aId}`);
+                e.mat.opacity = lit ? 0.78 : insightLit ? 0.55 : (hasActiveInsight ? 0.03 : 0.07);
+                e.mat.color.setHex(lit || insightLit ? 0x0F3D2E : 0x1A1A1A);
+            }
+
+            // Trace lines (agent reasoning) — draw progress 0 → 1
+            for (const tr of traceLines) updateTrace(tr);
+
+            // Tooltip — hover wins; if nothing is hovered but a card is pinned, anchor it to that card
+            const detailId = hoveredId || pinnedId;
+            if (detailId) {
+                const b = boxes.find(x => x.node.id === detailId)!;
+                ttTitle.textContent = b.node.label;
+                ttCols.innerHTML = b.node.cols.map(c =>
+                    `<p class="text-[9px] font-mono ${c.pk?'text-retro-green':c.fk?'text-retro-ledger':'text-retro-slate'}">${c.pk?'● ':c.fk?'↳ ':'  '}${c.name} <span class="opacity-50">${c.type}</span></p>`
+                ).join('');
+                ttRows.textContent  = b.node.rows;
+                ttSync.textContent  = b.node.meta.lastSync;
+                ttFresh.textContent = b.node.meta.freshness;
+                const feeds = edges.filter(([a]) => a === b.node.id).map(([,c]) => c);
+                const from  = edges.filter(([,c]) => c === b.node.id).map(([a]) => a);
+                ttFeeds.textContent = feeds.length ? `→ feeds  ${feeds.join(', ')}` : '→ no downstream';
+                ttFrom.textContent  = from.length  ? `← from   ${from.join(', ')}`  : '← root input';
+                ttPin.style.opacity = (pinnedId === b.node.id) ? '1' : '0';
+
+                // Position: follow cursor when hovering, otherwise pin to the node's screen position
+                let tx: number, ty: number;
+                if (hoveredId) {
+                    tx = Math.min(mouseScreenX + 14, stageW - 240);
+                    ty = Math.min(mouseScreenY + 14, stageH - 220);
+                } else {
+                    const p = b.worldPos.clone().project(camera);
+                    const sx = (p.x * 0.5 + 0.5) * stageW;
+                    const sy = (-p.y * 0.5 + 0.5) * stageH;
+                    tx = Math.min(Math.max(8, sx + 24), stageW - 240);
+                    ty = Math.min(Math.max(8, sy + 8), stageH - 220);
+                }
+                tooltip.style.transform = `translate(${tx}px, ${ty}px)`;
+                tooltip.style.opacity = '1';
+                schemaCanvas!.style.cursor = hoveredId ? 'pointer' : (isDragging ? 'grabbing' : 'grab');
+            } else {
+                tooltip.style.opacity = '0';
+                schemaCanvas!.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+
+            renderer.render(scene, camera);
+            css3d.render(scene, camera);
+            } catch (err) {
+                // Never let an exception stop the render loop — log and keep going.
+                console.error('[schema tick]', err);
+            }
+            requestAnimationFrame(tick);
+        }
+        tick();
+
+        // --- Agent insight cycle ---
+        type Insight = {
+            tag: string;
+            loading: string[];
+            path: { table: string; col: string }[];
+            edges: [string, string][];
+            text: string;
+            detail: string;
+        };
+
+        const insights: Insight[] = [
+            {
+                tag: 'Hidden Donor',
+                loading: ['scanning donations…', 'cross-referencing companies.parent_id…', 'resolving into influence_graph…'],
+                path: [
+                    { table: 'donations',       col: 'amount' },
+                    { table: 'companies',       col: 'parent_id' },
+                    { table: 'influence_graph', col: 'strength' },
+                ],
+                edges: [['donations','companies'], ['companies','influence_graph']],
+                text: 'A donor\'s parent company also lobbies on bills they fund.',
+                detail: 'Donor gave £96k · parent hired same firm one week later',
+            },
+            {
+                tag: 'Voting Pattern',
+                loading: ['joining politicians ⨯ lobbying…', 'matching by issue…', 'resolving into influence_graph…'],
+                path: [
+                    { table: 'politicians',     col: 'constituency' },
+                    { table: 'lobbying',        col: 'issue' },
+                    { table: 'influence_graph', col: 'tie_type' },
+                ],
+                edges: [['lobbying','politicians'], ['politicians','influence_graph']],
+                text: 'Three MPs voted with the lobbying client on every division.',
+                detail: '8 of 8 votes aligned · cross-checked with lobby register',
+            },
+            {
+                tag: 'Shell Network',
+                loading: ['indexing companies.parent_id…', 'matching shared registered agents…', 'resolving into influence_graph…'],
+                path: [
+                    { table: 'mandates',        col: 'end_date' },
+                    { table: 'companies',       col: 'jurisdiction' },
+                    { table: 'influence_graph', col: 'strength' },
+                ],
+                edges: [['companies','mandates'], ['mandates','influence_graph']],
+                text: 'Twelve donors share the same registered agent in Jersey.',
+                detail: 'Likely common beneficial owner — flagged for review',
+            },
+            {
+                tag: 'Undisclosed Tie',
+                loading: ['scanning donations.amount clusters…', 'grouping by company_id…', 'resolving into influence_graph…'],
+                path: [
+                    { table: 'donations',       col: 'amount' },
+                    { table: 'companies',       col: 'company_id' },
+                    { table: 'influence_graph', col: 'strength' },
+                ],
+                edges: [['donations','companies'], ['donations','influence_graph']],
+                text: 'Donor holds a board seat at recipient PAC — never disclosed.',
+                detail: '£22,400 in donations · board appointment 2023-04',
+            },
+        ];
+
+        const panel = document.getElementById('agent-panel')!;
+        const statusEl = document.getElementById('agent-status')!;
+        const loadingEl = document.getElementById('agent-loading')!;
+        const loadingText = document.getElementById('agent-loading-text')!;
+        const insightEl = document.getElementById('agent-insight')!;
+        const insightTag = document.getElementById('agent-insight-tag')!;
+        const insightText = document.getElementById('agent-insight-text')!;
+        const insightDetail = document.getElementById('agent-insight-detail')!;
+
+        const wait = (ms: number) => new Promise<void>(res => setTimeout(res, ms));
+
+        function litCols(table: string, col: string) {
+            return labelLayer!.querySelectorAll<HTMLElement>(`.schema-label[data-table="${table}"] .schema-col[data-col="${col}"]`);
+        }
+
+        function clearActive() {
+            activeTables.clear();
+            activeEdgeKeys.clear();
+            labelLayer!.querySelectorAll('.schema-col.is-lit').forEach(el => el.classList.remove('is-lit'));
+            clearTraces();
+        }
+
+        async function runInsight(ins: Insight) {
+            // Always start from a clean slate so an interrupted previous run
+            // can't leak lit columns, active edges, or stray trace lines.
+            clearActive();
+            panel.style.opacity = '1';
+            panel.dataset.phase = 'loading';
+            insightEl.classList.add('hidden');
+            loadingEl.classList.remove('hidden');
+            statusEl.textContent = 'scanning';
+
+            try {
+                for (let i = 0; i < ins.loading.length; i++) {
+                    loadingText.textContent = ins.loading[i];
+                    const step = ins.path[i];
+                    if (step) {
+                        activeTables.add(step.table);
+                        litCols(step.table, step.col).forEach(el => el.classList.add('is-lit'));
+                        const prev = ins.path[i - 1];
+                        if (prev) addTrace(prev.table, prev.col, step.table, step.col);
+                    }
+                    if (i < ins.edges.length) {
+                        const [a, b] = ins.edges[i];
+                        activeEdgeKeys.add(`${a}|${b}`);
+                    }
+                    await wait(900);
+                }
+
+                // Phase 2 — reveal
+                panel.dataset.phase = 'reveal';
+                statusEl.textContent = 'insight';
+                loadingEl.classList.add('hidden');
+                insightEl.classList.remove('hidden');
+                insightTag.textContent = ins.tag;
+                insightText.textContent = ins.text;
+                insightDetail.textContent = ins.detail;
+
+                await wait(4200);
+            } finally {
+                // Phase 3 — fade (always runs, even on error)
+                panel.style.opacity = '0';
+                panel.dataset.phase = 'idle';
+                await wait(600);
+                clearActive();
+            }
+        }
+
+        async function cycle() {
+            // Brief settle delay before first insight; cycle runs continuously regardless of user input
+            await wait(1200);
+            let i = 0;
+            while (true) {
+                try {
+                    await runInsight(insights[i % insights.length]);
+                } catch (err) {
+                    console.error('[agent insight]', err);
+                    clearActive();
+                    panel.style.opacity = '0';
+                }
+                i++;
+                await wait(600);
+            }
+        }
+        cycle();
+    }
+
+    // --- Alternative Hero: Ingest Lens (insight chips revealed by displacement) ---
+    const lensStage = document.getElementById('lens-stage') as HTMLElement | null;
+    const lensCanvas = document.getElementById('lens-canvas') as HTMLCanvasElement | null;
+    if (lensStage && lensCanvas) {
+        const lensStats = document.getElementById('lens-stats')!;
+        const ctx = lensCanvas.getContext('2d', { alpha: true })!;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        const FONT = '12px "IBM Plex Mono", ui-monospace, monospace';
+        const FONT_CHIP = '600 14px "Inter", system-ui, sans-serif';
+        const FONT_CHIP_SMALL = '600 10px "Inter", system-ui, sans-serif';
+        const LINE_HEIGHT = 13;
+
+        function sizeLens() {
+            const w = lensStage!.clientWidth, h = lensStage!.clientHeight;
+            lensCanvas!.width  = Math.floor(w * dpr);
+            lensCanvas!.height = Math.floor(h * dpr);
+            lensCanvas!.style.width  = w + 'px';
+            lensCanvas!.style.height = h + 'px';
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            ctx.textBaseline = 'alphabetic';
+        }
+        sizeLens();
+        window.addEventListener('resize', sizeLens);
+
+        // --- Scrolling raw event lines ---
+        type Line = { raw: string; y: number; speed: number; offset: number; rawWidth: number };
+
+        const companies   = ['acme_corp','globex_inc','umbrella_co','vandelay','initech','tyrell','hooli','soylent','massive_dyn','pied_piper','wonka_ltd','dunder_mifflin','wayne_ent'];
+        const merchants = ['EC','Lobby Register','Companies House','Contracts Finder','OpenCorporates'];
+        const currencies = ['USD','EUR','GBP','CAD','AUD','SGD'];
+        const events    = ['donation.filed','lobbying.registered','contract.awarded','board.appointed','disclosure.amended','filing.late','ubo.linked'];
+        const txCodes   = ['ec_0007621','orcl_2026Q1_042','ch_09876543','ch_SC287614','cf_CCS-2026-021','ted_2026-OJS84','ec_0014902'];
+        const months    = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+        const pick = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
+        const pad2 = (n: number) => String(n).padStart(2, '0');
+
+        function makeRaw(): string {
+            const vendor   = pick(companies);
+            const merchant = pick(merchants);
+            const cur      = pick(currencies);
+            const amt      = (Math.random() * 9900 + 100).toFixed(2);
+            const fee      = (parseFloat(amt) * 0.029 + 0.30).toFixed(2);
+            const net      = (parseFloat(amt) - parseFloat(fee)).toFixed(2);
+            const code     = pick(txCodes) + '_' + Math.floor(Math.random() * 99999);
+            const ev       = pick(events);
+            const ts       = Date.now() - Math.floor(Math.random() * 86_400_000);
+            const d        = new Date(ts);
+            const dateStr  = `${pad2(d.getDate())} ${months[d.getMonth()]} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+            switch (Math.floor(Math.random() * 4)) {
+                case 0: return `{"e":"${ev}","a":${amt},"c":"${cur}","p":"${merchant.toLowerCase()}","t":${ts},"v":"${vendor}","r":"${code}"}`;
+                case 1: return `LOG ${dateStr} src=${merchant.toLowerCase()} sev=info evt=${ev} amt=${amt} fee=${fee} ref=${code} entity=${vendor}`;
+                case 2: return `[${ts}|${merchant.toLowerCase()}|${code}|${cur}|${amt}|${fee}|ok|${ev.replace('.','_')}|${vendor}]`;
+                default: return `${ev} entity=${vendor} merchant=${merchant.toLowerCase()} amount=${amt} fee=${fee} net=${net} currency=${cur} ref=${code} ts=${ts}`;
+            }
+        }
+
+        const NUM_LINES = 50;
+        const lines: Line[] = [];
+        const stageH = lensStage.clientHeight;
+        const stageW = lensStage.clientWidth;
+        const totalTextH = NUM_LINES * LINE_HEIGHT;
+        const yStart = Math.max(0, (stageH - totalTextH) / 2);
+
+        // Measure monospace character width once — Pretext caches natural widths per line for free
+        ctx.font = FONT;
+        const CHAR_W = ctx.measureText('M').width;
+
+        for (let i = 0; i < NUM_LINES; i++) {
+            const raw = makeRaw();
+            const prep = prepareWithSegments(raw, FONT);
+            lines.push({
+                raw,
+                y: yStart + (i + 1) * LINE_HEIGHT,
+                speed: 22 + Math.random() * 38,
+                offset: Math.random() * stageW,
+                rawWidth: measureNaturalWidth(prep),
+            });
+        }
+
+        // --- Fixed insight chips (the answers the agent surfaces) ---
+        type Insight = { category: string; label: string; x: number; y: number; w: number };
+
+        // Curated set — fewer chips so they have room to breathe inside the lens
+        // and never overlap each other or the lens chrome.
+        const INSIGHT_DEFS: Array<{ category: string; label: string }> = [
+            { category: 'Donors',     label: 'Hidden donor surfaced' },
+            { category: 'Network',    label: 'Influence graph generated' },
+            { category: 'Profile',    label: 'Politician profile resolved' },
+            { category: 'Conflict',   label: 'Conflict of interest flagged' },
+            { category: 'Voting',     label: 'Voting pattern analyzed' },
+            { category: 'Filings',    label: 'Disclosure cross-checked' },
+            { category: 'Companies',  label: 'Shell network detected' },
+            { category: 'Contracts',  label: 'Contract award mapped' },
+        ];
+
+        const insights: Insight[] = INSIGHT_DEFS.map(d => ({ ...d, x: 0, y: 0, w: 0 }));
+
+        function placeInsights() {
+            const w = lensStage!.clientWidth;
+            const h = lensStage!.clientHeight;
+            // Each chip gets its own dedicated horizontal band so two chips can never
+            // share a row. X position alternates left/right of center to keep the layout
+            // visually balanced without any column boundaries that could be crossed.
+            const padTop = 70;
+            const padBot = 70;
+            const usableH = h - padTop - padBot;
+            const rowH = usableH / Math.max(1, insights.length);
+            const xPattern = [0.30, 0.66, 0.34, 0.64, 0.30, 0.68, 0.34, 0.62];
+            ctx.font = FONT_CHIP;
+            for (let i = 0; i < insights.length; i++) {
+                insights[i].x = w * xPattern[i % xPattern.length];
+                insights[i].y = padTop + rowH * (i + 0.5);
+                insights[i].w = ctx.measureText(insights[i].label).width + 44;
+            }
+        }
+        placeInsights();
+        window.addEventListener('resize', placeInsights);
+
+        // --- Lens state ---
+        const lens = {
+            x: stageW * 0.5,
+            y: stageH * 0.5,
+            targetX: stageW * 0.5,
+            targetY: stageH * 0.5,
+            r: 160,
+        };
+
+        lensStage.addEventListener('mousemove', (e) => {
+            const r = lensStage.getBoundingClientRect();
+            lens.targetX = e.clientX - r.left;
+            lens.targetY = e.clientY - r.top;
+        });
+        lensStage.addEventListener('mouseleave', () => {
+            lens.targetX = lensStage!.clientWidth * 0.5;
+            lens.targetY = lensStage!.clientHeight * 0.5;
+        });
+
+        let lastT = performance.now();
+        let revealedCount = 0;
+        let statBudget = 0;
+
+        // The lens is drawn in two passes so the insight chips sit BETWEEN the glass tint
+        // and the rim/highlights — they read as a second layer revealed by the lens.
+
+        function drawLensBackdrop(cx: number, cy: number, r: number) {
+            // Drop shadow (gives the disc physical presence on the paper)
+            const shadow = ctx.createRadialGradient(cx + 4, cy + 7, r * 0.6, cx + 4, cy + 7, r * 1.20);
+            shadow.addColorStop(0, 'rgba(26, 26, 26, 0.16)');
+            shadow.addColorStop(1, 'rgba(26, 26, 26, 0)');
+            ctx.fillStyle = shadow;
+            ctx.beginPath();
+            ctx.arc(cx + 4, cy + 7, r * 1.20, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Soft wash inside the lens — mutes the raw text but lets it bleed through
+            // enough to see the first layer is still there.
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Subtle glass tint on top — bright top-left highlight, faint greenish wash on
+            // the lower-right. Gives the magnifying-glass character without obscuring chips.
+            const glass = ctx.createRadialGradient(cx - r * 0.35, cy - r * 0.4, r * 0.05, cx, cy, r);
+            glass.addColorStop(0,   'rgba(255, 255, 255, 0.30)');
+            glass.addColorStop(0.6, 'rgba(255, 255, 255, 0.04)');
+            glass.addColorStop(1,   'rgba(15, 61, 46, 0.05)');
+            ctx.fillStyle = glass;
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawLensRim(cx: number, cy: number, r: number) {
+            // Thin inner ring (the inner edge of the glass)
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 2.5, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Slim rim — single hairline in deep green
+            ctx.strokeStyle = 'rgba(15, 61, 46, 0.85)';
+            ctx.lineWidth = 1.25;
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Subtle specular highlight (top-left arc) — just enough to suggest glass
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.55)';
+            ctx.lineWidth = 1.25;
+            ctx.beginPath();
+            ctx.arc(cx, cy, r - 6, -Math.PI * 0.88, -Math.PI * 0.65);
+            ctx.stroke();
+        }
+
+        function drawInsightChip(ins: Insight) {
+            const padH = 18;
+            ctx.font = FONT_CHIP;
+            const textW = ctx.measureText(ins.label).width;
+            const chipW = textW + padH * 2;
+            const chipH = 38;
+            const x = ins.x - chipW / 2;
+            const y = ins.y - chipH / 2;
+            const rr = 5;
+
+            // Deep-green pill
+            ctx.fillStyle = '#0F3D2E';
+            ctx.beginPath();
+            ctx.moveTo(x + rr, y);
+            ctx.lineTo(x + chipW - rr, y);
+            ctx.quadraticCurveTo(x + chipW, y, x + chipW, y + rr);
+            ctx.lineTo(x + chipW, y + chipH - rr);
+            ctx.quadraticCurveTo(x + chipW, y + chipH, x + chipW - rr, y + chipH);
+            ctx.lineTo(x + rr, y + chipH);
+            ctx.quadraticCurveTo(x, y + chipH, x, y + chipH - rr);
+            ctx.lineTo(x, y + rr);
+            ctx.quadraticCurveTo(x, y, x + rr, y);
+            ctx.closePath();
+            ctx.fill();
+
+            // Check dot — light/white for contrast on green
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.beginPath();
+            ctx.arc(x + padH * 0.55, y + chipH / 2, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Label — white text on deep green
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = FONT_CHIP;
+            ctx.fillText(ins.label, x + padH + 9, y + chipH / 2 + 5);
+
+            // Caption above (in deep green, on the white lens wash)
+            ctx.font = FONT_CHIP_SMALL;
+            ctx.fillStyle = 'rgba(15, 61, 46, 0.7)';
+            ctx.fillText(ins.category.toUpperCase(), x + 2, y - 8);
+        }
+
+        function tick(now: number) {
+            try {
+                const dt = Math.min(0.05, (now - lastT) / 1000);
+                lastT = now;
+
+                const w = lensStage!.clientWidth;
+                const h = lensStage!.clientHeight;
+
+                // Smooth lens follow
+                lens.x += (lens.targetX - lens.x) * 0.20;
+                lens.y += (lens.targetY - lens.y) * 0.20;
+
+                ctx.clearRect(0, 0, w, h);
+
+                // Pass 1: raw scrolling lines — rendered everywhere with no displacement
+                ctx.font = FONT;
+                ctx.fillStyle = 'rgba(26, 26, 26, 0.50)';
+                for (const line of lines) {
+                    line.offset -= line.speed * dt;
+                    const lapW = line.rawWidth + 80;
+                    if (line.offset <= -lapW) line.offset += lapW;
+                    let x = line.offset;
+                    while (x < w) {
+                        ctx.fillText(line.raw, x, line.y);
+                        x += lapW;
+                    }
+                }
+
+                // Pass 2: lens backdrop — shadow + a strong white wash that fades the raw
+                // text out inside the disc, so it reads as a frosted second layer underneath.
+                drawLensBackdrop(lens.x, lens.y, lens.r);
+
+                // Pass 3: insight chips, CLIPPED to the lens circle so only the portion of
+                // each chip actually inside the lens is visible.
+                revealedCount = 0;
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(lens.x, lens.y, lens.r, 0, Math.PI * 2);
+                ctx.clip();
+                for (const ins of insights) {
+                    // Cheap bounding-box reject: if the chip's bbox doesn't overlap the lens
+                    // circle's bbox, skip it. Anything that survives gets clipped exactly.
+                    const halfW = ins.w / 2, halfH = 18;
+                    if (ins.x + halfW < lens.x - lens.r) continue;
+                    if (ins.x - halfW > lens.x + lens.r) continue;
+                    if (ins.y + halfH < lens.y - lens.r) continue;
+                    if (ins.y - halfH > lens.y + lens.r) continue;
+                    drawInsightChip(ins);
+                    revealedCount++;
+                }
+                ctx.restore();
+
+                // Pass 4: lens rim, highlights, handle, label
+                drawLensRim(lens.x, lens.y, lens.r);
+
+                // Stats every ~400ms
+                statBudget += now - lastT;
+                if (statBudget > 0) {
+                    lensStats.textContent = `${revealedCount} INSIGHTS SURFACED · ${Math.round(1 / Math.max(0.001, dt))} fps`;
+                    statBudget = -400;
+                }
+            } catch (err) {
+                console.error('[ingest lens]', err);
+            }
+            requestAnimationFrame(tick);
+        }
+
+        // Wait for fonts so character-width measurement matches what we actually paint
+        const start = () => requestAnimationFrame(tick);
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(start);
+        } else {
+            start();
+        }
+    }
+
+  </script>
+
+  <style is:global>
+    /* CSS3DRenderer creates intermediate wrappers that default to pointer-events: auto.
+       Force everything inside the label layer to be transparent to mouse input so drags
+       and wheels always reach the canvas underneath, even when cards cover it. */
+    #schema-labels,
+    #schema-labels * {
+      pointer-events: none !important;
+    }
+    .schema-label {
+      width: 188px;
+      font-family: "IBM Plex Mono", monospace;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transition: opacity 0.35s ease;
+    }
+    .schema-card {
+      border: 1px solid rgba(26, 26, 26, 0.18);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 2px 8px -2px rgba(26, 26, 26, 0.10);
+      border-left: 2px solid var(--accent, #0F3D2E);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+    .schema-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      background: rgba(26, 26, 26, 0.025);
+      border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+      font-size: 10px;
+      font-weight: 600;
+      color: #1A1A1A;
+      text-transform: lowercase;
+      letter-spacing: 0.01em;
+    }
+    .schema-card-rows {
+      color: #6B7280;
+      font-weight: 400;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .schema-card-body {
+      padding: 5px 10px 7px;
+    }
+    .schema-col {
+      display: grid;
+      grid-template-columns: 18px 1fr auto;
+      align-items: center;
+      gap: 6px;
+      font-size: 8.5px;
+      line-height: 1.65;
+      color: rgba(26, 26, 26, 0.55);
+      padding: 1.5px 0;
+    }
+    .schema-col-tag {
+      font-size: 7px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      opacity: 0.55;
+    }
+    .schema-col-type {
+      font-size: 7.5px;
+      color: #6B7280;
+      opacity: 0.65;
+    }
+    .schema-col.is-pk {
+      color: #0F3D2E;
+      font-weight: 600;
+    }
+    .schema-col.is-pk .schema-col-tag {
+      color: #0F3D2E;
+      opacity: 1;
+    }
+    .schema-col.is-fk {
+      color: #1A5B43;
+    }
+    .schema-col.is-fk .schema-col-tag {
+      color: #1A5B43;
+      opacity: 0.9;
+    }
+    .schema-col-more {
+      font-size: 7.5px;
+      color: rgba(26, 26, 26, 0.35);
+      padding: 3px 0 1px;
+      border-top: 1px dashed rgba(26, 26, 26, 0.10);
+      margin-top: 3px;
+      letter-spacing: 0.04em;
+    }
+    /* Extra columns are always hidden inside the card so the box never resizes;
+       hover / click reveals them in the rich tooltip instead. */
+    .schema-col.is-extra { display: none; }
+    .schema-label.is-hovered .schema-card {
+      background: #FFFFFF;
+      border-color: rgba(15, 61, 46, 0.85);
+      box-shadow: 0 6px 18px -6px rgba(15, 61, 46, 0.28);
+    }
+    .schema-label.is-active .schema-card {
+      background: #FFFFFF;
+      border-color: rgba(15, 61, 46, 0.85);
+      box-shadow: 0 0 0 1px rgba(15, 61, 46, 0.18), 0 6px 18px -6px rgba(15, 61, 46, 0.22);
+    }
+    .schema-label.is-pinned .schema-card {
+      background: #FFFFFF;
+      border-color: rgba(15, 61, 46, 0.95);
+      box-shadow: 0 0 0 2px rgba(15, 61, 46, 0.22), 0 10px 22px -8px rgba(15, 61, 46, 0.28);
+    }
+    /* Focal node — slightly more prominent typography */
+    .schema-label.is-focal .schema-card-header { font-size: 11px; padding: 7px 11px; }
+    .schema-label.is-focal .schema-card { border-left-width: 3px; }
+    /* When the agent is running an insight, the dimmed (non-involved) nodes use this hook */
+    .schema-label.is-dimmed .schema-card {
+      box-shadow: none;
+    }
+    .schema-col.is-lit {
+      background: rgba(15, 61, 46, 0.10);
+      color: #0F3D2E !important;
+      animation: schema-col-pulse 1.6s ease-in-out infinite;
+    }
+    .schema-col.is-lit .schema-col-type {
+      color: #0F3D2E !important;
+      opacity: 0.7;
+    }
+    .schema-col.is-lit .schema-col-tag {
+      color: #0F3D2E !important;
+      opacity: 1;
+    }
+    @keyframes schema-col-pulse {
+      0%, 100% { background: rgba(15, 61, 46, 0.10); }
+      50%      { background: rgba(15, 61, 46, 0.22); }
+    }
+
+    /* Agent panel */
+    #agent-panel .agent-dot::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 9999px;
+      border: 1px solid rgba(15, 61, 46, 0.5);
+      animation: agent-dot-pulse 1.8s ease-out infinite;
+    }
+    @keyframes agent-dot-pulse {
+      0%   { transform: scale(0.6); opacity: 0.9; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    .agent-loader span {
+      width: 4px;
+      height: 4px;
+      border-radius: 9999px;
+      background: #0F3D2E;
+      display: inline-block;
+      opacity: 0.4;
+      animation: agent-loader-bounce 1.1s ease-in-out infinite;
+    }
+    .agent-loader span:nth-child(2) { animation-delay: 0.15s; }
+    .agent-loader span:nth-child(3) { animation-delay: 0.30s; }
+    @keyframes agent-loader-bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+      40%           { transform: translateY(-3px); opacity: 1; }
+    }
+    #agent-panel[data-phase="reveal"] #agent-insight-tag {
+      color: #0F3D2E;
+    }
+    #agent-panel[data-phase="reveal"] .agent-dot {
+      background: #0F3D2E;
+    }
+
+  </style>
+</LightLayout>

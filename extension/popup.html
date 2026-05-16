@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">lattice</div>
+    <div class="tag">Article Context · v0.1</div>
+  </header>
+
+  <div class="toggle-row">
+    <div class="toggle-copy">
+      <div class="toggle-title">Highlight politicians &amp; companies</div>
+      <div class="toggle-sub">On every page you visit</div>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="enabled" />
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="note">
+    <p><strong>Demo data.</strong> The MVP recognises 30 hand-picked UK entities with illustrative figures from the Electoral Commission, Companies House, Lobby Register, and Contracts Finder.</p>
+    <p>Reload any open tab after toggling.</p>
+  </div>
+
+  <footer>
+    <a href="https://example.com" target="_blank">Methodology</a>
+    <span>·</span>
+    <a href="https://example.com" target="_blank">Source data</a>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

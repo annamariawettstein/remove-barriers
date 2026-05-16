@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Lattice — Article Context",
+  "version": "0.1.0",
+  "description": "Adds context to politicians and companies mentioned in articles, using UK public records (Electoral Commission, Companies House, Lobby Register, Contracts Finder).",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Lattice"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["entities.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

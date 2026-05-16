@@ -1,0 +1,135 @@
+.lattice-entity {
+  background-image: linear-gradient(transparent calc(100% - 2px), #0F3D2E calc(100% - 2px));
+  background-size: 4px 100%;
+  background-position: 0 100%;
+  background-repeat: repeat-x;
+  cursor: help;
+  transition: background-color 0.15s ease;
+}
+
+.lattice-entity:hover {
+  background-color: rgba(15, 61, 46, 0.08);
+}
+
+.lattice-card {
+  position: absolute;
+  display: none;
+  z-index: 2147483647;
+  width: 320px;
+  background: #F6F7E8;
+  color: #1A1A1A;
+  border: 1px solid #1A1A1A;
+  border-radius: 2px;
+  box-shadow: 4px 4px 0 rgba(15, 61, 46, 0.95);
+  padding: 14px 16px 12px;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.lattice-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6B7280;
+  margin-bottom: 6px;
+}
+
+.lattice-card-type {
+  color: #0F3D2E;
+  font-weight: 600;
+}
+
+.lattice-card-brand {
+  color: #1A1A1A;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.lattice-card-name {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+
+.lattice-card-sub {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.lattice-card-role {
+  font-size: 12px;
+  color: #1A5B43;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.lattice-card-facts {
+  border-top: 1px solid #E5E7EB;
+  margin-top: 10px;
+  padding-top: 8px;
+}
+
+.lattice-fact {
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(15, 61, 46, 0.18);
+}
+
+.lattice-fact:last-child {
+  border-bottom: none;
+}
+
+.lattice-fact-label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6B7280;
+  margin-bottom: 2px;
+}
+
+.lattice-fact-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.lattice-fact-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.lattice-fact-source {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 9px;
+  color: #0F3D2E;
+  background: rgba(15, 61, 46, 0.08);
+  padding: 1px 5px;
+  border-radius: 2px;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+.lattice-card-foot {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #E5E7EB;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #6B7280;
+  text-align: right;
+}
