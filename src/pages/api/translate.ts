@@ -34,7 +34,7 @@ QUALITY RULES:
 - For uncertain impacts, distinguish what's clear vs. speculative. Note what depends on secondary legislation.
 - For devolution, clearly state territorial application.
 - If you don't have enough information to fill a section confidently, leave the field empty rather than fabricate. Empty arrays are acceptable.
-- Use emoji as section markers consistently with the structure: 📋 quick summary, 📊 key numbers, 🎯 stakeholders, 🔍 parts, 👥 impact, ⚖️ rights, 📖 scenarios, 📅 timeline, ✅ actions, 💷 money, 🗣️ debate, ⚠️ red flags, 📚 resources.
+- Do NOT use emojis anywhere in your output. The platform uses a blueprint-style icon set; emoji would break the visual language. Pick the bill's thematic icon from the enum provided in the icon field of the tool schema.
 - The output is JSON via the submit_bill_analysis tool. Always call that tool. Never reply in prose.`;
 
 const BILL_TOOL = {
@@ -46,7 +46,7 @@ const BILL_TOOL = {
       slug: { type: 'string', description: 'Kebab-case slug derived from the bill title, e.g. "renters-rights-bill"' },
       shortTitle: { type: 'string', description: 'Short title of the bill' },
       fullTitle: { type: 'string', description: 'Full official title including session, e.g. "Renters\' Rights Bill 2024-25"' },
-      emoji: { type: 'string', description: 'A single emoji that thematically represents the bill' },
+      icon: { type: 'string', enum: ['house', 'briefcase', 'leaf', 'cabinet', 'shield', 'pound', 'scales', 'people', 'graph', 'summary'], description: 'Pick one thematic icon from the enum that best represents the bill.' },
       status: { type: 'string', description: 'Current parliamentary stage, e.g. "Lords · Committee stage"' },
       stageDetail: { type: 'string', description: 'One-sentence detail of the current stage' },
       sponsoringDept: { type: 'string', description: 'Sponsoring government department' },
@@ -178,7 +178,7 @@ const BILL_TOOL = {
         }
       }
     },
-    required: ['slug', 'shortTitle', 'fullTitle', 'emoji', 'status', 'stageDetail', 'sponsoringDept', 'introducedDate', 'territorialExtent', 'summary', 'whoAffected', 'keyNumbers']
+    required: ['slug', 'shortTitle', 'fullTitle', 'icon', 'status', 'stageDetail', 'sponsoringDept', 'introducedDate', 'territorialExtent', 'summary', 'whoAffected', 'keyNumbers']
   }
 };
 

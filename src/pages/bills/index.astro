@@ -2,6 +2,7 @@
 export const prerender = true;
 import LightLayout from '../../layouts/LightLayout.astro';
 import { BILLS } from '../../data/bills';
+import { ICON_PATHS } from '../../data/icons';
 
 const fullBills = BILLS.filter(b => !b.isStub);
 ---
@@ -116,7 +117,7 @@ const fullBills = BILLS.filter(b => !b.isStub);
       <!-- Error state -->
       <div id="translate-error" class="hidden mt-6 border-t border-amber-300 pt-6">
         <div class="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-sm p-4">
-          <span class="text-amber-700 text-lg leading-none">⚠</span>
+          <svg class="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.warning} />
           <div>
             <p class="text-sm font-semibold text-amber-900 mb-1">Translation failed</p>
             <p id="translate-error-message" class="text-sm text-amber-800"></p>
@@ -188,7 +189,9 @@ const fullBills = BILLS.filter(b => !b.isStub);
           <a href={`/bills/${b.slug}`} class="block group">
             <article class="bg-white border border-retro-border rounded-md p-6 lg:p-8 hover:border-retro-ink hover:shadow-[4px_4px_0px_rgba(15,61,46,0.95)] transition-all">
               <div class="flex items-start gap-5">
-                <div class="text-4xl flex-shrink-0">{b.emoji}</div>
+                <div class="flex-shrink-0">
+                  <svg class="w-10 h-10 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS[b.icon] || ''} />
+                </div>
                 <div class="flex-1 min-w-0">
                   <div class="flex flex-wrap items-center gap-3 mb-2">
                     <h3 class="text-2xl font-semibold text-retro-ink tracking-tight group-hover:text-retro-green transition-colors">{b.shortTitle}</h3>

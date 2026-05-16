@@ -7,6 +7,8 @@ export type EmploymentStatus =
   | "retired"
   | "student";
 
+import type { IconName } from "./icons";
+
 export type Profile = {
   housingTenure?: HousingTenure;
   employmentStatus?: EmploymentStatus;
@@ -22,7 +24,7 @@ export type Bill = {
   slug: string;
   shortTitle: string;
   fullTitle: string;
-  emoji: string;
+  icon: IconName;
   status: string;
   stageDetail: string;
   sponsoringDept: string;
@@ -91,7 +93,7 @@ export const BILLS: Bill[] = [
     slug: "renters-rights-bill",
     shortTitle: "Renters' Rights Bill",
     fullTitle: "Renters' Rights Bill 2024-25",
-    emoji: "🏠",
+    icon: "house",
     status: "Lords · Committee stage",
     stageDetail: "Second Reading completed 4 February 2025. Committee in the Lords ongoing.",
     sponsoringDept: "Ministry of Housing, Communities and Local Government",
@@ -413,7 +415,7 @@ export const BILLS: Bill[] = [
     slug: "employment-rights-bill",
     shortTitle: "Employment Rights Bill",
     fullTitle: "Employment Rights Bill 2024-25",
-    emoji: "💼",
+    icon: "briefcase",
     status: "Lords · Report stage",
     stageDetail: "Commons stages complete. Lords Committee finished March 2025. Report stage ongoing.",
     sponsoringDept: "Department for Business and Trade",
@@ -692,7 +694,7 @@ export const BILLS: Bill[] = [
     slug: "tobacco-and-vapes-bill",
     shortTitle: "Tobacco and Vapes Bill",
     fullTitle: "Tobacco and Vapes Bill 2024-25",
-    emoji: "🚬",
+    icon: "leaf",
     status: "Commons · Committee stage",
     stageDetail: "Second Reading completed 26 November 2024.",
     sponsoringDept: "Department of Health and Social Care",
@@ -712,7 +714,7 @@ export const BILLS: Bill[] = [
     slug: "data-use-and-access-bill",
     shortTitle: "Data (Use and Access) Bill",
     fullTitle: "Data (Use and Access) Bill 2024-25",
-    emoji: "🗂️",
+    icon: "cabinet",
     status: "Lords · Report stage",
     stageDetail: "Reform of UK data protection and creation of smart-data schemes.",
     sponsoringDept: "Department for Science, Innovation and Technology",
@@ -732,7 +734,7 @@ export const BILLS: Bill[] = [
     slug: "crime-and-policing-bill",
     shortTitle: "Crime and Policing Bill",
     fullTitle: "Crime and Policing Bill 2024-25",
-    emoji: "🛡️",
+    icon: "shield",
     status: "Commons · Committee stage",
     stageDetail: "Anti-social behaviour, knife crime, retail theft, and stalking provisions.",
     sponsoringDept: "Home Office",

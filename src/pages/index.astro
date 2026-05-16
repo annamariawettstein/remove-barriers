@@ -356,20 +356,20 @@ import LightLayout from '../layouts/LightLayout.astro';
                     <!-- Left: Copy -->
                     <div class="lg:w-2/5 reveal">
                         <span class="inline-block px-3 py-1 border border-retro-ink/15 bg-white rounded-sm text-[10px] font-mono text-retro-green uppercase tracking-widest mb-6">The Graph</span>
-                        <h2 class="text-4xl md:text-5xl font-semibold mb-6 text-retro-ink tracking-tight leading-tight">Every public record, <span class="italic font-light text-retro-green">finally connected.</span></h2>
-                        <p class="text-lg text-retro-slate leading-relaxed mb-8">Lattice fuses filings, ownership data, and disclosures into one graph of people, companies, and money. Drag to rotate — hover any entity to inspect its ties and source documents.</p>
+                        <h2 class="text-4xl md:text-5xl font-semibold mb-6 text-retro-ink tracking-tight leading-tight">Follow the money, <span class="italic font-light text-retro-green">across every layer.</span></h2>
+                        <p class="text-lg text-retro-slate leading-relaxed mb-8">Lattice connects people, companies, nonprofits, ownership chains, and the sketchy investments that bind them. Donations, board seats, shareholdings, offshore vehicles — one graph, every edge cited. Drag to rotate.</p>
                         <div class="space-y-4 text-sm font-mono">
                             <div class="schema-legend-item flex items-center gap-3 text-retro-slate">
                                 <span class="w-3 h-3 rounded-sm bg-retro-green flex-shrink-0"></span>
-                                <span>Politicians & public officials</span>
+                                <span>People (politicians, donors, beneficial owners)</span>
                             </div>
                             <div class="schema-legend-item flex items-center gap-3 text-retro-slate">
                                 <span class="w-3 h-3 rounded-sm bg-retro-ledger flex-shrink-0"></span>
-                                <span>Money flows (donations, lobbying, contracts)</span>
+                                <span>Money flows (donations, investments)</span>
                             </div>
                             <div class="schema-legend-item flex items-center gap-3 text-retro-slate">
                                 <span class="w-3 h-3 rounded-sm bg-[#8B5E3C] flex-shrink-0"></span>
-                                <span>Companies & ownership records</span>
+                                <span>Organisations (companies, nonprofits, ownership)</span>
                             </div>
                             <div class="schema-legend-item flex items-center gap-3 text-retro-slate">
                                 <span class="w-3 h-3 rounded-sm bg-[#4F46E5] flex-shrink-0"></span>
@@ -1185,43 +1185,45 @@ import LightLayout from '../layouts/LightLayout.astro';
         };
 
         // Hub-and-spoke arrangement: influence_graph is the focal node (lower-center, forward).
-        // Middle tier: officials, donations, lobbying (transform / logic).
-        // Outer tier: mandates, companies, politicians, procurement (raw inputs, set further back).
+        // Middle tier (people + money): politicians, donors, donations.
+        // Outer tier (organisations + sketchy money): companies, nonprofits, investments, ownership.
         const nodes: Node[] = [
             { id:'influence_graph', label:'influence_graph', group:'output',   tier:'focal',  x: 0.1, y:-0.8, z: 0.6,
-              cols:[{name:'graph_id',type:'BIGINT',pk:true},{name:'politician_id',type:'INT',fk:true},{name:'company_id',type:'INT',fk:true},{name:'tie_type',type:'VARCHAR'},{name:'strength',type:'DECIMAL'},{name:'period',type:'DATE'},{name:'updated_at',type:'TIMESTAMP'}],
+              cols:[{name:'graph_id',type:'BIGINT',pk:true},{name:'node_a_id',type:'INT',fk:true},{name:'node_b_id',type:'INT',fk:true},{name:'tie_type',type:'VARCHAR'},{name:'strength',type:'DECIMAL'},{name:'period',type:'DATE'},{name:'updated_at',type:'TIMESTAMP'}],
               rows:'Live view',          meta:{ lastSync:'streaming',  freshness:'real-time' } },
 
-            { id:'officials',    label:'officials',    group:'core',     tier:'middle', x: 0.0, y: 1.2, z:-0.1,
-              cols:[{name:'official_id',type:'BIGINT',pk:true},{name:'name',type:'VARCHAR'},{name:'office',type:'VARCHAR'},{name:'constituency',type:'VARCHAR'},{name:'party',type:'CHAR(3)'},{name:'term_start',type:'DATE'}],
-              rows:'543K rows',          meta:{ lastSync:'4 min ago',  freshness:'99.8%' } },
+            { id:'politicians',    label:'politicians',    group:'core',     tier:'middle', x: 0.0, y: 1.2, z:-0.1,
+              cols:[{name:'politician_id',type:'BIGINT',pk:true},{name:'name',type:'VARCHAR'},{name:'office',type:'VARCHAR'},{name:'constituency',type:'VARCHAR'},{name:'party',type:'CHAR(3)'},{name:'term_start',type:'DATE'}],
+              rows:'12.6K rows',         meta:{ lastSync:'4 min ago',  freshness:'99.8%' } },
             { id:'donations',      label:'donations',      group:'payment',  tier:'middle', x:-1.6, y: 0.3, z: 0.1,
               cols:[{name:'donation_id',type:'BIGINT',pk:true},{name:'politician_id',type:'INT',fk:true},{name:'donor_id',type:'INT',fk:true},{name:'amount',type:'DECIMAL'},{name:'filing_date',type:'DATE'},{name:'source',type:'VARCHAR'}],
               rows:'18.2M rows',         meta:{ lastSync:'2 min ago',  freshness:'99.4%' } },
-            { id:'lobbying',   label:'lobbying',   group:'payment',  tier:'middle', x: 1.7, y: 0.3, z: 0.1,
-              cols:[{name:'filing_id',type:'VARCHAR',pk:true},{name:'client_id',type:'INT',fk:true},{name:'firm_id',type:'INT',fk:true},{name:'amount',type:'DECIMAL'},{name:'issue',type:'VARCHAR'},{name:'quarter',type:'CHAR(6)'}],
-              rows:'4.2M rows',          meta:{ lastSync:'live · 12s', freshness:'99.9%' } },
+            { id:'donors',   label:'donors',   group:'core',  tier:'middle', x: 1.7, y: 0.3, z: 0.1,
+              cols:[{name:'donor_id',type:'BIGINT',pk:true},{name:'name',type:'VARCHAR'},{name:'type',type:'VARCHAR'},{name:'country',type:'CHAR(2)'},{name:'lifetime_given',type:'DECIMAL'},{name:'flagged',type:'BOOLEAN'}],
+              rows:'2.4M rows',          meta:{ lastSync:'live · 12s', freshness:'99.9%' } },
 
-            { id:'mandates',     label:'mandates',     group:'contract', tier:'outer',  x:-2.9, y: 1.5, z:-0.9,
-              cols:[{name:'mandate_id',type:'INT',pk:true},{name:'client_id',type:'INT',fk:true},{name:'firm_id',type:'INT',fk:true},{name:'amount',type:'DECIMAL'},{name:'issues',type:'VARCHAR'},{name:'start_date',type:'DATE'},{name:'end_date',type:'DATE'}],
-              rows:'12.4K rows',         meta:{ lastSync:'14 min ago', freshness:'97.2%' } },
+            { id:'nonprofits',     label:'nonprofits',     group:'contract', tier:'outer',  x:-2.9, y: 1.5, z:-0.9,
+              cols:[{name:'nonprofit_id',type:'INT',pk:true},{name:'name',type:'VARCHAR'},{name:'type',type:'VARCHAR'},{name:'trustees',type:'INT'},{name:'annual_income',type:'DECIMAL'},{name:'charity_no',type:'VARCHAR'}],
+              rows:'168K rows',          meta:{ lastSync:'14 min ago', freshness:'97.2%' } },
             { id:'companies',       label:'companies',       group:'contract', tier:'outer',  x:-3.1, y:-0.5, z:-0.7,
               cols:[{name:'company_id',type:'INT',pk:true},{name:'name',type:'VARCHAR'},{name:'jurisdiction',type:'CHAR(2)'},{name:'sic_code',type:'VARCHAR'},{name:'parent_id',type:'INT',fk:true}],
               rows:'1.4M rows',          meta:{ lastSync:'1 h ago',    freshness:'98.6%' } },
-            { id:'procurement',     label:'procurement',     group:'payment',  tier:'outer',  x: 3.0, y: 1.5, z:-0.9,
-              cols:[{name:'contract_id',type:'INT',pk:true},{name:'agency',type:'VARCHAR'},{name:'company_id',type:'INT',fk:true},{name:'amount',type:'DECIMAL'},{name:'award_date',type:'DATE'}],
-              rows:'340K rows',          meta:{ lastSync:'24 min ago', freshness:'95.1%' } },
-            { id:'politicians',     label:'politicians',     group:'core',     tier:'outer',  x: 3.1, y:-0.5, z:-0.7,
-              cols:[{name:'politician_id',type:'INT',pk:true},{name:'name',type:'VARCHAR'},{name:'party',type:'CHAR(3)'},{name:'constituency',type:'VARCHAR'},{name:'chamber',type:'VARCHAR'},{name:'official_id',type:'INT',fk:true}],
-              rows:'12.6K rows',         meta:{ lastSync:'6 min ago',  freshness:'99.1%' } },
+            { id:'investments',     label:'investments',     group:'payment',  tier:'outer',  x: 3.0, y: 1.5, z:-0.9,
+              cols:[{name:'investment_id',type:'INT',pk:true},{name:'holder_id',type:'INT',fk:true},{name:'holding_id',type:'INT',fk:true},{name:'shares_pct',type:'DECIMAL'},{name:'value',type:'DECIMAL'},{name:'vehicle',type:'VARCHAR'}],
+              rows:'420K rows',         meta:{ lastSync:'24 min ago', freshness:'95.1%' } },
+            { id:'ownership',     label:'ownership',     group:'contract', tier:'outer',  x: 3.1, y:-0.5, z:-0.7,
+              cols:[{name:'ownership_id',type:'INT',pk:true},{name:'entity_id',type:'INT',fk:true},{name:'beneficial_owner_id',type:'INT',fk:true},{name:'control_type',type:'VARCHAR'},{name:'percentage',type:'DECIMAL'},{name:'chain_depth',type:'TINYINT'}],
+              rows:'620K rows',         meta:{ lastSync:'6 min ago',  freshness:'99.1%' } },
         ];
 
         const edges: [string,string][] = [
-            ['donations','companies'],['donations','mandates'],['companies','mandates'],
-            ['donations','officials'],['procurement','officials'],
-            ['lobbying','politicians'],['politicians','influence_graph'],
-            ['officials','influence_graph'],['donations','influence_graph'],
-            ['lobbying','influence_graph'],['mandates','influence_graph'],
+            ['donations','politicians'],['donations','donors'],
+            ['donors','companies'],['donors','nonprofits'],
+            ['investments','companies'],['investments','ownership'],
+            ['companies','ownership'],['nonprofits','ownership'],
+            ['politicians','influence_graph'],['donors','influence_graph'],
+            ['donations','influence_graph'],['companies','influence_graph'],
+            ['nonprofits','influence_graph'],['investments','influence_graph'],['ownership','influence_graph'],
         ];
 
         const SPACING = 1.7;
@@ -1685,51 +1687,51 @@ import LightLayout from '../layouts/LightLayout.astro';
 
         const insights: Insight[] = [
             {
-                tag: 'Hidden Donor',
-                loading: ['scanning donations…', 'cross-referencing companies.parent_id…', 'resolving into influence_graph…'],
-                path: [
-                    { table: 'donations',       col: 'amount' },
-                    { table: 'companies',       col: 'parent_id' },
-                    { table: 'influence_graph', col: 'strength' },
-                ],
-                edges: [['donations','companies'], ['companies','influence_graph']],
-                text: 'A donor\'s parent company also lobbies on bills they fund.',
-                detail: 'Donor gave £96k · parent hired same firm one week later',
-            },
-            {
-                tag: 'Voting Pattern',
-                loading: ['joining politicians ⨯ lobbying…', 'matching by issue…', 'resolving into influence_graph…'],
-                path: [
-                    { table: 'politicians',     col: 'constituency' },
-                    { table: 'lobbying',        col: 'issue' },
-                    { table: 'influence_graph', col: 'tie_type' },
-                ],
-                edges: [['lobbying','politicians'], ['politicians','influence_graph']],
-                text: 'Three MPs voted with the lobbying client on every division.',
-                detail: '8 of 8 votes aligned · cross-checked with lobby register',
-            },
-            {
                 tag: 'Shell Network',
-                loading: ['indexing companies.parent_id…', 'matching shared registered agents…', 'resolving into influence_graph…'],
+                loading: ['scanning donors…', 'matching shared registered agents…', 'walking ownership chain…'],
                 path: [
-                    { table: 'mandates',        col: 'end_date' },
-                    { table: 'companies',       col: 'jurisdiction' },
+                    { table: 'donors',          col: 'country' },
+                    { table: 'ownership',       col: 'beneficial_owner_id' },
                     { table: 'influence_graph', col: 'strength' },
                 ],
-                edges: [['companies','mandates'], ['mandates','influence_graph']],
+                edges: [['donors','companies'], ['companies','ownership'], ['ownership','influence_graph']],
                 text: 'Twelve donors share the same registered agent in Jersey.',
                 detail: 'Likely common beneficial owner — flagged for review',
             },
             {
-                tag: 'Undisclosed Tie',
-                loading: ['scanning donations.amount clusters…', 'grouping by company_id…', 'resolving into influence_graph…'],
+                tag: 'Charity Funnel',
+                loading: ['joining nonprofits ⨯ donations…', 'tracing trustee ownership…', 'resolving into influence_graph…'],
                 path: [
-                    { table: 'donations',       col: 'amount' },
-                    { table: 'companies',       col: 'company_id' },
+                    { table: 'nonprofits',      col: 'trustees' },
+                    { table: 'ownership',       col: 'control_type' },
+                    { table: 'influence_graph', col: 'tie_type' },
+                ],
+                edges: [['nonprofits','ownership'], ['donors','nonprofits'], ['nonprofits','influence_graph']],
+                text: 'Think tank\'s top donor is a shell linked to a sitting minister\'s family.',
+                detail: '£820k routed via charity · trustees include cabinet relative',
+            },
+            {
+                tag: 'Offshore Trail',
+                loading: ['indexing investments.vehicle…', 'walking ownership chain…', 'matching to gov contract…'],
+                path: [
+                    { table: 'investments',     col: 'vehicle' },
+                    { table: 'ownership',       col: 'chain_depth' },
                     { table: 'influence_graph', col: 'strength' },
                 ],
-                edges: [['donations','companies'], ['donations','influence_graph']],
-                text: 'Donor holds a board seat at recipient PAC — never disclosed.',
+                edges: [['investments','ownership'], ['investments','companies'], ['investments','influence_graph']],
+                text: '£15m investment via 3-layer offshore vehicle ends at a gov contractor.',
+                detail: 'BVI → Jersey → Delaware LLC → bidder on NHS framework',
+            },
+            {
+                tag: 'Undisclosed Donor',
+                loading: ['scanning donations.amount clusters…', 'grouping by donor_id…', 'cross-checking register…'],
+                path: [
+                    { table: 'donations',       col: 'amount' },
+                    { table: 'donors',          col: 'flagged' },
+                    { table: 'influence_graph', col: 'strength' },
+                ],
+                edges: [['donations','donors'], ['donations','politicians'], ['donations','influence_graph']],
+                text: 'Donor holds a board seat at recipient committee — never disclosed.',
                 detail: '£22,400 in donations · board appointment 2023-04',
             },
         ];

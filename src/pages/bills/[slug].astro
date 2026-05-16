@@ -2,6 +2,7 @@
 export const prerender = true;
 import LightLayout from '../../layouts/LightLayout.astro';
 import { BILLS, billBySlug } from '../../data/bills';
+import { ICON_PATHS, type IconName } from '../../data/icons';
 
 export function getStaticPaths() {
   return BILLS.map(b => ({ params: { slug: b.slug } }));
@@ -22,6 +23,7 @@ const effectLabel = (effect: string) => ({
   restrict: 'Restricts',
   mixed: 'Mixed effect'
 }[effect] || effect);
+const icon = (name: IconName) => ICON_PATHS[name] || '';
 ---
 
 <LightLayout title={`${bill.shortTitle} — Lattice`}>
@@ -50,7 +52,9 @@ const effectLabel = (effect: string) => ({
 
     <!-- Title block -->
     <header class="mb-14">
-      <div class="text-5xl mb-4">{bill.emoji}</div>
+      <div class="mb-5">
+        <svg class="w-12 h-12 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon(bill.icon)} />
+      </div>
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-retro-ink tracking-tight leading-[1.05] mb-4">
         {bill.shortTitle}
       </h1>
@@ -81,14 +85,14 @@ const effectLabel = (effect: string) => ({
 
     <!-- Quick Summary -->
     <section class="mb-14">
-      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-4">📋 Quick summary</h2>
+      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-4 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("summary")} />Quick summary</h2>
       <p class="text-xl text-retro-ink leading-relaxed">{bill.summary}</p>
     </section>
 
     <!-- Key Numbers -->
     {bill.keyNumbers?.length ? (
       <section class="mb-14">
-        <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-4">📊 Key numbers</h2>
+        <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-4 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("stats")} />Key numbers</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-retro-border pt-6">
           {bill.keyNumbers.map(n => (
             <div>
@@ -103,7 +107,7 @@ const effectLabel = (effect: string) => ({
     <!-- Who this affects -->
     {bill.whoAffected?.length ? (
       <section class="mb-14">
-        <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-4">🎯 Who this affects</h2>
+        <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-4 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("target")} />Who this affects</h2>
         <ul class="flex flex-wrap gap-2">
           {bill.whoAffected.map(w => (
             <li class="bg-white border border-retro-border rounded-sm px-3 py-1.5 text-sm text-retro-ink">{w}</li>
@@ -124,7 +128,7 @@ const effectLabel = (effect: string) => ({
       <!-- What's in the bill -->
       {bill.parts?.length ? (
         <section class="mb-14">
-          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">🔍 What's in the bill</h2>
+          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("search")} />What's in the bill</h2>
           <div class="space-y-6">
             {bill.parts.map(part => (
               <div class="bg-white border border-retro-border rounded-md p-6 lg:p-8">
@@ -152,7 +156,7 @@ const effectLabel = (effect: string) => ({
       <!-- Stakeholder impact -->
       {bill.stakeholderImpacts?.length ? (
         <section class="mb-14">
-          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">👥 Stakeholder impact</h2>
+          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("people")} />Stakeholder impact</h2>
           <div class="border border-retro-border rounded-md bg-white overflow-hidden divide-y divide-retro-border">
             {bill.stakeholderImpacts.map(s => (
               <div class="p-6 lg:p-8">
@@ -180,7 +184,7 @@ const effectLabel = (effect: string) => ({
       <!-- Rights & freedoms -->
       {bill.rights?.length ? (
         <section class="mb-14">
-          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">⚖️ Rights &amp; freedoms</h2>
+          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("scales")} />Rights &amp; freedoms</h2>
           <div class="space-y-4">
             {bill.rights.map(r => (
               <div class="bg-white border border-retro-border rounded-md p-6">
@@ -202,7 +206,7 @@ const effectLabel = (effect: string) => ({
       {bill.scenarios?.length ? (
         <section class="mb-14">
           <div class="flex items-center justify-between gap-4 mb-6">
-            <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em]">📖 Before &amp; after scenarios</h2>
+            <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("book")} />Before &amp; after scenarios</h2>
             <span class="hidden lattice-personalised text-[9px] font-mono uppercase tracking-widest text-retro-green" id="scenarios-personalised-badge">Personalised for you</span>
           </div>
           <div class="space-y-6" id="scenarios-list">
@@ -247,7 +251,7 @@ const effectLabel = (effect: string) => ({
       <!-- Implementation timeline -->
       {bill.timeline?.length ? (
         <section class="mb-14">
-          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">📅 Implementation timeline</h2>
+          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("calendar")} />Implementation timeline</h2>
           <ol class="border-l-2 border-retro-green/30 pl-6 space-y-5">
             {bill.timeline.map(t => (
               <li class="relative">
@@ -264,7 +268,7 @@ const effectLabel = (effect: string) => ({
       {bill.actions?.length ? (
         <section class="mb-14">
           <div class="flex items-center justify-between gap-4 mb-6">
-            <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em]">✅ What you need to do</h2>
+            <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("check")} />What you need to do</h2>
             <span class="hidden lattice-personalised text-[9px] font-mono uppercase tracking-widest text-retro-green" id="actions-personalised-badge">Personalised for you</span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="actions-list">
@@ -290,7 +294,7 @@ const effectLabel = (effect: string) => ({
       <!-- Money behind the bill (Lattice differentiator) -->
       {bill.moneyTrail?.length ? (
         <section class="mb-14">
-          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-2">💷 Money behind the bill</h2>
+          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-2 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("pound")} />Money behind the bill</h2>
           <p class="text-sm text-retro-slate mb-6 max-w-2xl">Follow the funding, lobbying and ministerial meetings around this legislation. Each figure links to the underlying public-record source.</p>
           <div class="bg-retro-ink text-white rounded-md p-6 lg:p-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
@@ -311,7 +315,7 @@ const effectLabel = (effect: string) => ({
       <!-- The debate -->
       {bill.debate ? (
         <section class="mb-14">
-          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">🗣️ The debate</h2>
+          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("speech")} />The debate</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div class="bg-white border border-retro-border rounded-md p-6 border-t-4 border-t-retro-green">
               <h3 class="text-sm font-semibold text-retro-green uppercase tracking-widest mb-4">Supporters argue</h3>
@@ -340,10 +344,10 @@ const effectLabel = (effect: string) => ({
       <!-- Red flags -->
       {bill.redFlags?.length ? (
         <section class="mb-14">
-          <h2 class="text-[10px] font-mono text-amber-700 uppercase tracking-[0.22em] mb-4">⚠️ Red flags</h2>
+          <h2 class="text-[10px] font-mono text-amber-700 uppercase tracking-[0.22em] mb-4 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("warning")} />Red flags</h2>
           <ul class="space-y-2">
             {bill.redFlags.map(f => (
-              <li class="text-sm text-retro-ink leading-relaxed flex gap-3 bg-amber-50 border border-amber-200 rounded-sm p-3"><span class="text-amber-700 mt-0.5">⚠</span><span>{f}</span></li>
+              <li class="text-sm text-retro-ink leading-relaxed flex gap-3 bg-amber-50 border border-amber-200 rounded-sm p-3"><svg class="w-4 h-4 text-amber-700 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("warning")} /><span>{f}</span></li>
             ))}
           </ul>
         </section>
@@ -352,7 +356,7 @@ const effectLabel = (effect: string) => ({
       <!-- Resources -->
       {bill.resources?.length ? (
         <section class="mb-14">
-          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-4">📚 Further resources</h2>
+          <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-4 flex items-center gap-2"><svg class="w-3.5 h-3.5 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={icon("library")} />Further resources</h2>
           <ul class="space-y-2">
             {bill.resources.map(r => (
               <li><a href={r.url} target="_blank" rel="noopener" class="text-retro-green hover:text-retro-ledger underline underline-offset-2 text-sm">{r.label} →</a></li>
