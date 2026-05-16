@@ -250,8 +250,9 @@ async function fetchBillContent(url: string): Promise<string> {
   }
   const html = await resp.text();
   const text = stripHtml(html);
-  // Cap at ~120k chars (~30k tokens) to stay within sensible input budget
-  return text.length > 120_000 ? text.slice(0, 120_000) + '\n\n[...truncated for length...]' : text;
+  // Cap at ~50k chars (~12k tokens) — keeps the substantive sections, trims the tail.
+  // Roughly 2-3x faster TTFT than the previous 120k cap.
+  return text.length > 50_000 ? text.slice(0, 50_000) + '\n\n[...truncated — analysis based on first 50k chars...]' : text;
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -277,7 +278,7 @@ export const POST: APIRoute = async ({ request }) => {
       sourceText = await fetchBillContent(body.url);
       sourceLabel = `URL: ${body.url}`;
     } else if (body.text && body.text.trim().length > 100) {
-      sourceText = body.text.slice(0, 120_000);
+      sourceText = body.text.slice(0, 50_000);
       sourceLabel = 'Pasted text';
     } else {
       return new Response(JSON.stringify({ error: 'Provide a `url` to a UK bill or `text` of the bill content (min 100 chars)' }), { status: 400 });
