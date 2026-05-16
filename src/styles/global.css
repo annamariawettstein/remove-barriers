@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Satoshi", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-serif: "Newsreader", serif;
+
+  --color-margin-bg: #0B0F0E;
+  --color-margin-dark: #0F1B17;
+  --color-margin-forest: #133A2E;
+  --color-margin-emerald: #1DB887;
+  --color-margin-mint: #A7F3D0;
+  --color-margin-gray: #A7B0AB;
+  --color-margin-offwhite: #F2F4F3;
+  --color-margin-card: rgba(15, 27, 23, 0.6);
+  --color-margin-border: rgba(29, 184, 135, 0.2);
+
+  --color-retro-bg: #F6F7E8;
+  --color-retro-ink: #1A1A1A;
+  --color-retro-green: #0F3D2E;
+  --color-retro-ledger: #1A5B43;
+  --color-retro-slate: #6B7280;
+  --color-retro-card: #FFFFFF;
+  --color-retro-border: #E5E7EB; /* Very light subtle gray for UI borders */
+}
+
+body {
+  font-family: "Satoshi", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono {
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.highlight-mark {
+  background-color: var(--color-margin-emerald);
+  color: var(--color-margin-bg);
+  padding: 0 4px;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-margin-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-margin-forest);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-margin-emerald);
+}
+
+.terminal-grid {
+  background-image: 
+    linear-gradient(to right, rgba(29, 184, 135, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 184, 135, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  pointer-events: none;
+}
+
+.retro-grid {
+  background-image: 
+    linear-gradient(to right, rgba(11, 59, 36, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 59, 36, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+.terminal-grid-dense {
+  background-image: 
+    linear-gradient(to right, rgba(29, 184, 135, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 184, 135, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.glass-panel-dark {
+  background-color: var(--color-margin-card);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.glass-panel-dark:hover {
+  border-color: rgba(29, 184, 135, 0.4);
+  box-shadow: 0 8px 40px rgba(29, 184, 135, 0.1);
+}
+
+.neon-border {
+  position: relative;
+}
+
+.neon-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom right, rgba(29, 184, 135, 0.8), rgba(29, 184, 135, 0));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.neon-border:hover::after {
+  opacity: 1;
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(29, 184, 135, 0.4);
+}
+
+.dot-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-margin-emerald);
+  box-shadow: 0 0 10px var(--color-margin-emerald);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; box-shadow: 0 0 0 0 rgba(29, 184, 135, 0.7); }
+  70% { opacity: 0.5; box-shadow: 0 0 0 6px rgba(29, 184, 135, 0); }
+  100% { opacity: 1; box-shadow: 0 0 0 0 rgba(29, 184, 135, 0); }
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.data-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.data-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-margin-emerald), transparent);
+  animation: scan-line 3s infinite linear;
+}
+
+@keyframes scan-line {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+

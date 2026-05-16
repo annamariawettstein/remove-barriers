@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Expose — Context Utility · by Lattice",
+  "version": "0.2.0",
+  "description": "Expose surfaces source-linked context on politicians, companies, media outlets, and think tanks while you browse, with inline highlights, confidence scoring, and a pinned sidebar dossier.",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Expose"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["entities.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

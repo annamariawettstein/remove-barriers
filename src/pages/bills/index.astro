@@ -1,0 +1,503 @@
+---
+export const prerender = true;
+import LightLayout from '../../layouts/LightLayout.astro';
+import { BILLS } from '../../data/bills';
+import { ICON_PATHS } from '../../data/icons';
+
+const fullBills = BILLS.filter(b => !b.isStub);
+---
+
+<LightLayout title="Policy Translator — Lattice">
+  <main class="relative z-10 max-w-[1100px] mx-auto px-6 lg:px-8 py-12 bg-retro-bg">
+
+    <!-- Breadcrumb -->
+    <div class="mb-8 text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-3">
+      <a href="/" class="hover:text-retro-ink transition">Lattice</a>
+      <span class="text-retro-ink/20">/</span>
+      <span class="text-retro-ink">Policy Translator</span>
+    </div>
+
+    <header class="mb-12">
+      <div class="border-t border-retro-ink/15 pt-3 flex items-center justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-8">
+        <span>POLICY TRANSLATOR · v0.1</span>
+        <span>Updated daily from bills.parliament.uk</span>
+      </div>
+      <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-3">A Lattice product</div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-retro-ink tracking-tight leading-[1.05] mb-5">
+        Policy Translator <span class="italic font-light text-retro-green">— UK bills in plain English.</span>
+      </h1>
+      <p class="text-base text-retro-slate leading-relaxed max-w-2xl">
+        Every active UK bill, translated. Plain summary, who it affects, what changes, when it takes effect — and the money behind it. Paste any bill from Parliament or legislation.gov.uk below, or browse the pre-translated set. Add a profile on any bill page to personalise the impact to your situation.
+      </p>
+    </header>
+
+    <!-- Paste-URL translator -->
+    <section class="mb-14 bg-white border border-retro-ink rounded-md p-6 lg:p-8 shadow-[6px_6px_0px_rgba(15,61,46,0.95)]">
+      <div class="flex flex-col lg:flex-row gap-6 lg:items-start lg:justify-between mb-5">
+        <div>
+          <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-2">Translate any bill</div>
+          <h2 class="text-2xl font-semibold text-retro-ink tracking-tight mb-1">Paste a UK bill, get plain English in 30 seconds.</h2>
+          <p class="text-sm text-retro-slate max-w-xl">Drop a link to a UK bill or act and Lattice will translate it: plain summary, who it affects, scenarios, timeline, and the money behind it. Powered by Claude.</p>
+        </div>
+      </div>
+
+      <!-- Profile status banner -->
+      <div id="profile-banner" class="hidden mb-4 flex items-center justify-between gap-3 border border-retro-green/40 bg-retro-green/5 rounded-sm px-4 py-3 text-sm">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="text-retro-green font-mono text-[10px] uppercase tracking-widest flex-shrink-0">Personalised for</span>
+          <span id="profile-banner-text" class="text-retro-ink truncate"></span>
+        </div>
+        <div class="flex gap-2 flex-shrink-0">
+          <button type="button" id="profile-edit" class="text-[11px] font-mono uppercase tracking-widest text-retro-slate hover:text-retro-ink">Edit</button>
+          <button type="button" id="profile-clear" class="text-[11px] font-mono uppercase tracking-widest text-retro-slate hover:text-retro-ink">Clear</button>
+        </div>
+      </div>
+
+      <form id="translate-form" class="space-y-4">
+        <div class="flex flex-col md:flex-row gap-3">
+          <input
+            id="translate-url"
+            type="url"
+            placeholder="https://www.legislation.gov.uk/ukpga/2024/22/enacted"
+            class="flex-1 bg-retro-bg border border-retro-border rounded-sm px-4 py-3 text-sm text-retro-ink focus:outline-none focus:border-retro-green focus:ring-1 focus:ring-retro-green"
+          />
+          <button
+            type="submit"
+            id="translate-submit"
+            class="bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] flex-shrink-0"
+          >
+            Translate →
+          </button>
+        </div>
+
+        <details class="text-[12px]">
+          <summary class="cursor-pointer text-retro-slate hover:text-retro-ink select-none font-mono uppercase tracking-widest text-[10px]">Or paste the bill text directly</summary>
+          <textarea
+            id="translate-text"
+            rows="6"
+            placeholder="Paste the bill text here (min 100 characters)..."
+            class="mt-3 w-full bg-retro-bg border border-retro-border rounded-sm px-4 py-3 text-sm text-retro-ink focus:outline-none focus:border-retro-green font-mono"
+          ></textarea>
+        </details>
+
+        <p class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.18em]">
+          Direct fetch · legislation.gov.uk · For bills.parliament.uk, copy &amp; paste the bill text below
+        </p>
+      </form>
+
+      <!-- Loading state -->
+      <div id="translate-loading" class="hidden mt-6 border-t border-retro-border pt-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-2 h-2 rounded-full bg-retro-green animate-pulse"></span>
+          <span id="translate-loading-step" class="text-sm font-mono text-retro-ink">Reading bill…</span>
+        </div>
+        <div class="h-1 bg-retro-border rounded-full overflow-hidden">
+          <div id="translate-progress" class="h-full bg-retro-green transition-all duration-700" style="width: 5%"></div>
+        </div>
+        <p class="mt-3 text-[10px] font-mono text-retro-slate uppercase tracking-widest">This usually takes 30–90 seconds for a full bill.</p>
+      </div>
+
+      <!-- Personalisation gate (shown when user submits without a profile) -->
+      <div id="translate-gate" class="hidden mt-6 border-t border-retro-border pt-6">
+        <div class="bg-retro-bg border border-retro-ink rounded-sm p-5">
+          <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-2">Optional · 30 seconds</div>
+          <h3 class="text-base font-semibold text-retro-ink mb-1">Personalise this brief for you first?</h3>
+          <p class="text-sm text-retro-slate mb-4 max-w-2xl">Tell us a little about your situation (housing tenure, employment, constituency) and Claude will prioritise the scenarios and actions that apply to you. Stored only on this device.</p>
+          <div class="flex flex-wrap gap-3">
+            <button type="button" id="gate-personalise" class="bg-retro-green text-white px-5 py-2.5 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+              Personalise first
+            </button>
+            <button type="button" id="gate-skip" class="text-retro-ink border border-retro-border bg-white px-5 py-2.5 text-sm font-medium hover:bg-retro-bg transition rounded-sm">
+              Skip — translate anyway
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error state -->
+      <div id="translate-error" class="hidden mt-6 border-t border-amber-300 pt-6">
+        <div class="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-sm p-4">
+          <svg class="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS.warning} />
+          <div>
+            <p class="text-sm font-semibold text-amber-900 mb-1">Translation failed</p>
+            <p id="translate-error-message" class="text-sm text-amber-800"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personalise modal (reused for first-time setup and edit) -->
+    <div id="personalise-modal" class="fixed inset-0 z-[100] hidden bg-retro-ink/40 backdrop-blur-sm items-center justify-center p-4">
+      <div class="bg-retro-bg border border-retro-ink rounded-md max-w-lg w-full p-8 shadow-[6px_6px_0px_rgba(15,61,46,0.95)]">
+        <div class="flex items-start justify-between mb-6">
+          <div>
+            <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-1">Personalise</div>
+            <h3 class="text-xl font-semibold text-retro-ink">Tell us a little about your situation</h3>
+            <p class="text-sm text-retro-slate mt-1">Stored only on this device. Skip any question.</p>
+          </div>
+          <button id="personalise-close" class="text-retro-slate hover:text-retro-ink text-xl leading-none">×</button>
+        </div>
+
+        <form id="personalise-form" class="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Housing</label>
+              <select name="housingTenure" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="renter">Renting (private)</option>
+                <option value="owner">Own outright</option>
+                <option value="mortgage">Own with a mortgage</option>
+                <option value="landlord">Landlord</option>
+                <option value="family">Living with family</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Employment</label>
+              <select name="employmentStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="employee">Employee</option>
+                <option value="selfEmployed">Self-employed</option>
+                <option value="businessOwner">Business owner</option>
+                <option value="publicSector">Public sector worker</option>
+                <option value="retired">Retired</option>
+                <option value="student">Student</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Family status</label>
+              <select name="familyStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="single">Single</option>
+                <option value="partnered">Partnered (cohabiting)</option>
+                <option value="married">Married / civil partnership</option>
+                <option value="separated">Separated / divorced</option>
+                <option value="widowed">Widowed</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Children</label>
+              <select name="childrenStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="none">None</option>
+                <option value="expecting">Expecting</option>
+                <option value="youngChildren">Young children (under 5)</option>
+                <option value="schoolAge">School-age children</option>
+                <option value="adultChildren">Adult children</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Education</label>
+              <select name="educationStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="school">In school</option>
+                <option value="college">In college / FE</option>
+                <option value="apprenticeship">Apprenticeship</option>
+                <option value="university">Undergraduate</option>
+                <option value="postgraduate">Postgraduate</option>
+                <option value="completed">Completed education</option>
+                <option value="notInEducation">Not in education</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Household income</label>
+              <select name="salaryBand" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="under15k">Under £15,000</option>
+                <option value="15to30k">£15,000 – £30,000</option>
+                <option value="30to50k">£30,000 – £50,000</option>
+                <option value="50to80k">£50,000 – £80,000</option>
+                <option value="80to125k">£80,000 – £125,000</option>
+                <option value="over125k">Over £125,000</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Immigration status</label>
+              <select name="immigrationStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="britishCitizen">British / Irish citizen</option>
+                <option value="settled">Settled status / ILR</option>
+                <option value="preSettled">EU pre-settled status</option>
+                <option value="workVisa">Work visa</option>
+                <option value="studentVisa">Student visa</option>
+                <option value="familyVisa">Family visa</option>
+                <option value="asylumSeeker">Asylum seeker</option>
+                <option value="refugee">Refugee</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Constituency <span class="text-retro-slate/70 normal-case tracking-normal text-[10px]">(optional)</span></label>
+              <input type="text" name="constituency" placeholder="e.g. Tottenham" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green" />
+            </div>
+          </div>
+
+          <p class="text-[11px] text-retro-slate italic">Skip any field. None of this is sent to a server — stored in your browser only. Used to highlight the parts of each bill that actually apply to you.</p>
+
+          <div class="flex gap-3 pt-2">
+            <button type="submit" class="flex-1 bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+              Save &amp; continue
+            </button>
+            <button type="button" id="personalise-cancel" class="text-retro-ink border border-retro-border bg-white px-4 py-3 text-sm font-medium hover:bg-retro-bg transition rounded-sm">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Full bills -->
+    <section class="mb-12">
+      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">Full analyses</h2>
+      <div class="space-y-4">
+        {fullBills.map(b => (
+          <a href={`/bills/${b.slug}`} class="block group">
+            <article class="bg-white border border-retro-border rounded-md p-6 lg:p-8 hover:border-retro-ink hover:shadow-[4px_4px_0px_rgba(15,61,46,0.95)] transition-all">
+              <div class="flex items-start gap-5">
+                <div class="flex-shrink-0">
+                  <svg class="w-10 h-10 text-retro-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" set:html={ICON_PATHS[b.icon] || ''} />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-wrap items-center gap-3 mb-2">
+                    <h3 class="text-2xl font-semibold text-retro-ink tracking-tight group-hover:text-retro-green transition-colors">{b.shortTitle}</h3>
+                    <span class="text-[9px] font-mono uppercase tracking-widest text-retro-green bg-retro-green/10 px-2 py-1 rounded-sm">{b.status}</span>
+                  </div>
+                  <p class="text-sm text-retro-ink leading-relaxed mb-4">{b.summary}</p>
+                  <div class="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-mono text-retro-slate uppercase tracking-widest">
+                    <span>Affects · {b.whoAffected[0]}</span>
+                    <span>Territory · {b.territorialExtent.join(' / ')}</span>
+                    {b.royalAssentExpected ? <span>Expected · {b.royalAssentExpected}</span> : null}
+                  </div>
+                </div>
+                <span class="text-retro-green text-2xl flex-shrink-0 group-hover:translate-x-1 transition-transform">→</span>
+              </div>
+            </article>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Personalise hint -->
+    <section class="mt-16 bg-retro-ink text-white rounded-md p-8 lg:p-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-8">
+          <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-2">Personalised briefings</div>
+          <h3 class="text-2xl md:text-3xl font-semibold tracking-tight mb-3">See how each bill affects you specifically.</h3>
+          <p class="text-sm text-white/70 leading-relaxed max-w-2xl">Open any bill and tap "Personalise". Tell us if you rent or own, what you do for work, and we'll surface the scenarios and actions that apply. Stored only on your device — nothing leaves the browser.</p>
+        </div>
+        <div class="lg:col-span-4 flex flex-col gap-3">
+          <ul class="space-y-2 text-xs text-white/80">
+            <li class="flex gap-2"><span class="text-retro-green">→</span> Renter? Get tenancy scenarios first.</li>
+            <li class="flex gap-2"><span class="text-retro-green">→</span> Self-employed? See compliance actions.</li>
+            <li class="flex gap-2"><span class="text-retro-green">→</span> Public-sector worker? Get sector context.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    (function () {
+      const STORAGE_KEY = 'lattice.profile';
+      const form = document.getElementById('translate-form');
+      const urlInput = document.getElementById('translate-url');
+      const textInput = document.getElementById('translate-text');
+      const submit = document.getElementById('translate-submit');
+      const loading = document.getElementById('translate-loading');
+      const loadingStep = document.getElementById('translate-loading-step');
+      const progress = document.getElementById('translate-progress');
+      const errorBox = document.getElementById('translate-error');
+      const errorMsg = document.getElementById('translate-error-message');
+      const gate = document.getElementById('translate-gate');
+      const gatePersonalise = document.getElementById('gate-personalise');
+      const gateSkip = document.getElementById('gate-skip');
+      const banner = document.getElementById('profile-banner');
+      const bannerText = document.getElementById('profile-banner-text');
+      const profileEdit = document.getElementById('profile-edit');
+      const profileClear = document.getElementById('profile-clear');
+      const modal = document.getElementById('personalise-modal');
+      const modalForm = document.getElementById('personalise-form');
+      const modalClose = document.getElementById('personalise-close');
+      const modalCancel = document.getElementById('personalise-cancel');
+      if (!form) return;
+
+      const PROFILE_KEYS = ['housingTenure', 'employmentStatus', 'familyStatus', 'childrenStatus', 'educationStatus', 'salaryBand', 'immigrationStatus'];
+
+      function loadProfile() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+        catch { return {}; }
+      }
+      function saveProfile(p) { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }
+      function clearProfile() { localStorage.removeItem(STORAGE_KEY); }
+      function hasProfile() {
+        const p = loadProfile();
+        return PROFILE_KEYS.some(k => !!p[k]) || !!p.constituency;
+      }
+
+      function renderBanner() {
+        const p = loadProfile();
+        if (!hasProfile()) {
+          banner.classList.add('hidden');
+          banner.classList.remove('flex');
+          return;
+        }
+        const bits = [];
+        PROFILE_KEYS.forEach(k => { if (p[k]) bits.push(p[k]); });
+        if (p.constituency) bits.push(p.constituency);
+        bannerText.textContent = bits.join(' · ');
+        banner.classList.remove('hidden');
+        banner.classList.add('flex');
+      }
+
+      function openModal(onSave) {
+        const p = loadProfile();
+        PROFILE_KEYS.forEach(k => { if (modalForm[k]) modalForm[k].value = p[k] || ''; });
+        if (modalForm.constituency) modalForm.constituency.value = p.constituency || '';
+        modal._onSave = onSave;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+      function closeModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        modal._onSave = null;
+      }
+
+      modalClose.addEventListener('click', closeModal);
+      modalCancel.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+      modalForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(modalForm);
+        const p = {};
+        PROFILE_KEYS.forEach(k => {
+          const v = (data.get(k) || '').toString();
+          if (v) p[k] = v;
+        });
+        const con = (data.get('constituency') || '').toString().trim();
+        if (con) p.constituency = con;
+        if (Object.keys(p).length === 0) clearProfile();
+        else saveProfile(p);
+        renderBanner();
+        const cb = modal._onSave;
+        closeModal();
+        if (cb) cb();
+      });
+
+      profileEdit.addEventListener('click', () => openModal(null));
+      profileClear.addEventListener('click', () => { clearProfile(); renderBanner(); });
+      renderBanner();
+
+      const STEPS = [
+        { label: 'Fetching bill from source…', pct: 12 },
+        { label: 'Parsing legislative structure…', pct: 26 },
+        { label: 'Extracting plain-English meaning…', pct: 44 },
+        { label: 'Mapping stakeholder impact…', pct: 60 },
+        { label: 'Checking rights & freedoms…', pct: 74 },
+        { label: 'Tracing the money behind the bill…', pct: 86 },
+        { label: 'Drafting before/after scenarios…', pct: 94 },
+      ];
+
+      let stepTimer = null;
+
+      function startLoading() {
+        loading.classList.remove('hidden');
+        errorBox.classList.add('hidden');
+        submit.disabled = true;
+        submit.classList.add('opacity-60', 'cursor-not-allowed');
+        let i = 0;
+        loadingStep.textContent = STEPS[0].label;
+        progress.style.width = STEPS[0].pct + '%';
+        stepTimer = setInterval(() => {
+          i = Math.min(i + 1, STEPS.length - 1);
+          loadingStep.textContent = STEPS[i].label;
+          progress.style.width = STEPS[i].pct + '%';
+        }, 9000);
+      }
+
+      function stopLoading() {
+        clearInterval(stepTimer);
+        loading.classList.add('hidden');
+        submit.disabled = false;
+        submit.classList.remove('opacity-60', 'cursor-not-allowed');
+      }
+
+      function showError(msg) {
+        stopLoading();
+        errorBox.classList.remove('hidden');
+        errorMsg.textContent = msg;
+      }
+
+      async function runTranslate() {
+        errorBox.classList.add('hidden');
+        gate.classList.add('hidden');
+        const url = urlInput.value.trim();
+        const text = textInput.value.trim();
+        if (!url && text.length < 100) {
+          showError('Paste a UK bill URL or at least 100 characters of bill text.');
+          return;
+        }
+        startLoading();
+        const profile = hasProfile() ? loadProfile() : null;
+        try {
+          const resp = await fetch('/api/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(url ? { url, profile } : { text, profile }),
+          });
+          const data = await resp.json();
+          if (!resp.ok) {
+            showError(data.error || `Server returned ${resp.status}`);
+            return;
+          }
+          // If this bill is already in our library, redirect to the existing page
+          if (data.existingSlug) {
+            loadingStep.textContent = 'Already in our library — opening…';
+            progress.style.width = '100%';
+            window.location.href = '/bills/' + data.existingSlug;
+            return;
+          }
+          // Otherwise stash freshly translated result and navigate
+          sessionStorage.setItem('lattice.translatedBill', JSON.stringify(data.bill));
+          sessionStorage.setItem('lattice.translatedAt', String(Date.now()));
+          window.location.href = '/bills/translate';
+        } catch (err) {
+          showError(err.message || 'Network error');
+        }
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        errorBox.classList.add('hidden');
+        const url = urlInput.value.trim();
+        const text = textInput.value.trim();
+        if (!url && text.length < 100) {
+          showError('Paste a UK bill URL or at least 100 characters of bill text.');
+          return;
+        }
+        if (!hasProfile()) {
+          gate.classList.remove('hidden');
+          gate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        runTranslate();
+      });
+
+      gatePersonalise.addEventListener('click', () => {
+        gate.classList.add('hidden');
+        openModal(() => runTranslate());
+      });
+      gateSkip.addEventListener('click', () => {
+        gate.classList.add('hidden');
+        runTranslate();
+      });
+    })();
+  </script>
+</LightLayout>
