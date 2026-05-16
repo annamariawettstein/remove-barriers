@@ -1,7 +1,7 @@
-// Lattice MVP — mock entity dataset.
+// Expose MVP — mock entity dataset (Lattice platform).
 // All figures are illustrative. Replace with live API data when the backend is ready.
 
-window.LATTICE_ENTITIES = [
+window.EXPOSE_ENTITIES = [
   // -------- Politicians --------
   {
     id: "p_rishi_sunak",

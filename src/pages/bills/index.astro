@@ -7,26 +7,27 @@ const fullBills = BILLS.filter(b => !b.isStub);
 const stubs = BILLS.filter(b => b.isStub);
 ---
 
-<LightLayout title="Bills · Plain English — Lattice">
+<LightLayout title="Policy Translator — Lattice">
   <main class="relative z-10 max-w-[1100px] mx-auto px-6 lg:px-8 py-12 bg-retro-bg">
 
     <!-- Breadcrumb -->
     <div class="mb-8 text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-3">
       <a href="/" class="hover:text-retro-ink transition">Lattice</a>
       <span class="text-retro-ink/20">/</span>
-      <span class="text-retro-ink">Bills</span>
+      <span class="text-retro-ink">Policy Translator</span>
     </div>
 
     <header class="mb-12">
       <div class="border-t border-retro-ink/15 pt-3 flex items-center justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-8">
-        <span>DOC · BILLS-INDEX</span>
+        <span>POLICY TRANSLATOR · v0.1</span>
         <span>Updated daily from bills.parliament.uk</span>
       </div>
+      <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-3">A Lattice product</div>
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-retro-ink tracking-tight leading-[1.05] mb-5">
-        Bills <span class="italic font-light text-retro-green">in plain English.</span>
+        Policy Translator <span class="italic font-light text-retro-green">— UK bills in plain English.</span>
       </h1>
       <p class="text-base text-retro-slate leading-relaxed max-w-2xl">
-        Every active UK bill, translated. Plain summary, who it affects, what changes, when it takes effect — and the money behind it. Add a profile on any bill page to personalise the impact analysis to your situation.
+        Every active UK bill, translated. Plain summary, who it affects, what changes, when it takes effect — and the money behind it. Paste any bill from Parliament or legislation.gov.uk below, or browse the pre-translated set. Add a profile on any bill page to personalise the impact to your situation.
       </p>
     </header>
 

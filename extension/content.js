@@ -1,12 +1,12 @@
-// Lattice content script. Runs on every page at document_idle.
+// Expose content script. Runs on every page at document_idle. (Lattice platform.)
 // 1. Reads enabled flag from chrome.storage (defaults to true).
-// 2. Walks visible text nodes, wraps matches in <span class="lattice-entity">.
+// 2. Walks visible text nodes, wraps matches in <span class="expose-entity">.
 // 3. Renders a single shared hover card on demand.
 
 (function () {
   "use strict";
 
-  const ENTITIES = window.LATTICE_ENTITIES || [];
+  const ENTITIES = window.EXPOSE_ENTITIES || [];
   if (!ENTITIES.length) return;
 
   const SKIP_TAGS = new Set([
@@ -36,7 +36,7 @@
   function ensureCard() {
     if (cardEl) return cardEl;
     cardEl = document.createElement("div");
-    cardEl.className = "lattice-card";
+    cardEl.className = "expose-card";
     cardEl.setAttribute("role", "tooltip");
     cardEl.addEventListener("mouseenter", () => clearTimeout(hideTimer));
     cardEl.addEventListener("mouseleave", scheduleHide);
@@ -60,25 +60,25 @@
       subhead = `${entity.sector || ""}${entity.companyNumber ? " · CH " + entity.companyNumber : ""}`;
     }
     const facts = (entity.facts || []).map(f => `
-      <div class="lattice-fact">
-        <div class="lattice-fact-label">${escapeHtml(f.label)}</div>
-        <div class="lattice-fact-row">
-          <span class="lattice-fact-value">${escapeHtml(f.value)}</span>
-          <span class="lattice-fact-source">${escapeHtml(f.source)}</span>
+      <div class="expose-fact">
+        <div class="expose-fact-label">${escapeHtml(f.label)}</div>
+        <div class="expose-fact-row">
+          <span class="expose-fact-value">${escapeHtml(f.value)}</span>
+          <span class="expose-fact-source">${escapeHtml(f.source)}</span>
         </div>
       </div>
     `).join("");
 
     card.innerHTML = `
-      <div class="lattice-card-head">
-        <div class="lattice-card-type">${typeLabel}</div>
-        <div class="lattice-card-brand">lattice</div>
+      <div class="expose-card-head">
+        <div class="expose-card-type">${typeLabel}</div>
+        <div class="expose-card-brand">lattice</div>
       </div>
-      <div class="lattice-card-name">${escapeHtml(entity.name)}</div>
-      <div class="lattice-card-sub">${escapeHtml(subhead)}</div>
-      ${entity.role ? `<div class="lattice-card-role">${escapeHtml(entity.role)}</div>` : ""}
-      <div class="lattice-card-facts">${facts}</div>
-      <div class="lattice-card-foot">Demo data — figures illustrative</div>
+      <div class="expose-card-name">${escapeHtml(entity.name)}</div>
+      <div class="expose-card-sub">${escapeHtml(subhead)}</div>
+      ${entity.role ? `<div class="expose-card-role">${escapeHtml(entity.role)}</div>` : ""}
+      <div class="expose-card-facts">${facts}</div>
+      <div class="expose-card-foot">Demo data — figures illustrative</div>
     `;
     card.style.display = "block";
   }
@@ -113,7 +113,7 @@
 
   function showFor(span) {
     clearTimeout(hideTimer);
-    const id = span.dataset.latticeId;
+    const id = span.dataset.exposeId;
     const entity = ENTITIES.find(e => e.id === id);
     if (!entity) return;
     activeSpan = span;
@@ -143,8 +143,8 @@
         fragments.push(document.createTextNode(text.slice(cursor, start)));
       }
       const span = document.createElement("span");
-      span.className = "lattice-entity";
-      span.dataset.latticeId = entity.id;
+      span.className = "expose-entity";
+      span.dataset.exposeId = entity.id;
       span.textContent = match[0];
       fragments.push(span);
       cursor = end;
@@ -162,7 +162,7 @@
     let p = node.parentNode;
     while (p && p.nodeType === 1) {
       if (SKIP_TAGS.has(p.tagName)) return true;
-      if (p.classList && p.classList.contains("lattice-entity")) return true;
+      if (p.classList && p.classList.contains("expose-entity")) return true;
       if (p.isContentEditable) return true;
       p = p.parentNode;
     }
@@ -186,13 +186,13 @@
   function attachHandlers() {
     document.addEventListener("mouseover", (ev) => {
       const target = ev.target;
-      if (target && target.classList && target.classList.contains("lattice-entity")) {
+      if (target && target.classList && target.classList.contains("expose-entity")) {
         showFor(target);
       }
     });
     document.addEventListener("mouseout", (ev) => {
       const target = ev.target;
-      if (target && target.classList && target.classList.contains("lattice-entity")) {
+      if (target && target.classList && target.classList.contains("expose-entity")) {
         scheduleHide();
       }
     });
@@ -204,7 +204,7 @@
   }
 
   function unwrapAll() {
-    document.querySelectorAll(".lattice-entity").forEach(span => {
+    document.querySelectorAll(".expose-entity").forEach(span => {
       const parent = span.parentNode;
       while (span.firstChild) parent.insertBefore(span.firstChild, span);
       parent.removeChild(span);

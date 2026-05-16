@@ -1,6 +1,6 @@
-# Lattice — Article Context (browser extension MVP)
+# Expose — Article Context (browser extension MVP, part of the Lattice platform)
 
-Underlines mentions of UK politicians and companies on any web page, and shows a hover card with public-record context (donations, lobbying spend, government contracts, Companies House data).
+Underlines mentions of UK politicians, companies, and newspapers on any web page, and shows a hover card with public-record context (donations, lobbying spend, government contracts, Companies House data, media ownership).
 
 ## What's in v0.1
 
