@@ -80,7 +80,12 @@ const BILL_TOOL = {
             stakeholder: { type: 'string' },
             profileMatch: { type: 'object', properties: {
               housingTenure: { type: 'array', items: { type: 'string', enum: ['renter', 'owner', 'mortgage', 'landlord', 'family'] } },
-              employmentStatus: { type: 'array', items: { type: 'string', enum: ['employee', 'selfEmployed', 'businessOwner', 'publicSector', 'retired', 'student'] } }
+              employmentStatus: { type: 'array', items: { type: 'string', enum: ['employee', 'selfEmployed', 'businessOwner', 'publicSector', 'retired', 'student'] } },
+              familyStatus: { type: 'array', items: { type: 'string', enum: ['single', 'partnered', 'married', 'separated', 'widowed'] } },
+              childrenStatus: { type: 'array', items: { type: 'string', enum: ['none', 'expecting', 'youngChildren', 'schoolAge', 'adultChildren'] } },
+              educationStatus: { type: 'array', items: { type: 'string', enum: ['school', 'college', 'apprenticeship', 'university', 'postgraduate', 'completed', 'notInEducation'] } },
+              salaryBand: { type: 'array', items: { type: 'string', enum: ['under15k', '15to30k', '30to50k', '50to80k', '80to125k', 'over125k'] } },
+              immigrationStatus: { type: 'array', items: { type: 'string', enum: ['britishCitizen', 'settled', 'preSettled', 'workVisa', 'studentVisa', 'familyVisa', 'asylumSeeker', 'refugee', 'other'] } }
             } },
             before: { type: 'string' },
             after: { type: 'string' },
@@ -102,7 +107,12 @@ const BILL_TOOL = {
             label: { type: 'string' },
             profileMatch: { type: 'object', properties: {
               housingTenure: { type: 'array', items: { type: 'string', enum: ['renter', 'owner', 'mortgage', 'landlord', 'family'] } },
-              employmentStatus: { type: 'array', items: { type: 'string', enum: ['employee', 'selfEmployed', 'businessOwner', 'publicSector', 'retired', 'student'] } }
+              employmentStatus: { type: 'array', items: { type: 'string', enum: ['employee', 'selfEmployed', 'businessOwner', 'publicSector', 'retired', 'student'] } },
+              familyStatus: { type: 'array', items: { type: 'string', enum: ['single', 'partnered', 'married', 'separated', 'widowed'] } },
+              childrenStatus: { type: 'array', items: { type: 'string', enum: ['none', 'expecting', 'youngChildren', 'schoolAge', 'adultChildren'] } },
+              educationStatus: { type: 'array', items: { type: 'string', enum: ['school', 'college', 'apprenticeship', 'university', 'postgraduate', 'completed', 'notInEducation'] } },
+              salaryBand: { type: 'array', items: { type: 'string', enum: ['under15k', '15to30k', '30to50k', '50to80k', '80to125k', 'over125k'] } },
+              immigrationStatus: { type: 'array', items: { type: 'string', enum: ['britishCitizen', 'settled', 'preSettled', 'workVisa', 'studentVisa', 'familyVisa', 'asylumSeeker', 'refugee', 'other'] } }
             } },
             steps: { type: 'array', items: { type: 'string' } }
           },
@@ -208,7 +218,20 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  let body: { url?: string; text?: string; profile?: { housingTenure?: string; employmentStatus?: string; constituency?: string } | null };
+  let body: {
+    url?: string;
+    text?: string;
+    profile?: {
+      housingTenure?: string;
+      employmentStatus?: string;
+      familyStatus?: string;
+      childrenStatus?: string;
+      educationStatus?: string;
+      salaryBand?: string;
+      immigrationStatus?: string;
+      constituency?: string;
+    } | null;
+  };
   try {
     body = await request.json();
   } catch {
@@ -244,17 +267,27 @@ export const POST: APIRoute = async ({ request }) => {
   const client = new Anthropic({ apiKey });
 
   const profile = body.profile;
-  const profileBlock = profile && (profile.housingTenure || profile.employmentStatus || profile.constituency) ? `
+  const profileFields: [string, string | undefined][] = profile ? [
+    ['Housing tenure', profile.housingTenure],
+    ['Employment status', profile.employmentStatus],
+    ['Family status', profile.familyStatus],
+    ['Children', profile.childrenStatus],
+    ['Education status', profile.educationStatus],
+    ['Household income band', profile.salaryBand],
+    ['Immigration status', profile.immigrationStatus],
+    ['Constituency', profile.constituency]
+  ] : [];
+  const profileLines = profileFields.filter(([_, v]) => v).map(([k, v]) => `- ${k}: ${v}`);
+  const profileBlock = profileLines.length ? `
 The reader of this brief has shared the following profile and wants the analysis tailored to their situation:
-${profile.housingTenure ? `- Housing tenure: ${profile.housingTenure}` : ''}
-${profile.employmentStatus ? `- Employment status: ${profile.employmentStatus}` : ''}
-${profile.constituency ? `- Constituency: ${profile.constituency}` : ''}
+${profileLines.join('\n')}
 
 When writing scenarios and "what you need to do" actions:
 - Lead with the ones that apply directly to this reader's situation.
-- For each scenario or action that fits, set the matching profileMatch values (housingTenure / employmentStatus enums) so the UI can highlight it.
+- For each scenario or action that fits, set the matching profileMatch values (housingTenure, employmentStatus, familyStatus, childrenStatus, educationStatus, salaryBand, immigrationStatus — only the enums defined in the tool schema) so the UI can highlight it.
+- Be particularly attentive to vulnerable-case framing where immigration status, low income, family structure, or education stage interact with the bill's provisions.
 - Still include the full set the spec calls for (best case, worst case, edge case, typical case, vulnerable case) — do not drop coverage for other readers. Just order and tag for this one.
-${profile.constituency ? `- If the bill has constituency-specific implications, mention them for ${profile.constituency} where relevant.` : ''}
+${profile?.constituency ? `- If the bill has constituency-specific implications, mention them for ${profile.constituency} where relevant.` : ''}
 ` : '';
 
   const userMessage = `Source: ${sourceLabel}\n${profileBlock}\nTranslate the following UK bill into the structured analysis required by the submit_bill_analysis tool. Be source-grounded — if a section can't be filled with confidence from this content, leave the field empty rather than fabricate.\n\nBill content:\n${sourceText}`;

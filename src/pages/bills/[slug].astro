@@ -213,7 +213,12 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
             {bill.scenarios.map(sc => (
               <article class="bg-white border border-retro-border rounded-md p-6 lg:p-8 lattice-scenario"
                 data-housing={JSON.stringify(sc.profileMatch?.housingTenure || [])}
-                data-employment={JSON.stringify(sc.profileMatch?.employmentStatus || [])}>
+                data-employment={JSON.stringify(sc.profileMatch?.employmentStatus || [])}
+                data-family={JSON.stringify(sc.profileMatch?.familyStatus || [])}
+                data-children={JSON.stringify(sc.profileMatch?.childrenStatus || [])}
+                data-education={JSON.stringify(sc.profileMatch?.educationStatus || [])}
+                data-salary={JSON.stringify(sc.profileMatch?.salaryBand || [])}
+                data-immigration={JSON.stringify(sc.profileMatch?.immigrationStatus || [])}>
                 <h3 class="text-xl font-semibold text-retro-ink mb-1">{sc.title}</h3>
                 <p class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-5">{sc.stakeholder}</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
@@ -275,7 +280,12 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
             {bill.actions.map(a => (
               <div class="bg-white border border-retro-border rounded-md p-6 lattice-action"
                 data-housing={JSON.stringify(a.profileMatch?.housingTenure || [])}
-                data-employment={JSON.stringify(a.profileMatch?.employmentStatus || [])}>
+                data-employment={JSON.stringify(a.profileMatch?.employmentStatus || [])}
+                data-family={JSON.stringify(a.profileMatch?.familyStatus || [])}
+                data-children={JSON.stringify(a.profileMatch?.childrenStatus || [])}
+                data-education={JSON.stringify(a.profileMatch?.educationStatus || [])}
+                data-salary={JSON.stringify(a.profileMatch?.salaryBand || [])}
+                data-immigration={JSON.stringify(a.profileMatch?.immigrationStatus || [])}>
                 <h3 class="font-semibold text-retro-ink mb-4">{a.label}</h3>
                 <ul class="space-y-2">
                   {a.steps.map((s, i) => (
@@ -379,48 +389,117 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
 
   <!-- Personalise Modal -->
   <div id="personalise-modal" class="fixed inset-0 z-[100] hidden bg-retro-ink/40 backdrop-blur-sm items-center justify-center p-4">
-    <div class="bg-retro-bg border border-retro-ink rounded-md max-w-lg w-full p-8 shadow-[6px_6px_0px_rgba(15,61,46,0.95)]">
+    <div class="bg-retro-bg border border-retro-ink rounded-md max-w-2xl w-full p-8 shadow-[6px_6px_0px_rgba(15,61,46,0.95)] max-h-[90vh] flex flex-col">
       <div class="flex items-start justify-between mb-6">
         <div>
           <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-1">Personalise</div>
           <h3 class="text-xl font-semibold text-retro-ink">Tell us a little about your situation</h3>
-          <p class="text-sm text-retro-slate mt-1">Stored only on this device. Skip any question.</p>
+          <p class="text-sm text-retro-slate mt-1">Stored only on this device. Skip any field.</p>
         </div>
         <button id="personalise-close" class="text-retro-slate hover:text-retro-ink text-xl leading-none">×</button>
       </div>
 
-      <form id="personalise-form" class="space-y-5">
-        <div>
-          <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Housing</label>
-          <select name="housingTenure" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
-            <option value="">— not specified —</option>
-            <option value="renter">Renting (private)</option>
-            <option value="owner">Own outright</option>
-            <option value="mortgage">Own with a mortgage</option>
-            <option value="landlord">Landlord</option>
-            <option value="family">Living with family</option>
-          </select>
+      <form id="personalise-form" class="space-y-4 overflow-y-auto pr-1 flex-1">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Housing</label>
+            <select name="housingTenure" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+              <option value="">— not specified —</option>
+              <option value="renter">Renting (private)</option>
+              <option value="owner">Own outright</option>
+              <option value="mortgage">Own with a mortgage</option>
+              <option value="landlord">Landlord</option>
+              <option value="family">Living with family</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Employment</label>
+            <select name="employmentStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+              <option value="">— not specified —</option>
+              <option value="employee">Employee</option>
+              <option value="selfEmployed">Self-employed</option>
+              <option value="businessOwner">Business owner</option>
+              <option value="publicSector">Public sector worker</option>
+              <option value="retired">Retired</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Family status</label>
+            <select name="familyStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+              <option value="">— not specified —</option>
+              <option value="single">Single</option>
+              <option value="partnered">Partnered (cohabiting)</option>
+              <option value="married">Married / civil partnership</option>
+              <option value="separated">Separated / divorced</option>
+              <option value="widowed">Widowed</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Children</label>
+            <select name="childrenStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+              <option value="">— not specified —</option>
+              <option value="none">None</option>
+              <option value="expecting">Expecting</option>
+              <option value="youngChildren">Young children (under 5)</option>
+              <option value="schoolAge">School-age children</option>
+              <option value="adultChildren">Adult children</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Education</label>
+            <select name="educationStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+              <option value="">— not specified —</option>
+              <option value="school">In school</option>
+              <option value="college">In college / FE</option>
+              <option value="apprenticeship">Apprenticeship</option>
+              <option value="university">Undergraduate</option>
+              <option value="postgraduate">Postgraduate</option>
+              <option value="completed">Completed education</option>
+              <option value="notInEducation">Not in education</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Household income</label>
+            <select name="salaryBand" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+              <option value="">— not specified —</option>
+              <option value="under15k">Under £15,000</option>
+              <option value="15to30k">£15,000 – £30,000</option>
+              <option value="30to50k">£30,000 – £50,000</option>
+              <option value="50to80k">£50,000 – £80,000</option>
+              <option value="80to125k">£80,000 – £125,000</option>
+              <option value="over125k">Over £125,000</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Immigration status</label>
+            <select name="immigrationStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+              <option value="">— not specified —</option>
+              <option value="britishCitizen">British / Irish citizen</option>
+              <option value="settled">Settled status / ILR</option>
+              <option value="preSettled">EU pre-settled status</option>
+              <option value="workVisa">Work visa</option>
+              <option value="studentVisa">Student visa</option>
+              <option value="familyVisa">Family visa</option>
+              <option value="asylumSeeker">Asylum seeker</option>
+              <option value="refugee">Refugee</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Constituency <span class="text-retro-slate/70 normal-case tracking-normal text-[10px]">(optional)</span></label>
+            <input type="text" name="constituency" placeholder="e.g. Tottenham" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green" />
+          </div>
         </div>
 
-        <div>
-          <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Employment</label>
-          <select name="employmentStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
-            <option value="">— not specified —</option>
-            <option value="employee">Employee</option>
-            <option value="selfEmployed">Self-employed</option>
-            <option value="businessOwner">Business owner</option>
-            <option value="publicSector">Public sector worker</option>
-            <option value="retired">Retired</option>
-            <option value="student">Student</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Constituency <span class="text-retro-slate/70 normal-case tracking-normal text-[10px]">(optional · free text)</span></label>
-          <input type="text" name="constituency" placeholder="e.g. Tottenham" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green" />
-        </div>
-
-        <div class="flex gap-3 pt-2">
+        <div class="flex gap-3 pt-2 mt-4 border-t border-retro-border">
           <button type="submit" class="flex-1 bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
             Save &amp; personalise
           </button>
@@ -461,20 +540,30 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
         localStorage.removeItem(STORAGE_KEY);
       }
 
-      function matchesProfile(itemTags, profile) {
-        // itemTags has housing[] and employment[]. If both arrays empty, item is generic and shown by default
-        // when no personalisation is active, hidden otherwise (unless explicitly matched on some field).
-        const noTags = itemTags.housing.length === 0 && itemTags.employment.length === 0;
-        if (noTags) return true; // generic items always show
+      const PROFILE_DIMENSIONS = [
+        ['housing', 'housingTenure'],
+        ['employment', 'employmentStatus'],
+        ['family', 'familyStatus'],
+        ['children', 'childrenStatus'],
+        ['education', 'educationStatus'],
+        ['salary', 'salaryBand'],
+        ['immigration', 'immigrationStatus'],
+      ];
 
-        const housingMatch = itemTags.housing.length > 0 && profile.housingTenure && itemTags.housing.includes(profile.housingTenure);
-        const employmentMatch = itemTags.employment.length > 0 && profile.employmentStatus && itemTags.employment.includes(profile.employmentStatus);
-        return housingMatch || employmentMatch;
+      function matchesProfile(itemTags, profile) {
+        // Generic items (no tags on any dimension) always show.
+        const hasAnyTags = PROFILE_DIMENSIONS.some(([dim]) => (itemTags[dim] || []).length > 0);
+        if (!hasAnyTags) return true;
+        // Otherwise OR-match: item matches if any tagged dimension intersects the profile.
+        return PROFILE_DIMENSIONS.some(([dim, profileKey]) => {
+          const tags = itemTags[dim] || [];
+          return tags.length > 0 && profile[profileKey] && tags.includes(profile[profileKey]);
+        });
       }
 
       function applyPersonalisation() {
         const profile = loadProfile();
-        const hasProfile = !!(profile.housingTenure || profile.employmentStatus || profile.constituency);
+        const hasProfile = PROFILE_DIMENSIONS.some(([_, pk]) => !!profile[pk]) || !!profile.constituency;
 
         if (clearBtn) clearBtn.classList.toggle('hidden', !hasProfile);
         if (openBtn) openBtn.textContent = hasProfile ? 'Edit profile' : 'Personalise';
@@ -484,10 +573,9 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
         if (status) {
           if (hasProfile) {
             const tags = [];
-            if (profile.housingTenure) tags.push(profile.housingTenure);
-            if (profile.employmentStatus) tags.push(profile.employmentStatus);
+            PROFILE_DIMENSIONS.forEach(([_, pk]) => { if (profile[pk]) tags.push(profile[pk]); });
             if (profile.constituency) tags.push(profile.constituency);
-            status.textContent = `Personalised for: ${tags.join(' · ')}. Scenarios and actions matching your situation are highlighted; the rest are dimmed.`;
+            status.textContent = `Personalised for: ${tags.join(' · ')}. Matching scenarios and actions are highlighted; the rest are dimmed.`;
           } else {
             status.textContent = "Add a few details about your situation and we'll highlight the scenarios and actions that apply to you. Nothing is sent anywhere — saved only on this device.";
           }
@@ -496,10 +584,10 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
         function applyToList(items) {
           let shownCount = 0;
           items.forEach(el => {
-            const tags = {
-              housing: JSON.parse(el.dataset.housing || '[]'),
-              employment: JSON.parse(el.dataset.employment || '[]'),
-            };
+            const tags = {};
+            PROFILE_DIMENSIONS.forEach(([dim]) => {
+              tags[dim] = JSON.parse(el.dataset[dim] || '[]');
+            });
             if (!hasProfile) {
               el.classList.remove('lattice-dimmed', 'lattice-match');
               shownCount++;
@@ -520,9 +608,10 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
 
       function openModal() {
         const profile = loadProfile();
-        form.housingTenure.value = profile.housingTenure || '';
-        form.employmentStatus.value = profile.employmentStatus || '';
-        form.constituency.value = profile.constituency || '';
+        PROFILE_DIMENSIONS.forEach(([_, pk]) => {
+          if (form[pk]) form[pk].value = profile[pk] || '';
+        });
+        if (form.constituency) form.constituency.value = profile.constituency || '';
         modal.classList.remove('hidden');
         modal.classList.add('flex');
       }
@@ -545,18 +634,15 @@ const icon = (name: IconName) => ICON_PATHS[name] || '';
       if (form) form.addEventListener('submit', (e) => {
         e.preventDefault();
         const data = new FormData(form);
-        const profile = {
-          housingTenure: data.get('housingTenure') || undefined,
-          employmentStatus: data.get('employmentStatus') || undefined,
-          constituency: (data.get('constituency') || '').toString().trim() || undefined,
-        };
-        // Strip undefined for clean storage
-        const clean = Object.fromEntries(Object.entries(profile).filter(([_, v]) => v !== undefined));
-        if (Object.keys(clean).length === 0) {
-          clearProfile();
-        } else {
-          saveProfile(clean);
-        }
+        const profile = {};
+        PROFILE_DIMENSIONS.forEach(([_, pk]) => {
+          const v = (data.get(pk) || '').toString();
+          if (v) profile[pk] = v;
+        });
+        const con = (data.get('constituency') || '').toString().trim();
+        if (con) profile.constituency = con;
+        if (Object.keys(profile).length === 0) clearProfile();
+        else saveProfile(profile);
         applyPersonalisation();
         closeModal();
       });

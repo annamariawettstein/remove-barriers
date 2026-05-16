@@ -138,36 +138,107 @@ const fullBills = BILLS.filter(b => !b.isStub);
           <button id="personalise-close" class="text-retro-slate hover:text-retro-ink text-xl leading-none">×</button>
         </div>
 
-        <form id="personalise-form" class="space-y-5">
-          <div>
-            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Housing</label>
-            <select name="housingTenure" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
-              <option value="">— not specified —</option>
-              <option value="renter">Renting (private)</option>
-              <option value="owner">Own outright</option>
-              <option value="mortgage">Own with a mortgage</option>
-              <option value="landlord">Landlord</option>
-              <option value="family">Living with family</option>
-            </select>
+        <form id="personalise-form" class="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Housing</label>
+              <select name="housingTenure" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="renter">Renting (private)</option>
+                <option value="owner">Own outright</option>
+                <option value="mortgage">Own with a mortgage</option>
+                <option value="landlord">Landlord</option>
+                <option value="family">Living with family</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Employment</label>
+              <select name="employmentStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="employee">Employee</option>
+                <option value="selfEmployed">Self-employed</option>
+                <option value="businessOwner">Business owner</option>
+                <option value="publicSector">Public sector worker</option>
+                <option value="retired">Retired</option>
+                <option value="student">Student</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Family status</label>
+              <select name="familyStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="single">Single</option>
+                <option value="partnered">Partnered (cohabiting)</option>
+                <option value="married">Married / civil partnership</option>
+                <option value="separated">Separated / divorced</option>
+                <option value="widowed">Widowed</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Children</label>
+              <select name="childrenStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="none">None</option>
+                <option value="expecting">Expecting</option>
+                <option value="youngChildren">Young children (under 5)</option>
+                <option value="schoolAge">School-age children</option>
+                <option value="adultChildren">Adult children</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Education</label>
+              <select name="educationStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="school">In school</option>
+                <option value="college">In college / FE</option>
+                <option value="apprenticeship">Apprenticeship</option>
+                <option value="university">Undergraduate</option>
+                <option value="postgraduate">Postgraduate</option>
+                <option value="completed">Completed education</option>
+                <option value="notInEducation">Not in education</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Household income</label>
+              <select name="salaryBand" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="under15k">Under £15,000</option>
+                <option value="15to30k">£15,000 – £30,000</option>
+                <option value="30to50k">£30,000 – £50,000</option>
+                <option value="50to80k">£50,000 – £80,000</option>
+                <option value="80to125k">£80,000 – £125,000</option>
+                <option value="over125k">Over £125,000</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Immigration status</label>
+              <select name="immigrationStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+                <option value="">— not specified —</option>
+                <option value="britishCitizen">British / Irish citizen</option>
+                <option value="settled">Settled status / ILR</option>
+                <option value="preSettled">EU pre-settled status</option>
+                <option value="workVisa">Work visa</option>
+                <option value="studentVisa">Student visa</option>
+                <option value="familyVisa">Family visa</option>
+                <option value="asylumSeeker">Asylum seeker</option>
+                <option value="refugee">Refugee</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Constituency <span class="text-retro-slate/70 normal-case tracking-normal text-[10px]">(optional)</span></label>
+              <input type="text" name="constituency" placeholder="e.g. Tottenham" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green" />
+            </div>
           </div>
 
-          <div>
-            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Employment</label>
-            <select name="employmentStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
-              <option value="">— not specified —</option>
-              <option value="employee">Employee</option>
-              <option value="selfEmployed">Self-employed</option>
-              <option value="businessOwner">Business owner</option>
-              <option value="publicSector">Public sector worker</option>
-              <option value="retired">Retired</option>
-              <option value="student">Student</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Constituency <span class="text-retro-slate/70 normal-case tracking-normal text-[10px]">(optional · free text)</span></label>
-            <input type="text" name="constituency" placeholder="e.g. Tottenham" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green" />
-          </div>
+          <p class="text-[11px] text-retro-slate italic">Skip any field. None of this is sent to a server — stored in your browser only. Used to highlight the parts of each bill that actually apply to you.</p>
 
           <div class="flex gap-3 pt-2">
             <button type="submit" class="flex-1 bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
@@ -256,6 +327,8 @@ const fullBills = BILLS.filter(b => !b.isStub);
       const modalCancel = document.getElementById('personalise-cancel');
       if (!form) return;
 
+      const PROFILE_KEYS = ['housingTenure', 'employmentStatus', 'familyStatus', 'childrenStatus', 'educationStatus', 'salaryBand', 'immigrationStatus'];
+
       function loadProfile() {
         try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
         catch { return {}; }
@@ -264,7 +337,7 @@ const fullBills = BILLS.filter(b => !b.isStub);
       function clearProfile() { localStorage.removeItem(STORAGE_KEY); }
       function hasProfile() {
         const p = loadProfile();
-        return !!(p.housingTenure || p.employmentStatus || p.constituency);
+        return PROFILE_KEYS.some(k => !!p[k]) || !!p.constituency;
       }
 
       function renderBanner() {
@@ -275,8 +348,7 @@ const fullBills = BILLS.filter(b => !b.isStub);
           return;
         }
         const bits = [];
-        if (p.housingTenure) bits.push(p.housingTenure);
-        if (p.employmentStatus) bits.push(p.employmentStatus);
+        PROFILE_KEYS.forEach(k => { if (p[k]) bits.push(p[k]); });
         if (p.constituency) bits.push(p.constituency);
         bannerText.textContent = bits.join(' · ');
         banner.classList.remove('hidden');
@@ -285,9 +357,8 @@ const fullBills = BILLS.filter(b => !b.isStub);
 
       function openModal(onSave) {
         const p = loadProfile();
-        modalForm.housingTenure.value = p.housingTenure || '';
-        modalForm.employmentStatus.value = p.employmentStatus || '';
-        modalForm.constituency.value = p.constituency || '';
+        PROFILE_KEYS.forEach(k => { if (modalForm[k]) modalForm[k].value = p[k] || ''; });
+        if (modalForm.constituency) modalForm.constituency.value = p.constituency || '';
         modal._onSave = onSave;
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -305,14 +376,15 @@ const fullBills = BILLS.filter(b => !b.isStub);
       modalForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const data = new FormData(modalForm);
-        const p = {
-          housingTenure: (data.get('housingTenure') || '').toString() || undefined,
-          employmentStatus: (data.get('employmentStatus') || '').toString() || undefined,
-          constituency: (data.get('constituency') || '').toString().trim() || undefined,
-        };
-        const clean = Object.fromEntries(Object.entries(p).filter(([_, v]) => v !== undefined));
-        if (Object.keys(clean).length === 0) clearProfile();
-        else saveProfile(clean);
+        const p = {};
+        PROFILE_KEYS.forEach(k => {
+          const v = (data.get(k) || '').toString();
+          if (v) p[k] = v;
+        });
+        const con = (data.get('constituency') || '').toString().trim();
+        if (con) p.constituency = con;
+        if (Object.keys(p).length === 0) clearProfile();
+        else saveProfile(p);
         renderBanner();
         const cb = modal._onSave;
         closeModal();

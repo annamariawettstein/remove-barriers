@@ -6,18 +6,55 @@ export type EmploymentStatus =
   | "publicSector"
   | "retired"
   | "student";
+export type FamilyStatus = "single" | "partnered" | "married" | "separated" | "widowed";
+export type ChildrenStatus = "none" | "expecting" | "youngChildren" | "schoolAge" | "adultChildren";
+export type EducationStatus =
+  | "school"
+  | "college"
+  | "apprenticeship"
+  | "university"
+  | "postgraduate"
+  | "completed"
+  | "notInEducation";
+export type SalaryBand =
+  | "under15k"
+  | "15to30k"
+  | "30to50k"
+  | "50to80k"
+  | "80to125k"
+  | "over125k";
+export type ImmigrationStatus =
+  | "britishCitizen"
+  | "settled"
+  | "preSettled"
+  | "workVisa"
+  | "studentVisa"
+  | "familyVisa"
+  | "asylumSeeker"
+  | "refugee"
+  | "other";
 
 import type { IconName } from "./icons";
 
 export type Profile = {
   housingTenure?: HousingTenure;
   employmentStatus?: EmploymentStatus;
+  familyStatus?: FamilyStatus;
+  childrenStatus?: ChildrenStatus;
+  educationStatus?: EducationStatus;
+  salaryBand?: SalaryBand;
+  immigrationStatus?: ImmigrationStatus;
   constituency?: string;
 };
 
 export type ProfileMatch = {
   housingTenure?: HousingTenure[];
   employmentStatus?: EmploymentStatus[];
+  familyStatus?: FamilyStatus[];
+  childrenStatus?: ChildrenStatus[];
+  educationStatus?: EducationStatus[];
+  salaryBand?: SalaryBand[];
+  immigrationStatus?: ImmigrationStatus[];
 };
 
 export type Bill = {
