@@ -263,7 +263,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  let body: { url?: string; text?: string };
+  let body: { url?: string; text?: string; profile?: { housingTenure?: string; employmentStatus?: string; constituency?: string } | null };
   try {
     body = await request.json();
   } catch {
@@ -298,7 +298,21 @@ export const POST: APIRoute = async ({ request }) => {
 
   const client = new Anthropic({ apiKey });
 
-  const userMessage = `Source: ${sourceLabel}\n\nTranslate the following UK bill into the structured analysis required by the submit_bill_analysis tool. Be source-grounded — if a section can't be filled with confidence from this content, leave the field empty rather than fabricate.\n\nBill content:\n${sourceText}`;
+  const profile = body.profile;
+  const profileBlock = profile && (profile.housingTenure || profile.employmentStatus || profile.constituency) ? `
+The reader of this brief has shared the following profile and wants the analysis tailored to their situation:
+${profile.housingTenure ? `- Housing tenure: ${profile.housingTenure}` : ''}
+${profile.employmentStatus ? `- Employment status: ${profile.employmentStatus}` : ''}
+${profile.constituency ? `- Constituency: ${profile.constituency}` : ''}
+
+When writing scenarios and "what you need to do" actions:
+- Lead with the ones that apply directly to this reader's situation.
+- For each scenario or action that fits, set the matching profileMatch values (housingTenure / employmentStatus enums) so the UI can highlight it.
+- Still include the full set the spec calls for (best case, worst case, edge case, typical case, vulnerable case) — do not drop coverage for other readers. Just order and tag for this one.
+${profile.constituency ? `- If the bill has constituency-specific implications, mention them for ${profile.constituency} where relevant.` : ''}
+` : '';
+
+  const userMessage = `Source: ${sourceLabel}\n${profileBlock}\nTranslate the following UK bill into the structured analysis required by the submit_bill_analysis tool. Be source-grounded — if a section can't be filled with confidence from this content, leave the field empty rather than fabricate.\n\nBill content:\n${sourceText}`;
 
   try {
     const stream = client.messages.stream({

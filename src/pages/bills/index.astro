@@ -40,6 +40,18 @@ const fullBills = BILLS.filter(b => !b.isStub);
         </div>
       </div>
 
+      <!-- Profile status banner -->
+      <div id="profile-banner" class="hidden mb-4 flex items-center justify-between gap-3 border border-retro-green/40 bg-retro-green/5 rounded-sm px-4 py-3 text-sm">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="text-retro-green font-mono text-[10px] uppercase tracking-widest flex-shrink-0">Personalised for</span>
+          <span id="profile-banner-text" class="text-retro-ink truncate"></span>
+        </div>
+        <div class="flex gap-2 flex-shrink-0">
+          <button type="button" id="profile-edit" class="text-[11px] font-mono uppercase tracking-widest text-retro-slate hover:text-retro-ink">Edit</button>
+          <button type="button" id="profile-clear" class="text-[11px] font-mono uppercase tracking-widest text-retro-slate hover:text-retro-ink">Clear</button>
+        </div>
+      </div>
+
       <form id="translate-form" class="space-y-4">
         <div class="flex flex-col md:flex-row gap-3">
           <input
@@ -84,6 +96,23 @@ const fullBills = BILLS.filter(b => !b.isStub);
         <p class="mt-3 text-[10px] font-mono text-retro-slate uppercase tracking-widest">This usually takes 30–90 seconds for a full bill.</p>
       </div>
 
+      <!-- Personalisation gate (shown when user submits without a profile) -->
+      <div id="translate-gate" class="hidden mt-6 border-t border-retro-border pt-6">
+        <div class="bg-retro-bg border border-retro-ink rounded-sm p-5">
+          <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-2">Optional · 30 seconds</div>
+          <h3 class="text-base font-semibold text-retro-ink mb-1">Personalise this brief for you first?</h3>
+          <p class="text-sm text-retro-slate mb-4 max-w-2xl">Tell us a little about your situation (housing tenure, employment, constituency) and Claude will prioritise the scenarios and actions that apply to you. Stored only on this device.</p>
+          <div class="flex flex-wrap gap-3">
+            <button type="button" id="gate-personalise" class="bg-retro-green text-white px-5 py-2.5 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+              Personalise first
+            </button>
+            <button type="button" id="gate-skip" class="text-retro-ink border border-retro-border bg-white px-5 py-2.5 text-sm font-medium hover:bg-retro-bg transition rounded-sm">
+              Skip — translate anyway
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Error state -->
       <div id="translate-error" class="hidden mt-6 border-t border-amber-300 pt-6">
         <div class="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-sm p-4">
@@ -95,6 +124,61 @@ const fullBills = BILLS.filter(b => !b.isStub);
         </div>
       </div>
     </section>
+
+    <!-- Personalise modal (reused for first-time setup and edit) -->
+    <div id="personalise-modal" class="fixed inset-0 z-[100] hidden bg-retro-ink/40 backdrop-blur-sm items-center justify-center p-4">
+      <div class="bg-retro-bg border border-retro-ink rounded-md max-w-lg w-full p-8 shadow-[6px_6px_0px_rgba(15,61,46,0.95)]">
+        <div class="flex items-start justify-between mb-6">
+          <div>
+            <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-1">Personalise</div>
+            <h3 class="text-xl font-semibold text-retro-ink">Tell us a little about your situation</h3>
+            <p class="text-sm text-retro-slate mt-1">Stored only on this device. Skip any question.</p>
+          </div>
+          <button id="personalise-close" class="text-retro-slate hover:text-retro-ink text-xl leading-none">×</button>
+        </div>
+
+        <form id="personalise-form" class="space-y-5">
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Housing</label>
+            <select name="housingTenure" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+              <option value="">— not specified —</option>
+              <option value="renter">Renting (private)</option>
+              <option value="owner">Own outright</option>
+              <option value="mortgage">Own with a mortgage</option>
+              <option value="landlord">Landlord</option>
+              <option value="family">Living with family</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Employment</label>
+            <select name="employmentStatus" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green">
+              <option value="">— not specified —</option>
+              <option value="employee">Employee</option>
+              <option value="selfEmployed">Self-employed</option>
+              <option value="businessOwner">Business owner</option>
+              <option value="publicSector">Public sector worker</option>
+              <option value="retired">Retired</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-mono text-retro-slate uppercase tracking-widest mb-2 block">Constituency <span class="text-retro-slate/70 normal-case tracking-normal text-[10px]">(optional · free text)</span></label>
+            <input type="text" name="constituency" placeholder="e.g. Tottenham" class="w-full bg-white border border-retro-border rounded-sm px-3 py-2 text-sm text-retro-ink focus:outline-none focus:border-retro-green" />
+          </div>
+
+          <div class="flex gap-3 pt-2">
+            <button type="submit" class="flex-1 bg-retro-green text-white px-6 py-3 text-sm font-medium hover:bg-retro-ledger transition-colors rounded-sm shadow-[3px_3px_0px_rgba(15,61,46,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]">
+              Save &amp; continue
+            </button>
+            <button type="button" id="personalise-cancel" class="text-retro-ink border border-retro-border bg-white px-4 py-3 text-sm font-medium hover:bg-retro-bg transition rounded-sm">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <!-- Full bills -->
     <section class="mb-12">
@@ -146,6 +230,7 @@ const fullBills = BILLS.filter(b => !b.isStub);
 
   <script is:inline>
     (function () {
+      const STORAGE_KEY = 'lattice.profile';
       const form = document.getElementById('translate-form');
       const urlInput = document.getElementById('translate-url');
       const textInput = document.getElementById('translate-text');
@@ -155,7 +240,85 @@ const fullBills = BILLS.filter(b => !b.isStub);
       const progress = document.getElementById('translate-progress');
       const errorBox = document.getElementById('translate-error');
       const errorMsg = document.getElementById('translate-error-message');
+      const gate = document.getElementById('translate-gate');
+      const gatePersonalise = document.getElementById('gate-personalise');
+      const gateSkip = document.getElementById('gate-skip');
+      const banner = document.getElementById('profile-banner');
+      const bannerText = document.getElementById('profile-banner-text');
+      const profileEdit = document.getElementById('profile-edit');
+      const profileClear = document.getElementById('profile-clear');
+      const modal = document.getElementById('personalise-modal');
+      const modalForm = document.getElementById('personalise-form');
+      const modalClose = document.getElementById('personalise-close');
+      const modalCancel = document.getElementById('personalise-cancel');
       if (!form) return;
+
+      function loadProfile() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+        catch { return {}; }
+      }
+      function saveProfile(p) { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }
+      function clearProfile() { localStorage.removeItem(STORAGE_KEY); }
+      function hasProfile() {
+        const p = loadProfile();
+        return !!(p.housingTenure || p.employmentStatus || p.constituency);
+      }
+
+      function renderBanner() {
+        const p = loadProfile();
+        if (!hasProfile()) {
+          banner.classList.add('hidden');
+          banner.classList.remove('flex');
+          return;
+        }
+        const bits = [];
+        if (p.housingTenure) bits.push(p.housingTenure);
+        if (p.employmentStatus) bits.push(p.employmentStatus);
+        if (p.constituency) bits.push(p.constituency);
+        bannerText.textContent = bits.join(' · ');
+        banner.classList.remove('hidden');
+        banner.classList.add('flex');
+      }
+
+      function openModal(onSave) {
+        const p = loadProfile();
+        modalForm.housingTenure.value = p.housingTenure || '';
+        modalForm.employmentStatus.value = p.employmentStatus || '';
+        modalForm.constituency.value = p.constituency || '';
+        modal._onSave = onSave;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+      function closeModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        modal._onSave = null;
+      }
+
+      modalClose.addEventListener('click', closeModal);
+      modalCancel.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+      modalForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(modalForm);
+        const p = {
+          housingTenure: (data.get('housingTenure') || '').toString() || undefined,
+          employmentStatus: (data.get('employmentStatus') || '').toString() || undefined,
+          constituency: (data.get('constituency') || '').toString().trim() || undefined,
+        };
+        const clean = Object.fromEntries(Object.entries(p).filter(([_, v]) => v !== undefined));
+        if (Object.keys(clean).length === 0) clearProfile();
+        else saveProfile(clean);
+        renderBanner();
+        const cb = modal._onSave;
+        closeModal();
+        if (cb) cb();
+      });
+
+      profileEdit.addEventListener('click', () => openModal(null));
+      profileClear.addEventListener('click', () => { clearProfile(); renderBanner(); });
+      renderBanner();
 
       const STEPS = [
         { label: 'Fetching bill from source…', pct: 12 },
@@ -197,9 +360,9 @@ const fullBills = BILLS.filter(b => !b.isStub);
         errorMsg.textContent = msg;
       }
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+      async function runTranslate() {
         errorBox.classList.add('hidden');
+        gate.classList.add('hidden');
         const url = urlInput.value.trim();
         const text = textInput.value.trim();
         if (!url && text.length < 100) {
@@ -207,11 +370,12 @@ const fullBills = BILLS.filter(b => !b.isStub);
           return;
         }
         startLoading();
+        const profile = hasProfile() ? loadProfile() : null;
         try {
           const resp = await fetch('/api/translate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(url ? { url } : { text }),
+            body: JSON.stringify(url ? { url, profile } : { text, profile }),
           });
           const data = await resp.json();
           if (!resp.ok) {
@@ -232,6 +396,32 @@ const fullBills = BILLS.filter(b => !b.isStub);
         } catch (err) {
           showError(err.message || 'Network error');
         }
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        errorBox.classList.add('hidden');
+        const url = urlInput.value.trim();
+        const text = textInput.value.trim();
+        if (!url && text.length < 100) {
+          showError('Paste a UK bill URL or at least 100 characters of bill text.');
+          return;
+        }
+        if (!hasProfile()) {
+          gate.classList.remove('hidden');
+          gate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        runTranslate();
+      });
+
+      gatePersonalise.addEventListener('click', () => {
+        gate.classList.add('hidden');
+        openModal(() => runTranslate());
+      });
+      gateSkip.addEventListener('click', () => {
+        gate.classList.add('hidden');
+        runTranslate();
       });
     })();
   </script>
