@@ -276,7 +276,6 @@ export const POST: APIRoute = async ({ request }) => {
     const stream = client.messages.stream({
       model: 'claude-sonnet-4-6',
       max_tokens: 32000,
-      thinking: { type: 'adaptive' },
       system: [
         {
           type: 'text',
