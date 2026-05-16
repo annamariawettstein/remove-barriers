@@ -78,7 +78,7 @@ function saveExposeResult(queryName: string, data: ResearchData) {
     data.person.bio?.trim() ||
     data.articles[0]?.concern?.trim() ||
     data.articles[0]?.summary?.trim() ||
-    "Saved Expose thread";
+    "Saved Exposé thread";
   history.unshift({
     key,
     name: data.person.name || queryName,
@@ -100,7 +100,7 @@ function getSummaryPreview(data: ResearchData) {
     data.person.bio?.trim() ||
     data.articles[0]?.concern?.trim() ||
     data.articles[0]?.summary?.trim() ||
-    "Saved Expose thread"
+    "Saved Exposé thread"
   );
 }
 
@@ -265,14 +265,14 @@ export default function ExposeResearchApp({
         <div className="relative z-10 mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
           <div className="mb-10 flex flex-wrap items-center justify-between gap-4 text-[10px] uppercase tracking-[0.35em] text-[#0f2a1f]/55">
             <a href="/expose" className="transition-colors hover:text-[#0f4d33]">
-              ← Back to Expose
+              ← Back to Exposé
             </a>
             <span className="text-[#0f2a1f]/35">3D investigator</span>
           </div>
 
           <div className="max-w-4xl">
             <div className="text-[10px] uppercase tracking-[0.35em] text-[#0f2a1f]/55">
-              Expose / 3D investigator
+              Exposé / 3D investigator
             </div>
             <h1 className="mt-8 text-5xl font-bold leading-[1.02] tracking-tight md:text-7xl">
               Look past the headlines and see who{" "}
@@ -282,7 +282,7 @@ export default function ExposeResearchApp({
               shapes what they say<span className="text-[#0f4d33]">.</span>
             </h1>
             <p className="mt-8 max-w-2xl text-base leading-relaxed text-[#0f2a1f]/70 md:text-lg">
-              Type a public figure or company. Expose pulls together funders,
+              Type a public figure or company. Exposé pulls together funders,
               contradictions, and quiet incentives from public reporting and filings,
               then maps them in a 3D relationship view.
             </p>
@@ -436,7 +436,7 @@ export default function ExposeResearchApp({
         <header className="pointer-events-none absolute left-0 right-0 top-0 z-10 flex items-start justify-between p-4 md:p-10">
           <div className="pointer-events-auto max-w-[70vw]">
             <a href="/expose" className="text-[10px] uppercase tracking-[0.3em] text-[#0f2a1f]/55 transition-colors hover:text-[#0f4d33] md:tracking-[0.4em]">
-              ← Expose
+              ← Exposé
             </a>
             <h1 className="mt-1.5 text-lg font-bold leading-tight tracking-tight md:mt-2 md:text-4xl">
               {data?.person.name ?? activeName}
