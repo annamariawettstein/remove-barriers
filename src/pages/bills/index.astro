@@ -1,0 +1,96 @@
+---
+import LightLayout from '../../layouts/LightLayout.astro';
+import { BILLS } from '../../data/bills';
+
+const fullBills = BILLS.filter(b => !b.isStub);
+const stubs = BILLS.filter(b => b.isStub);
+---
+
+<LightLayout title="Bills · Plain English — Lattice">
+  <main class="relative z-10 max-w-[1100px] mx-auto px-6 lg:px-8 py-12 bg-retro-bg">
+
+    <!-- Breadcrumb -->
+    <div class="mb-8 text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] flex items-center gap-3">
+      <a href="/" class="hover:text-retro-ink transition">Lattice</a>
+      <span class="text-retro-ink/20">/</span>
+      <span class="text-retro-ink">Bills</span>
+    </div>
+
+    <header class="mb-12">
+      <div class="border-t border-retro-ink/15 pt-3 flex items-center justify-between text-[9px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-8">
+        <span>DOC · BILLS-INDEX</span>
+        <span>Updated daily from bills.parliament.uk</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-retro-ink tracking-tight leading-[1.05] mb-5">
+        Bills <span class="italic font-light text-retro-green">in plain English.</span>
+      </h1>
+      <p class="text-base text-retro-slate leading-relaxed max-w-2xl">
+        Every active UK bill, translated. Plain summary, who it affects, what changes, when it takes effect — and the money behind it. Add a profile on any bill page to personalise the impact analysis to your situation.
+      </p>
+    </header>
+
+    <!-- Full bills -->
+    <section class="mb-12">
+      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">Full analyses</h2>
+      <div class="space-y-4">
+        {fullBills.map(b => (
+          <a href={`/bills/${b.slug}`} class="block group">
+            <article class="bg-white border border-retro-border rounded-md p-6 lg:p-8 hover:border-retro-ink hover:shadow-[4px_4px_0px_rgba(15,61,46,0.95)] transition-all">
+              <div class="flex items-start gap-5">
+                <div class="text-4xl flex-shrink-0">{b.emoji}</div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-wrap items-center gap-3 mb-2">
+                    <h3 class="text-2xl font-semibold text-retro-ink tracking-tight group-hover:text-retro-green transition-colors">{b.shortTitle}</h3>
+                    <span class="text-[9px] font-mono uppercase tracking-widest text-retro-green bg-retro-green/10 px-2 py-1 rounded-sm">{b.status}</span>
+                  </div>
+                  <p class="text-sm text-retro-ink leading-relaxed mb-4">{b.summary}</p>
+                  <div class="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-mono text-retro-slate uppercase tracking-widest">
+                    <span>Affects · {b.whoAffected[0]}</span>
+                    <span>Territory · {b.territorialExtent.join(' / ')}</span>
+                    {b.royalAssentExpected ? <span>Expected · {b.royalAssentExpected}</span> : null}
+                  </div>
+                </div>
+                <span class="text-retro-green text-2xl flex-shrink-0 group-hover:translate-x-1 transition-transform">→</span>
+              </div>
+            </article>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Stubs -->
+    <section class="mb-12">
+      <h2 class="text-[10px] font-mono text-retro-slate uppercase tracking-[0.22em] mb-6">In preparation</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {stubs.map(b => (
+          <a href={`/bills/${b.slug}`} class="block group">
+            <article class="bg-retro-bg border border-retro-border rounded-md p-5 h-full hover:border-retro-ink transition-all">
+              <div class="text-3xl mb-3">{b.emoji}</div>
+              <h3 class="text-base font-semibold text-retro-ink mb-2 group-hover:text-retro-green transition-colors">{b.shortTitle}</h3>
+              <p class="text-xs text-retro-slate leading-relaxed mb-3">{b.summary}</p>
+              <span class="text-[9px] font-mono uppercase tracking-widest text-retro-slate">{b.status}</span>
+            </article>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Personalise hint -->
+    <section class="mt-16 bg-retro-ink text-white rounded-md p-8 lg:p-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-8">
+          <div class="text-[10px] font-mono text-retro-green uppercase tracking-[0.22em] mb-2">Personalised briefings</div>
+          <h3 class="text-2xl md:text-3xl font-semibold tracking-tight mb-3">See how each bill affects you specifically.</h3>
+          <p class="text-sm text-white/70 leading-relaxed max-w-2xl">Open any bill and tap "Personalise". Tell us if you rent or own, what you do for work, and we'll surface the scenarios and actions that apply. Stored only on your device — nothing leaves the browser.</p>
+        </div>
+        <div class="lg:col-span-4 flex flex-col gap-3">
+          <ul class="space-y-2 text-xs text-white/80">
+            <li class="flex gap-2"><span class="text-retro-green">→</span> Renter? Get tenancy scenarios first.</li>
+            <li class="flex gap-2"><span class="text-retro-green">→</span> Self-employed? See compliance actions.</li>
+            <li class="flex gap-2"><span class="text-retro-green">→</span> Public-sector worker? Get sector context.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</LightLayout>
