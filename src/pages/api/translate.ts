@@ -1,7 +1,9 @@
 import type { APIRoute } from 'astro';
-import Anthropic from '@anthropic-ai/sdk';
 
 export const prerender = false;
+
+const KIMI_API_URL = 'https://api.moonshot.ai/v1/chat/completions';
+const KIMI_MODEL = 'kimi-k2.5';
 
 const SYSTEM_PROMPT = `You are a UK Policy Translation Assistant. You convert UK bills, acts, statutory instruments, and policy documents into clear, accessible analysis for citizens, journalists, and stakeholders.
 
@@ -40,7 +42,7 @@ QUALITY RULES:
 const BILL_TOOL = {
   name: 'submit_bill_analysis',
   description: 'Submit the complete plain-English analysis of a UK bill, structured for the Lattice platform.',
-  input_schema: {
+  parameters: {
     type: 'object' as const,
     properties: {
       slug: { type: 'string' },
@@ -139,7 +141,7 @@ const BILL_TOOL = {
 
 // Keyword patterns that map to pre-authored bills. If a fetched source matches one of
 // these, we redirect to the existing /bills/[slug] page rather than paying for a fresh
-// Claude translation. Order matters: more specific patterns first.
+// Kimi translation. Order matters: more specific patterns first.
 const KNOWN_BILL_PATTERNS: { slug: string; patterns: RegExp[] }[] = [
   { slug: 'renters-rights-bill', patterns: [/renters['’]?\s+rights\s+bill/i, /section\s+21\s+(?:notice|eviction)s?/i, /private\s+rented\s+sector\s+database/i] },
   { slug: 'employment-rights-bill', patterns: [/employment\s+rights\s+bill/i, /fair\s+work\s+agency/i, /guaranteed[\s-]+hours\s+(?:contract|offer)/i] },
@@ -210,9 +212,9 @@ async function fetchBillContent(url: string): Promise<string> {
 }
 
 export const POST: APIRoute = async ({ request }) => {
-  const apiKey = import.meta.env.ANTHROPIC_API_KEY;
+  const apiKey = import.meta.env.MOONSHOT_API_KEY;
   if (!apiKey) {
-    return new Response(JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured on server' }), {
+    return new Response(JSON.stringify({ error: 'MOONSHOT_API_KEY not configured on server' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -255,7 +257,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Already-translated short-circuit: if the source matches a bill we've authored,
-  // skip the Claude call and tell the client to redirect to the existing page.
+  // skip the Kimi call and tell the client to redirect to the existing page.
   const knownSlug = matchKnownBill(sourceText.slice(0, 8000)) || matchKnownBill(body.url || '');
   if (knownSlug) {
     return new Response(
@@ -263,8 +265,6 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   }
-
-  const client = new Anthropic({ apiKey });
 
   const profile = body.profile;
   const profileFields: [string, string | undefined][] = profile ? [
@@ -293,52 +293,71 @@ ${profile?.constituency ? `- If the bill has constituency-specific implications,
   const userMessage = `Source: ${sourceLabel}\n${profileBlock}\nTranslate the following UK bill into the structured analysis required by the submit_bill_analysis tool. Be source-grounded — if a section can't be filled with confidence from this content, leave the field empty rather than fabricate.\n\nBill content:\n${sourceText}`;
 
   try {
-    const stream = client.messages.stream({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 32000,
-      system: [
-        {
-          type: 'text',
-          text: SYSTEM_PROMPT,
-          cache_control: { type: 'ephemeral' }
-        }
-      ],
-      tools: [BILL_TOOL as any],
-      tool_choice: { type: 'tool', name: 'submit_bill_analysis' },
-      messages: [{ role: 'user', content: userMessage }]
+    const kimiResp = await fetch(KIMI_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: KIMI_MODEL,
+        max_tokens: 32000,
+        thinking: { type: 'disabled' },
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: userMessage }
+        ],
+        tools: [{ type: 'function', function: BILL_TOOL }],
+        tool_choice: { type: 'function', function: { name: BILL_TOOL.name } }
+      })
     });
 
-    const message = await stream.finalMessage();
+    const payload = await kimiResp.json().catch(() => null as any);
 
-    const toolUse = message.content.find((b) => b.type === 'tool_use');
-    if (!toolUse || toolUse.type !== 'tool_use') {
+    if (!kimiResp.ok) {
+      const apiMessage = payload?.error?.message ?? payload?.message ?? `Kimi API returned ${kimiResp.status}`;
+      if (kimiResp.status === 429) {
+        return new Response(JSON.stringify({ error: 'Rate limited by Kimi API — try again in a minute' }), { status: 429 });
+      }
+      return new Response(JSON.stringify({ error: `Kimi API error (${kimiResp.status}): ${apiMessage}` }), {
+        status: 502,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const choice = payload?.choices?.[0];
+    const toolCall = choice?.message?.tool_calls?.find(
+      (call: any) => call?.type === 'function' && call?.function?.name === BILL_TOOL.name
+    );
+    if (!toolCall?.function?.arguments) {
       return new Response(
-        JSON.stringify({ error: 'Model did not return structured bill analysis', stop_reason: message.stop_reason }),
+        JSON.stringify({ error: 'Model did not return structured bill analysis', stop_reason: choice?.finish_reason ?? null }),
         { status: 502, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    const bill = toolUse.input as Record<string, unknown>;
+    let bill: Record<string, unknown>;
+    try {
+      bill = JSON.parse(toolCall.function.arguments) as Record<string, unknown>;
+    } catch {
+      return new Response(
+        JSON.stringify({ error: 'Model returned invalid structured bill analysis' }),
+        { status: 502, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
 
     return new Response(
       JSON.stringify({
         bill,
         usage: {
-          input_tokens: message.usage.input_tokens,
-          output_tokens: message.usage.output_tokens,
-          cache_creation_input_tokens: (message.usage as any).cache_creation_input_tokens ?? 0,
-          cache_read_input_tokens: (message.usage as any).cache_read_input_tokens ?? 0
+          input_tokens: payload?.usage?.prompt_tokens ?? 0,
+          output_tokens: payload?.usage?.completion_tokens ?? 0,
+          total_tokens: payload?.usage?.total_tokens ?? 0
         }
       }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (e: any) {
-    if (e instanceof Anthropic.RateLimitError) {
-      return new Response(JSON.stringify({ error: 'Rate limited by Claude API — try again in a minute' }), { status: 429 });
-    }
-    if (e instanceof Anthropic.APIError) {
-      return new Response(JSON.stringify({ error: `Claude API error (${e.status}): ${e.message}` }), { status: 502 });
-    }
     return new Response(JSON.stringify({ error: `Unexpected error: ${e?.message ?? String(e)}` }), { status: 500 });
   }
 };
