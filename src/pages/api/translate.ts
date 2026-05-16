@@ -219,12 +219,16 @@ async function fetchBillContent(url: string): Promise<string> {
   }
   const resp = await fetch(url, {
     headers: {
-      'User-Agent': 'Lattice-Bill-Translator/0.1 (https://hong-kong-seven.vercel.app)',
-      Accept: 'text/html,application/xhtml+xml'
+      'User-Agent': 'Mozilla/5.0 (compatible; Lattice-Policy-Translator/0.1; +https://hong-kong-seven.vercel.app)',
+      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      'Accept-Language': 'en-GB,en;q=0.9'
     }
   });
   if (!resp.ok) {
-    throw new Error(`Source returned ${resp.status}`);
+    if (resp.status === 403 && parsed.hostname.endsWith('parliament.uk')) {
+      throw new Error('Parliament.uk blocks automated fetches. Copy the bill text and paste it into the "Or paste the bill text directly" field below instead.');
+    }
+    throw new Error(`Source returned ${resp.status}. Try pasting the bill text directly.`);
   }
   const html = await resp.text();
   const text = stripHtml(html);
