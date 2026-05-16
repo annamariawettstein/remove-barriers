@@ -182,6 +182,24 @@ const BILL_TOOL = {
   }
 };
 
+// Keyword patterns that map to pre-authored bills. If a fetched source matches one of
+// these, we redirect to the existing /bills/[slug] page rather than paying for a fresh
+// Claude translation. Order matters: more specific patterns first.
+const KNOWN_BILL_PATTERNS: { slug: string; patterns: RegExp[] }[] = [
+  { slug: 'renters-rights-bill', patterns: [/renters['’]?\s+rights\s+bill/i, /section\s+21\s+(?:notice|eviction)s?/i, /private\s+rented\s+sector\s+database/i] },
+  { slug: 'employment-rights-bill', patterns: [/employment\s+rights\s+bill/i, /fair\s+work\s+agency/i, /guaranteed[\s-]+hours\s+(?:contract|offer)/i] },
+  { slug: 'tobacco-and-vapes-bill', patterns: [/tobacco\s+and\s+vapes\s+bill/i, /smoke[\s-]+free\s+generation/i] },
+  { slug: 'data-use-and-access-bill', patterns: [/data\s*\(\s*use\s+and\s+access\s*\)\s+bill/i, /smart\s+data\s+scheme/i] },
+  { slug: 'crime-and-policing-bill', patterns: [/crime\s+and\s+policing\s+bill/i, /respect\s+order/i] }
+];
+
+function matchKnownBill(source: string): string | null {
+  for (const { slug, patterns } of KNOWN_BILL_PATTERNS) {
+    if (patterns.some(p => p.test(source))) return slug;
+  }
+  return null;
+}
+
 function stripHtml(html: string): string {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, '')
@@ -266,6 +284,16 @@ export const POST: APIRoute = async ({ request }) => {
     }
   } catch (e: any) {
     return new Response(JSON.stringify({ error: `Could not fetch source: ${e.message}` }), { status: 400 });
+  }
+
+  // Already-translated short-circuit: if the source matches a bill we've authored,
+  // skip the Claude call and tell the client to redirect to the existing page.
+  const knownSlug = matchKnownBill(sourceText.slice(0, 8000)) || matchKnownBill(body.url || '');
+  if (knownSlug) {
+    return new Response(
+      JSON.stringify({ existingSlug: knownSlug, message: 'This bill is already in our library — taking you there.' }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 
   const client = new Anthropic({ apiKey });
